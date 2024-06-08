@@ -18,6 +18,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
+    //Alguns atributos uteis
+    context.isTransposta = classConfig['isTransposta'] || false;
+
     //Se passar diretamente o conteudo
     if( config instanceof Array && config[0] instanceof Array ){
         context.content = config;
@@ -35,6 +38,14 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                 context.content[i][j] = context.initialColumnValue;
             }
         }
+    }
+
+    context.valueOf = function(){
+        return context.content;
+    }
+
+    context.toString = function(){
+        return String(context.content);
     }
 
     context.values = function(){
@@ -148,6 +159,30 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         
             return Vectorization.Vector(vetorResultado);
         }
+    }
+
+    /**
+     * Faz a transposta da matrix
+     * https://github.com/WilliamJardim/javascript-matematica/tree/main/matriz-transposta
+     *
+     * @returns {Vectorization.Matrix}
+    */
+    context.transposta = function(){
+        let novaMatrix = [];
+
+        for( let j = 0 ; j < context.content[0].length ; j++ ){
+            novaMatrix[j] = [];
+
+            for( let i = 0 ; i < context.content.length ; i++ ){
+                novaMatrix[j].push( context.content[i][j] );
+            }
+        }
+
+        const extraProps = {
+            isTransposta: !context.isTransposta ? true : false
+        }
+
+        return Vectorization.Matrix(novaMatrix, extraProps);
     }
 
     context._doDefaultBaseAfterCreate();
