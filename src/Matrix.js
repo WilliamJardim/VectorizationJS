@@ -258,6 +258,99 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return window.Vectorization.matrixIdentidade( context.rows );
     }
 
+    /**
+     * Soma esta matrix com outra matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-matrizes/codigo-principal.js
+     * @param {Vectorization.Matrix} matrixB_param 
+     * @returns {Vectorization.Matrix}
+    */
+    context.somar = function(matrixB_param){
+        if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
+        }
+
+        let matrixA = context.content;
+        let matrixB = (matrixB_param.objectName != undefined && matrixB_param.objectName == 'Matrix') ? matrixB_param.content : matrixB_param;
+        let novaMatrix = [];
+    
+        if( matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length ){
+            throw 'As matrizes precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] + matrixB[i][j];
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Subtrai esta matrix com outra matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-matrizes/codigo-principal.js
+     * @param {Vectorization.Matrix} matrixB_param 
+     * @returns {Vectorization.Matrix}
+    */
+    context.subtrair = function(matrixB_param){
+        if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
+        }
+
+        let matrixA = context.content;
+        let matrixB = (matrixB_param.objectName != undefined && matrixB_param.objectName == 'Matrix') ? matrixB_param.content : matrixB_param;
+        let novaMatrix = [];
+    
+        if( matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length ){
+            throw 'As matrizes precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] - matrixB[i][j];
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Divide esta matrix com outra matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes/codigo-principal.js
+     * @param {Vectorization.Matrix} matrixB_param 
+     * @returns {Vectorization.Matrix}
+    */
+    context.dividir = function(matrixB_param){
+        if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
+        }
+        
+        let matrixA = context.content;
+        let matrixB = (matrixB_param.objectName != undefined && matrixB_param.objectName == 'Matrix') ? matrixB_param.content : matrixB_param;
+        let novaMatrix = [];
+    
+        if( matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length ){
+            throw 'As matrizes precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] / matrixB[i][j];
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
     context._doDefaultBaseAfterCreate();
 
     return context;

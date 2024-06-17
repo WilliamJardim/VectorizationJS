@@ -130,6 +130,87 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Vector(vetorResultado);
     }
 
+    /**
+    * Faz a soma deste vetor com outro
+    * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-vetores/codigo-principal.js
+    * @param {Vectorization.Vector} vectorB_param
+    * @returns {Vectorization.Vector}
+    */
+    context.somar = function(vectorB_param){
+        if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
+        }
+
+        let vectorA = context.content; 
+        let vectorB = (vectorB_param.objectName && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+        let novoVetor = [];
+    
+        if( vectorA.length != vectorB.length ){
+            throw 'Os vetores precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] + vectorB[i];
+        }
+    
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Faz a subtração deste vetor com outro
+    * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-vetores/codigo-principal.js
+    * @param {Vectorization.Vector} vectorB_param
+    * @returns {Vectorization.Vector}
+    */
+    context.subtrair = function(vectorB_param){
+        if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
+        }
+
+        let vectorA = context.content; 
+        let vectorB = (vectorB_param.objectName && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+        let novoVetor = [];
+    
+        if( vectorA.length != vectorB.length ){
+            throw 'Os vetores precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] - vectorB[i];
+        }
+    
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Faz a divisão deste vetor com outro
+    * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-vetores/codigo-principal.js
+    * @param {Vectorization.Vector} vectorB_param
+    * @returns {Vectorization.Vector}
+    */
+    context.dividir = function(vectorB_param){
+        if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
+        }
+
+        let vectorA = context.content; 
+        let vectorB = (vectorB_param.objectName && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+        let novoVetor = [];
+    
+        if( vectorA.length != vectorB.length ){
+            throw 'Os vetores precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] / vectorB[i];
+        }
+    
+        return Vectorization.Vector(novoVetor);
+    }
+
     context._doDefaultBaseAfterCreate();
 
     return context;
