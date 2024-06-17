@@ -44,3 +44,7 @@ var matrix2 = Vectorization.Matrix([
 var result = matrix1.produtoEscalar(matrix2);
 
 console.log("\nMatrix matrix1 com matrix matrix2", result.values())
+
+
+var resultMultiplicar = matrix1.multiplicar(matrix2);
+console.log("\nMULTIPLICAR ELEMENTO A ELEMENTO A Matrix matrix1 com matrix matrix2", resultMultiplicar.values())

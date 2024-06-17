@@ -70,3 +70,37 @@ window.Vectorization.Base = function(config){
 
     return context;
 }
+
+//Funções a nivel principal
+
+/**
+ * Gera uma matrix de identidade
+ * @param {Number} ordem 
+ * @returns {Vectorization.Matrix}
+*/
+window.Vectorization.matrixIdentidade = function(ordem){
+    const NON_DIAGONAL_VALUE = 0;
+    const DIAGONAL_VALUE = 1;
+    let matrix = [];
+
+    for( let i = 0 ; i < ordem ; i++ )
+    {
+        matrix[i] = [];
+        for( let j = 0 ; j < ordem ; j++ )
+        {
+            //NA LINHA ATUAL, Toda vez que o indice do número for igual ao indice da linha, ele faz parte da diagonal principal
+            if( j == i ){
+                matrix[i][j] = DIAGONAL_VALUE;
+
+            }else{
+                matrix[i][j] = NON_DIAGONAL_VALUE;
+            }
+        }
+    }
+
+    const extraProps = {
+        isIdentidade: true
+    }
+
+    return Vectorization.Matrix(matrix, extraProps);
+}

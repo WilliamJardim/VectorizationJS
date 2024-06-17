@@ -42,6 +42,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context.content;
     }
 
+    context.sizeOf = function(){
+        return context.length;
+    }
+
     context.push = function(element){
         context.content.push(element);
         context._update();
@@ -97,6 +101,33 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return Vectorization.Scalar(produtoAtual);
+    }
+
+    /**
+     * Multiplica este vetor com outro vetor
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-vetores-elemento-a-elemento/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB_param
+     * @returns {Vectorization.Vector}
+    */
+    context.multiplicar = function(vectorB_param){
+        if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
+        }
+
+        let vectorA = context.content;
+        let vectorB = (vectorB_param.objectName && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+        let vetorResultado = [];
+
+        if( vectorA.length != vectorB.length ){
+            throw 'Os vetores precisam ser do mesmo tamanho!'
+        }
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {   
+            vetorResultado.push( vectorA[i] * vectorB[i] );
+        }
+
+        return Vectorization.Vector(vetorResultado);
     }
 
     context._doDefaultBaseAfterCreate();

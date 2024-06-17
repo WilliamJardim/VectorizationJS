@@ -46,3 +46,8 @@ matrix2 = np.array([
 result = matrix1.dot(matrix2);
 
 print("\nMatrix com matrix", result)
+
+
+
+resultMultiplicar = np.multiply(matrix1, matrix2);
+print("\nMULTIPLICAR ELEMENTO A ELEMENTO A Matrix matrix1 com matrix matrix2", resultMultiplicar)

@@ -18,8 +18,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
+    context.sizes = [context.rows, context.columns];
+
     //Alguns atributos uteis
     context.isTransposta = classConfig['isTransposta'] || false;
+    context.isOposta = classConfig['isOposta'] || false;
+    context.isIdentidade = classConfig['isIdentidade'] || false;
 
     //Se passar diretamente o conteudo
     if( config instanceof Array && config[0] instanceof Array ){
@@ -162,6 +166,39 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Multiplica esta matrix com outra, de maneira elemento a elemento
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-elemento-a-elemento/codigo-principal.js
+     * 
+     * @param {Vectorization.Matrix} matrixB_param
+     * @returns {Vectorization.Matrix}
+    */
+    context.multiplicar = function(matrixB_param){
+        if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
+        }
+
+        let matrixA = context.content;
+        let matrixB = (matrixB_param.objectName && matrixB_param.objectName == 'Matrix') ? matrixB_param.content : matrixB_param;
+        let matrixResultado = [];
+
+        if( matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length ){
+            throw 'As matrizes precisam ser do mesmo tamanho!'
+        }
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                matrixResultado[i].push( matrixA[i][j] * matrixB[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
      * Faz a transposta da matrix
      * https://github.com/WilliamJardim/javascript-matematica/tree/main/matriz-transposta
      *
@@ -183,6 +220,42 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         return Vectorization.Matrix(novaMatrix, extraProps);
+    }
+
+    /**
+     * Obtem a matrix oposta
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/matriz-oposta/codigo-principal.js
+     * @returns {Vectorization.Matrix}
+     */
+    context.matrixOposta = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] * -1;
+            }
+        }
+
+        const extraProps = {
+            isOposta: !context.isOposta ? true : false
+        }
+    
+        return Vectorization.Matrix(novaMatrix, extraProps);
+    }
+
+    /**
+    * Tenta obter a matrix de identidade de ordem desta matrix 
+    */
+    context.identidade = function(){
+        if( context.rows != context.columns ){
+            throw 'A matrix precisa ser quadrada de ordem X'
+        }
+        
+        return window.Vectorization.matrixIdentidade( context.rows );
     }
 
     context._doDefaultBaseAfterCreate();
