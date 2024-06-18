@@ -160,6 +160,54 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+     * Multiplica este vetor com uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.multiplicarMatrix = function(matrixB){
+        let matrixA = (matrixB.objectName != undefined && matrixB.objectName == 'Matrix') ? matrixB.content : matrixB;
+        let vectorB = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( vectorB[j] * matrixA[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
+     * Divide este vetor com uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.dividirMatrix = function(matrixB){
+        let matrixA = (matrixB.objectName != undefined && matrixB.objectName == 'Matrix') ? matrixB.content : matrixB;
+        let vectorB = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( vectorB[j] / matrixA[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
     * Faz a soma deste vetor com outro vetor
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-vetores/codigo-principal.js
     * @param {Vectorization.Vector} vectorB_param
@@ -204,6 +252,30 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+     * Soma este vetor com uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.somarMatrix = function(matrixB){
+        let matrixA = (matrixB.objectName != undefined && matrixB.objectName == 'Matrix') ? matrixB.content : matrixB;
+        let vectorB = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( vectorB[j] + matrixA[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
     * Faz a subtração deste vetor com outro vetor
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-vetores/codigo-principal.js
     * @param {Vectorization.Vector} vectorB_param
@@ -245,6 +317,30 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+     * Subtrai este vetor com uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.subtrairMatrix = function(matrixB){
+        let matrixA = (matrixB.objectName != undefined && matrixB.objectName == 'Matrix') ? matrixB.content : matrixB;
+        let vectorB = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( vectorB[j] - matrixA[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
     }
 
     /**
@@ -332,6 +428,98 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.pow(vectorA[i], vectorB[i]);
         }
     
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+     * Eleva este vetor com uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.elevarMatrix = function(matrixB){
+        let matrixA = (matrixB.objectName != undefined && matrixB.objectName == 'Matrix') ? matrixB.content : matrixB;
+        let vectorB = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( Math.pow(vectorB[j], matrixA[i][j]) );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
+    * Obtem o vetor oposto
+    * @returns {Vectorization.Vector}
+    */
+    context.vetorOposto = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = context.content[i] * -1;
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Obtem o vetor absoluto
+    * @returns {Vectorization.Vector}
+    */
+    context.abs = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = Math.abs(context.content[i]);
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Obtem o vetor absoluto
+    * @returns {Vectorization.Vector}
+    */
+    context.absoluto = function(){
+        return context.abs();
+    }
+
+    /**
+    * Obtem a raiz quadrada de cada elemento do vetor
+    * @returns {Vectorization.Vector}
+    */
+    context.sqrt = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = Math.sqrt(context.content[i]);
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Obtem o log2 de cada elemento do vetor
+    * @returns {Vectorization.Vector}
+    */
+    context.log2 = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = Math.log2(context.content[i]);
+        }
+
         return Vectorization.Vector(novoVetor);
     }
 

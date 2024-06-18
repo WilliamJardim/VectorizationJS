@@ -228,11 +228,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
      * Multiplica esta matrix por um vetor
      * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
-     * @param {Vectorization.Vector} vectorB
+     * @param {Vectorization.Vector} vectorB_param
      * @returns {Vectorization.Matrix} 
      */
-    context.multiplicarVetor = function(vectorB){
+    context.multiplicarVetor = function(vectorB_param){
         let matrixA = context.content;
+        let vectorB = (vectorB_param.objectName != undefined && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
         let matrixResultado = [];
 
         if( matrixA[0].length != vectorB.length ){
@@ -335,6 +336,46 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Obtem a raiz quadrada, de cada elemento da matrix 
+     * @returns {Vectorization.Matrix}
+     */
+    context.sqrt = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.sqrt(matrixA[i][j]);
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Obtem o log2, de cada elemento da matrix 
+     * @returns {Vectorization.Matrix}
+     */
+    context.log2 = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.log2(matrixA[i][j]);
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
     * Tenta obter a matrix de identidade de ordem desta matrix 
     */
     context.identidade = function(){
@@ -401,10 +442,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
      * Soma esta matrix com um vetor
      * 
-     * @param {Vectorization.Matrix} vectorB 
+     * @param {Vectorization.Matrix} vectorB_param 
      * @returns {Vectorization.Matrix}
     */
-    context.somarVetor = function(vectorB){
+    context.somarVetor = function(vectorB_param){
+        let vectorB = (vectorB_param.objectName != undefined && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+
         if( vectorB.objectName != undefined && vectorB.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB.objectName);
         }
@@ -415,7 +458,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
         }
 
-        let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
+        //let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
         let novaMatrix = [];
     
         for( let i = 0 ; i < matrixA.length ; i++ )
@@ -486,10 +529,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
      * Subtrai esta matrix com um vetor
      * 
-     * @param {Vectorization.Matrix} vectorB 
+     * @param {Vectorization.Matrix} vectorB_param 
      * @returns {Vectorization.Matrix}
     */
-    context.subtrairVetor = function(vectorB){
+    context.subtrairVetor = function(vectorB_param){
+        let vectorB = (vectorB_param.objectName != undefined && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+
         if( vectorB.objectName != undefined && vectorB.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB.objectName);
         }
@@ -500,7 +545,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
         }
 
-        let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
+        //let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
         let novaMatrix = [];
     
         for( let i = 0 ; i < matrixA.length ; i++ )
@@ -571,11 +616,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
     * Divide esta matrix por um vetor, aplicando o vetor a cada linha desta matrix 
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
-    * @param {Vectorization.Vector} vectorB
+    * @param {Vectorization.Vector} vectorB_param
     * @returns {Vectorization.Matrix}
     */
-    context.dividirVetor = function(vectorB){
+    context.dividirVetor = function(vectorB_param){
         let matrixA = context.content;
+        let vectorB = (vectorB_param.objectName != undefined && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
         let novaMatrix = [];
 
         if( matrixA[0].length != vectorB.length ){
@@ -619,11 +665,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
      * Eleva esta matrix a um vetor
      * 
-     * @param {Vectorization.Vector} vectorB
+     * @param {Vectorization.Vector} vectorB_param
      * @returns {Vectorization.Matrix} 
      */
-    context.elevarVetor = function(vectorB){
+    context.elevarVetor = function(vectorB_param){
         let matrixA = context.content;
+        let vectorB = (vectorB_param.objectName != undefined && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
         let matrixResultado = [];
 
         if( matrixA[0].length != vectorB.length ){
