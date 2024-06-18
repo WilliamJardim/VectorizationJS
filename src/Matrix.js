@@ -302,6 +302,39 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Obtem a matrix absoluta
+     * 
+     * @returns {Vectorization.Matrix}
+     */
+    context.abs = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.abs(matrixA[i][j]);
+            }
+        }
+
+        const extraProps = {
+            isOposta: !context.isOposta ? true : false
+        }
+    
+        return Vectorization.Matrix(novaMatrix, extraProps);
+    }
+
+    context.modulo = function(){
+        return context.abs();
+    }
+
+    context.absoluto = function(){
+        return context.abs();
+    }
+
+    /**
     * Tenta obter a matrix de identidade de ordem desta matrix 
     */
     context.identidade = function(){
@@ -558,6 +591,86 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }
         }
 
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+    * Eleva esta matrix a um número
+    * 
+    * @param {Number} numero
+    * @returns {Vectorization.Matrix}
+    */
+    context.elevarNumero = function(numero){
+        let matrixA = context.content;
+        let novaMatrix = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.pow(matrixA[i][j], numero);
+            }
+        }
+
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Eleva esta matrix a um vetor
+     * 
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.elevarVetor = function(vectorB){
+        let matrixA = context.content;
+        let matrixResultado = [];
+
+        if( matrixA[0].length != vectorB.length ){
+            throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
+        }
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( Math.pow(matrixA[i][j], vectorB[j]) );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
+     * Eleva esta matrix a outra matrix
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes/codigo-principal.js
+     * @param {Vectorization.Matrix} matrixB_param 
+     * @returns {Vectorization.Matrix}
+    */
+    context.elevarMatrix = function(matrixB_param){
+        if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
+        }
+        
+        let matrixA = context.content;
+        let matrixB = (matrixB_param.objectName != undefined && matrixB_param.objectName == 'Matrix') ? matrixB_param.content : matrixB_param;
+        let novaMatrix = [];
+    
+        if( matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length ){
+            throw 'As matrizes precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.pow(matrixA[i][j], matrixB[i][j]);
+            }
+        }
+    
         return Vectorization.Matrix(novaMatrix);
     }
 

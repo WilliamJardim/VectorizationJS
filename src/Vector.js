@@ -291,6 +291,50 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Vector(novoVetor);
     }
 
+    /**
+     * Eleva este vetor a um número
+     * 
+     * @param {Number} numero
+     * @returns {Vectorization.Vector}
+    */
+    context.elevarNumero = function(numero){
+        let novoVetor = [];
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = Math.pow(vectorA[i], numero);
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Eleva este vetor a outro vetor
+    * 
+    * @param {Vectorization.Vector} vectorB_param
+    * @returns {Vectorization.Vector}
+    */
+    context.elevarVetor = function(vectorB_param){
+        if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
+        }
+
+        let vectorA = context.content; 
+        let vectorB = (vectorB_param.objectName && vectorB_param.objectName == 'Vector') ? vectorB_param.content : vectorB_param;
+        let novoVetor = [];
+    
+        if( vectorA.length != vectorB.length ){
+            throw 'Os vetores precisam ser do mesmo tamanho!'
+        }
+    
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = Math.pow(vectorA[i], vectorB[i]);
+        }
+    
+        return Vectorization.Vector(novoVetor);
+    }
+
     context._doDefaultBaseAfterCreate();
 
     return context;
