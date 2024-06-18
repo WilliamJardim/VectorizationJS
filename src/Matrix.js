@@ -24,6 +24,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.isTransposta = classConfig['isTransposta'] || false;
     context.isOposta = classConfig['isOposta'] || false;
     context.isIdentidade = classConfig['isIdentidade'] || false;
+    context.isAdvancedMatrix = classConfig['advanced'] || false;
 
     //Se passar diretamente o conteudo
     if( config instanceof Array && config[0] instanceof Array ){
@@ -44,6 +45,20 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    /**
+    * Método que converte a matrix para uma matrix avançada, onde cada linha é um Vector 
+    */
+    context._matrix2Advanced = function(vectorClassConfig={}){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            const extraPropsOfLine = {... vectorClassConfig};
+            extraPropsOfLine['index'] = i;
+
+            context.content[i] = Vectorization.Vector(context.content[i], extraPropsOfLine);
+        }
+        context.isAdvancedMatrix = true;
+    }
+
     context.tamanho = function(){
         return context.sizes;
     }
@@ -61,7 +76,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     context.push = function(element){
-        context.content.push(element);
+        if( context.isAdvancedMatrix ){
+            context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
+
+        }else{
+            context.content.push(element);
+        }
     }
 
     /**
@@ -888,5 +908,27 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     context._doDefaultBaseAfterCreate();
 
-    return context;
+    //Se a opção advanced estiver ativa, ele roda um método adicional após criar a matrix
+    if( context.isAdvancedMatrix == true ){
+        context._matrix2Advanced();
+    }
+
+    //return context;
+    //Cria um Proxy para permitir acessar os indices da matrix diretamente
+    return new Proxy(context, {
+        get: function(target, prop, receiver) {
+          if (typeof prop === 'string' && !isNaN(prop)) {
+            return target.content[Number(prop)];
+          }
+          return Reflect.get(target, prop, receiver);
+        },
+
+        set: function(target, prop, value) {
+          if (typeof prop === 'string' && !isNaN(prop)) {
+            target.content[Number(prop)] = value;
+            return true;
+          }
+          return Reflect.set(target, prop, value);
+        }
+    });
 }
