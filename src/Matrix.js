@@ -366,6 +366,38 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Soma esta matrix com um vetor
+     * 
+     * @param {Vectorization.Matrix} vectorB 
+     * @returns {Vectorization.Matrix}
+    */
+    context.somarVetor = function(vectorB){
+        if( vectorB.objectName != undefined && vectorB.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB.objectName);
+        }
+        
+        let matrixA = context.content;
+
+        if( matrixA[0].length != vectorB.length ){
+            throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
+        }
+
+        let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] + vectorB[j];
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
      * Subtrai esta matrix com outra matrix
      * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-matrizes/codigo-principal.js
      * @param {Vectorization.Matrix} matrixB_param 
@@ -415,6 +447,38 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }
         }
 
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Subtrai esta matrix com um vetor
+     * 
+     * @param {Vectorization.Matrix} vectorB 
+     * @returns {Vectorization.Matrix}
+    */
+    context.subtrairVetor = function(vectorB){
+        if( vectorB.objectName != undefined && vectorB.objectName != 'Vector' ){
+            throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB.objectName);
+        }
+        
+        let matrixA = context.content;
+
+        if( matrixA[0].length != vectorB.length ){
+            throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
+        }
+
+        let matrixB = (vectorB.objectName != undefined && vectorB.objectName == 'Vector') ? vectorB.content : vectorB;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] - vectorB[j];
+            }
+        }
+    
         return Vectorization.Matrix(novaMatrix);
     }
 
