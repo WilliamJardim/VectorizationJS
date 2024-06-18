@@ -83,6 +83,32 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Percorre cada elemento do vetor, aplicando uma função de callback
+    * @param {Function} callback(index, element, context)
+    */
+    context.forEach = function(callback){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            callback( i, context.content[i], context );
+        }
+    }
+
+    /**
+    * Percorre cada elemento do vetor, aplicando uma função de callback, retornando um resultado
+    * @param {Function} callback(index, element, context)
+    */
+    context.map = function(callback){
+        let novoVetor = [];
+
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = callback( i, context.content[i], context );
+        }
+
+        return novoVetor;
+    }
+
+    /**
      * Produto escalar entre dois vetores
      * https://github.com/WilliamJardim/javascript-matematica/tree/main/produto-escalar-vetor-com-vetor
      * 
@@ -525,5 +551,22 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     context._doDefaultBaseAfterCreate();
 
-    return context;
+    //return context;
+    //Cria um Proxy para permitir acessar os indices do vetor diretamente
+    return new Proxy(context, {
+        get: function(target, prop, receiver) {
+          if (typeof prop === 'string' && !isNaN(prop)) {
+            return target.content[Number(prop)];
+          }
+          return Reflect.get(target, prop, receiver);
+        },
+
+        set: function(target, prop, value) {
+          if (typeof prop === 'string' && !isNaN(prop)) {
+            target.content[Number(prop)] = value;
+            return true;
+          }
+          return Reflect.set(target, prop, value);
+        }
+    });
 }

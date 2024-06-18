@@ -65,6 +65,32 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Percorre cada linha da matrix, aplicando uma função de callback
+    * @param {Function} callback(index, element, context)
+    */
+    context.forEach = function(callback){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            callback( i, context.content[i], context );
+        }
+    }
+
+    /**
+    * Percorre cada linha da matrix, aplicando uma função de callback, retornando um resultado
+    * @param {Function} callback(index, element, context)
+    */
+    context.map = function(callback){
+        let novaMatrix = [];
+
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novaMatrix[i] = callback( i, context.content[i], context );
+        }
+
+        return novaMatrix;
+    }
+
+    /**
      * Produto escalar de uma matriz com um vetor ou outra matriz
      * https://github.com/WilliamJardim/javascript-matematica/tree/main/produto-escalar-matriz-com-vetor
      * https://github.com/WilliamJardim/javascript-matematica/tree/main/produto-escalar-matrizes
