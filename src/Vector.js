@@ -46,6 +46,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context.length;
     }
 
+    context.tamanho = function(){
+        return context.sizeOf();
+    }
+
     context.push = function(element){
         context.content.push(element);
         context._update();
@@ -65,9 +69,17 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return result;
     }
 
+    context.soma = function(){
+        return context.sum();
+    }
+
     context.mean = function(){
         let sum = context.sum();
         return sum / context.length;
+    }
+
+    context.media = function(){
+        return context.mean();
     }
 
     /**
@@ -109,7 +121,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
      * @param {Vectorization.Vector} vectorB_param
      * @returns {Vectorization.Vector}
     */
-    context.multiplicar = function(vectorB_param){
+    context.multiplicarVetor = function(vectorB_param){
         if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
         }
@@ -131,12 +143,29 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
-    * Faz a soma deste vetor com outro
+     * Multiplica este vetor por um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-vetores-por-um-numero-scalar/codigo-principal.js
+     * @param {Number} numero
+     * @returns {Vectorization.Vector}
+    */
+    context.multiplicarNumero = function(numero){
+        let vetorResultado = [];
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {   
+            vetorResultado.push( vectorA[i] * numero );
+        }
+
+        return Vectorization.Vector(vetorResultado);
+    }
+
+    /**
+    * Faz a soma deste vetor com outro vetor
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-vetores/codigo-principal.js
     * @param {Vectorization.Vector} vectorB_param
     * @returns {Vectorization.Vector}
     */
-    context.somar = function(vectorB_param){
+    context.somarVetor = function(vectorB_param){
         if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
         }
@@ -158,12 +187,29 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
-    * Faz a subtração deste vetor com outro
+     * Soma este vetor com um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-vetores-por-um-numero-scalar/codigo-principal.js 
+     * @param {Number} numero
+     * @returns {Vectorization.Vector}
+    */
+    context.somarNumero = function(numero){
+        let novoVetor = [];
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] + numero;
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Faz a subtração deste vetor com outro vetor
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-vetores/codigo-principal.js
     * @param {Vectorization.Vector} vectorB_param
     * @returns {Vectorization.Vector}
     */
-    context.subtrair = function(vectorB_param){
+    context.subtrairVetor = function(vectorB_param){
         if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
         }
@@ -185,12 +231,29 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
-    * Faz a divisão deste vetor com outro
+     * Subtrai este vetor com um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-vetores-por-um-numero-scalar/codigo-principal.js
+     * @param {Number} numero
+     * @returns {Vectorization.Vector}
+    */
+    context.subtrairNumero = function(numero){
+        let novoVetor = [];
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] - numero;
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Faz a divisão deste vetor com outro vetor
     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-vetores/codigo-principal.js
     * @param {Vectorization.Vector} vectorB_param
     * @returns {Vectorization.Vector}
     */
-    context.dividir = function(vectorB_param){
+    context.dividirVetor = function(vectorB_param){
         if( vectorB_param.objectName != undefined && vectorB_param.objectName != 'Vector' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Vector. E não um ' + String(vectorB_param.objectName);
         }
@@ -208,6 +271,23 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] / vectorB[i];
         }
     
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+     * Divide este vetor com um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-vetores-por-um-numero-scalar/codigo-principal.js
+     * @param {Number} numero
+     * @returns {Vectorization.Vector}
+    */
+    context.dividirNumero = function(numero){
+        let novoVetor = [];
+
+        for( let i = 0 ; i < vectorA.length ; i++ )
+        {
+            novoVetor[i] = vectorA[i] / numero;
+        }
+
         return Vectorization.Vector(novoVetor);
     }
 

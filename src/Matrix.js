@@ -44,6 +44,10 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    context.tamanho = function(){
+        return context.sizes;
+    }
+
     context.valueOf = function(){
         return context.content;
     }
@@ -172,7 +176,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
      * @param {Vectorization.Matrix} matrixB_param
      * @returns {Vectorization.Matrix}
     */
-    context.multiplicar = function(matrixB_param){
+    context.multiplicarMatrix = function(matrixB_param){
         if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
         }
@@ -192,6 +196,56 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             for( let j = 0 ; j < matrixA[0].length ; j++ )
             {
                 matrixResultado[i].push( matrixA[i][j] * matrixB[i][j] );
+            }
+        }
+
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
+     * Multiplica esta matrix por um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-numero-scalar/codigo-principal.js
+     * @param {Number} numero
+     * @returns {Vectorization.Matrix}
+     */
+    context.multiplicarNumero = function(numero){
+        let matrixA = context.content;
+        let matrixResultado = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+    
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                matrixResultado[i].push( matrixA[i][j] * numero );
+            }
+        }
+    
+        return Vectorization.Matrix(matrixResultado);
+    }
+
+    /**
+     * Multiplica esta matrix por um vetor
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Matrix} 
+     */
+    context.multiplicarVetor = function(vectorB){
+        let matrixA = context.content;
+        let matrixResultado = [];
+
+        if( matrixA[0].length != vectorB.length ){
+            throw 'A quantidade de elementos do vetor precisa ser a quantidade de colunas da matrix';
+        }
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {   
+            matrixResultado[i] = [];
+
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                matrixResultado[i].push( matrixA[i][j] * vectorB[j] );
             }
         }
 
@@ -264,7 +318,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
      * @param {Vectorization.Matrix} matrixB_param 
      * @returns {Vectorization.Matrix}
     */
-    context.somar = function(matrixB_param){
+    context.somarMatrix = function(matrixB_param){
         if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
         }
@@ -290,12 +344,34 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Soma esta matrix com um número
+    * https://github.com/WilliamJardim/javascript-matematica/blob/main/soma-matrizes-por-um-numero-scalar/codigo-principal.js
+    * @param {Number} numero
+    * @returns {Vectorization.Matrix}
+    */
+    context.somarNumero = function(numero){
+        let matrixA = context.content;
+        let novaMatrix = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] + numero;
+            }
+        }
+
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
      * Subtrai esta matrix com outra matrix
      * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-matrizes/codigo-principal.js
      * @param {Vectorization.Matrix} matrixB_param 
      * @returns {Vectorization.Matrix}
     */
-    context.subtrair = function(matrixB_param){
+    context.subtrairMatrix = function(matrixB_param){
         if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
         }
@@ -321,12 +397,34 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Subtrai esta matrix com um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/subtracao-matrizes-por-um-numero-scalar/codigo-principal.js
+     * @param {Vectorization.Matrix} matrixB_param 
+     * @returns {Vectorization.Matrix} 
+    */
+    context.subtrairNumero = function(numero){
+        let matrixA = context.content;
+        let novaMatrix = [];
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] - numero;
+            }
+        }
+
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
      * Divide esta matrix com outra matrix
      * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes/codigo-principal.js
      * @param {Vectorization.Matrix} matrixB_param 
      * @returns {Vectorization.Matrix}
     */
-    context.dividir = function(matrixB_param){
+    context.dividirMatrix = function(matrixB_param){
         if( matrixB_param.objectName != undefined && matrixB_param.objectName != 'Matrix' ){
             throw 'O segundo parametro precisa obrigatoriamente ser um Matrix. E não um ' + String(matrixB_param.objectName);
         }
@@ -348,6 +446,54 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }
         }
     
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Divide esta matrix por um número
+     * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes-por-um-numero-scalar/codigo-principal.js
+     * @param {Number} numero 
+     * @returns {Vectorization.Matrix}
+     */
+    context.dividirNumero = function(numero){
+        let matrixA = context.content;
+        let novaMatrix = [];
+        
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] / numero;
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+    * Divide esta matrix por um vetor, aplicando o vetor a cada linha desta matrix 
+    * https://github.com/WilliamJardim/javascript-matematica/blob/main/divisao-matrizes-por-um-vetor-linha-por-linha/codigo-principal.js
+    * @param {Vectorization.Vector} vectorB
+    * @returns {Vectorization.Matrix}
+    */
+    context.dividirVetor = function(vectorB){
+        let matrixA = context.content;
+        let novaMatrix = [];
+
+        if( matrixA[0].length != vectorB.length ){
+            throw 'A quantidade de elementos do vetor precisa ser igual a quantidade de colunas da matrix!'
+        }
+
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < vectorB.length ; j++ )
+            {
+                novaMatrix[i][j] = matrixA[i][j] / vectorB[j];
+            }
+        }
+
         return Vectorization.Matrix(novaMatrix);
     }
 
