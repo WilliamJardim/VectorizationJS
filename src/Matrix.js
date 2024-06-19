@@ -24,7 +24,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.isTransposta = classConfig['isTransposta'] || false;
     context.isOposta = classConfig['isOposta'] || false;
     context.isIdentidade = classConfig['isIdentidade'] || false;
-    context.isAdvancedMatrix = classConfig['advanced'] || false;
+    context.isAdvancedMatrix = classConfig['advanced'] || true;
 
     //Se passar diretamente o conteudo
     if( config instanceof Array && config[0] instanceof Array ){
@@ -71,8 +71,35 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return String(context.content);
     }
 
+    context.get = function(linha, coluna){
+        return context.content[linha][coluna];
+    }
+
     context.values = function(){
         return context.content;
+    }
+
+    context.rawValues = function(){
+        let rawValues = [];
+
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            rawValues[i] = context.content[i].values();
+        }
+
+        return rawValues;
+    }
+
+    context.raw = function(){
+        return context.rawValues();
+    }
+
+    context.mostrarTabela = function(){
+        console.table( context.rawValues() );
+    }
+
+    context.mostrar = function(){
+        console.log( context.rawValues() );
     }
 
     context.push = function(element){
