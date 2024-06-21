@@ -142,6 +142,49 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+     * Produto escalar entre este vetor e uma matrix
+     * https://github.com/WilliamJardim/javascript-matematica/tree/main/produto-escalar-vetor-com-matriz
+     * @param {Vectorization.Vector} vectorA 
+     * @param {Vectorization.Vector} vectorB
+     * @returns {Vectorization.Scalar}
+    */
+    context.produtoEscalarMatrix = function(matrixA){
+        let vectorB = context.content;
+
+        if( matrixA.rows != vectorB.length ){
+            throw 'O número de linhas da matrixA deve ser exatamente igual ao numero de elementos do vetor. Impossivel calcular!';
+        }
+    
+        let vetorResultado = [];
+    
+        //Percorre cada linha da matrix A
+        for( let linha = 0 ; linha < matrixA.rows ; linha++ ){
+    
+            //Inicializa a variavel que será usada para a soma ponderada
+            let produtoAtual = 0;
+    
+            //Percorre cada elemento do vetor B
+            for( let colunaB = 0 ; colunaB < vectorB.length ; colunaB++ ){
+                /*
+                * Obtem os valores da linha atual da matrix A(nesse caso, a linha é na verdade a colunaB)
+                * Pois, quando vamos calcular o produto escalar entre um vetor e uma matrix, acessamos os elementos de forma diferente: ao invez de acessar matrix[linha][coluna](como fazemos no produto escalar entre matrix e vetor), fazemos o contrário e acessamos matrix[coluna][linha], 
+                * Ou seja, na matrix A, acessamos a coluna correspondente ao elemento atual do vetor B.
+                * Ou seja, a nivel de código, na matrixA acessamos a colunaB que é o elemento atual do vetor, de modo que matrixA.content[colunaB] retornará um vetor(isto é, a variavel colunaB da matrixA), e ai em seguida nós acessamos a linha atual da matrixA, ou seja, literalmente matrixA.content[coluna][linha], e é assim que vamos fazer a soma ponderada.
+                * É assim que vamos fazer a soma ponderada.
+                */
+                let valoresAtualMatrixNaPosicaoColunaB = matrixA.content[colunaB]; //Aqui a linha vai ser na verdade a coluna, no caso, a linha da colunaB, da matrix em questão
+    
+                produtoAtual += ( vectorB[colunaB] * valoresAtualMatrixNaPosicaoColunaB[linha] ); //E a coluna vai ser a linha
+            }
+    
+            //Vai adicionando os resultados no vetor de resultado
+            vetorResultado.push(produtoAtual);
+        }
+    
+        return vetorResultado;
+    }
+
+    /**
      * Multiplica este vetor com outro vetor
      * https://github.com/WilliamJardim/javascript-matematica/blob/main/multiplicar-vetores-elemento-a-elemento/codigo-principal.js
      * @param {Vectorization.Vector} vectorB_param
