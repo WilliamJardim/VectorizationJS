@@ -1,5 +1,5 @@
 # Vectorization
-![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo.png)
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
 
 Uma biblioteca simples para operações vetoriais e matriciais em JavaScript.
 
