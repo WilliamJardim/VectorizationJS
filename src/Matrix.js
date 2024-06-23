@@ -13,8 +13,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.objectName = 'Matrix';
     context.path = 'Vectorization.Matrix';
 
-    context.rows = config['rows'] || 2;
-    context.columns = config['columns'] || 2;
+    context.rows = config['rows'];
+    context.columns = config['columns'];
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
@@ -59,31 +59,52 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     /**
     * Calcula a forma (shape) da matrix
-    * @param {Array} data - Os dados da.
     * @returns {Array} - A forma da matrix.
     */
-    context.calcTamanhos = function(dados=context.content) {
+    context.calcTamanhos = function() {
+        let dadosMatrix = context.content || [];
         let formato = [];
-        let nivelAtual = [... dados.copyWithin()];
+        let nivelAtual = [... dadosMatrix.copyWithin()];
 
         while ( Vectorization.Vector.isVector(nivelAtual) ) 
         {
             formato.push(nivelAtual.length);
             nivelAtual = nivelAtual[0];
+            if(nivelAtual == undefined){
+                break;
+            }
         }
 
-        return formato;
+        return Vectorization.Vector(formato);
     }
 
     //Alias for calcTamanhos
     context.calcSizes = context.calcTamanhos;
     context.calcShape = context.calcTamanhos;
 
+    /**
+    * Verifica se esta matrix possui exatamente o mesmo formato de outra matrix
+    * @param {Vectorization.Matrix} matrixB - A outra matrix.
+    * @returns {Boolean} - Verdadeiro se as formas forem iguais, falso caso contrário.
+    */
+    context.isExatoMesmoTamanho = function(matrixB){
+        if( context.calcTamanhos().isExatamenteIgual( matrixB.calcTamanhos() ) ){
+            return true;
+        }
+
+        return false;
+    }
+
+    //Alias for isExatoMesmoTamanho
+    context.isExatamenteMesmoTamanho = context.isExatoMesmoTamanho;
+    context.isMesmoTamanhoDe = context.isExatoMesmoTamanho
+    context.isSameSizes = context.isExatoMesmoTamanho;
+
     /*
     Calcula o formato da matrix e armazena no objeto sizes
     Por padrão o formato vai ser [qtdeLinhas, qtdeColunas]
     */
-    context.sizes = context.calcTamanhos(context.content);
+    context.sizes = context.calcTamanhos();
 
     context.tamanho = function(){
         return context.sizes;

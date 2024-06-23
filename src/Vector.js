@@ -86,6 +86,35 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Verifica se este Vector é exatamente igual a outro Vector, no conteudo 
+    */
+    context.isExatamenteIgual = function(vectorB){
+        let isIgual = false;
+
+        if(!Vectorization.Vector.isVector(vectorB)){
+            isIgual = false;
+            return isIgual;
+        }
+
+        if( context.length != vectorB.length ){
+            isIgual = false;
+            return isIgual;
+        }
+        
+        for( let i = 0 ; i < vectorB.length ; i++ )
+        {
+            if( vectorB.readIndex(i) == context.readIndex(i)){
+                isIgual = true;
+            }else{
+                isIgual = false;
+                break;
+            }
+        }
+
+        return isIgual;
+    }
+
+    /**
     * Percorre cada elemento do vetor, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
     */
