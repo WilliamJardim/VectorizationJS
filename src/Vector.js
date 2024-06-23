@@ -42,6 +42,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context.content;
     }
 
+    //Alias for context.toArray
+    context.raw = context.toArray;
+
     context.sizeOf = function(){
         return context.length;
     }
@@ -612,4 +615,12 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
           return Reflect.set(target, prop, value);
         }
     });
+}
+
+/**
+* Métodos estáticos
+*/
+window.Vectorization.Vector.isVector = function(obj){
+    return ((obj.objectName != undefined && obj.objectName == 'Vector') || 
+           Array.isArray(obj)) ? true : false;
 }

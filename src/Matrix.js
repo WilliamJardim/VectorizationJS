@@ -18,8 +18,6 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
-    context.sizes = [context.rows, context.columns];
-
     //Alguns atributos uteis
     context.isTransposta = classConfig['isTransposta'] || false;
     context.isOposta = classConfig['isOposta'] || false;
@@ -58,6 +56,34 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
         context.isAdvancedMatrix = true;
     }
+
+    /**
+    * Calcula a forma (shape) da matrix
+    * @param {Array} data - Os dados da.
+    * @returns {Array} - A forma da matrix.
+    */
+    context.calcTamanhos = function(dados=context.content) {
+        let formato = [];
+        let nivelAtual = [... dados.copyWithin()];
+
+        while ( Vectorization.Vector.isVector(nivelAtual) ) 
+        {
+            formato.push(nivelAtual.length);
+            nivelAtual = nivelAtual[0];
+        }
+
+        return formato;
+    }
+
+    //Alias for calcTamanhos
+    context.calcSizes = context.calcTamanhos;
+    context.calcShape = context.calcTamanhos;
+
+    /*
+    Calcula o formato da matrix e armazena no objeto sizes
+    Por padrão o formato vai ser [qtdeLinhas, qtdeColunas]
+    */
+    context.sizes = context.calcTamanhos(context.content);
 
     context.tamanho = function(){
         return context.sizes;
