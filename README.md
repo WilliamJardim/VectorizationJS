@@ -1,4 +1,6 @@
 # Vectorization
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo.png)
+
 Uma biblioteca simples para operações vetoriais e matriciais em JavaScript.
 
 ## Arquivos do projeto
