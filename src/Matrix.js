@@ -9,6 +9,11 @@
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Matrix = function( config, classConfig={} ){
+    //Se o usuario tentar criar uma matrix a partir de outra matrix, ele recria a propio matrix passada, mantendo a estrutura como ainda sendo uma Matrix
+    if( Vectorization.Matrix.isMatrix(config) && config.objectName == 'Matrix' ){
+        return Vectorization.Matrix( config.raw() );
+    }
+
     let context = window.Vectorization.Base(classConfig);
     context.objectName = 'Matrix';
     context.path = 'Vectorization.Matrix';
@@ -81,6 +86,19 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //Alias for calcTamanhos
     context.calcSizes = context.calcTamanhos;
     context.calcShape = context.calcTamanhos;
+    context.calcFormato = context.calcTamanhos;
+    context.getFormato = context.calcTamanhos;
+
+    /*
+    Calcula o formato da matrix e armazena no objeto sizes
+    Por padrão o formato vai ser [qtdeLinhas, qtdeColunas]
+    */
+    context.sizes = context.calcTamanhos();
+    context.formato = context.sizes;
+
+    context.tamanho = function(){
+        return context.sizes;
+    }
 
     /**
     * Verifica se esta matrix possui exatamente o mesmo formato de outra matrix
@@ -97,18 +115,40 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     //Alias for isExatoMesmoTamanho
     context.isExatamenteMesmoTamanho = context.isExatoMesmoTamanho;
-    context.isMesmoTamanhoDe = context.isExatoMesmoTamanho
+    context.isExatamenteMesmoFormato = context.isExatoMesmoTamanho;
+    context.isMesmoTamanhoDe = context.isExatoMesmoTamanho;
+    context.isMesmoFormatoDe = context.isExatoMesmoTamanho;
     context.isSameSizes = context.isExatoMesmoTamanho;
 
-    /*
-    Calcula o formato da matrix e armazena no objeto sizes
-    Por padrão o formato vai ser [qtdeLinhas, qtdeColunas]
+    /**
+    * Compara se o contéudo desta matrix é exatamente igual ao contéudo da outra matrix  
+    * Ele faz isso comparando linha por linha.
+    * @param {Vectorization.Matrix} matrixB - A outra matrix
+    * @returns {Boolean} - Se o contéudo é exatamente igual ou não
     */
-    context.sizes = context.calcTamanhos();
+    context.isExatamenteMesmoConteudo = function(matrixB){
+        //Verifica se cada linha da matrixB é exatamente igual a linha correspondende da matrix atual
+        const mappedVector = Vectorization.Vector( context.map(function(i, valor, selfContext){
+            const linhaAtual = i;
+            return matrixB.getLinha(linhaAtual).isExatamenteIgual( context.getLinha(linhaAtual) );
+        }) );
 
-    context.tamanho = function(){
-        return context.sizes;
+        //Verifica os resultados de mappedMatrix, se todos são verdadeiros
+        return mappedVector.todosVerdadeiros();
     }
+
+    /**
+    * Compara se esta matrix é exatamente igual a outra matrix, tanto em formato quanto em contéudo
+    * @param {Vectorization.Matrix} matrixB - A outra matrix
+    * @returns {Boolean} - Se são iguais ou não
+    */
+    context.isIgual = function(matrixB){
+        return (context.isExatamenteMesmoTamanho(matrixB) == true && 
+                context.isExatamenteMesmoConteudo(matrixB) == true);
+    }
+
+    //Alias for isIgual
+    context.isEquals = context.isIgual;
 
     context.valueOf = function(){
         return context.content;
@@ -121,6 +161,13 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.get = function(linha, coluna){
         return context.content[linha][coluna];
     }
+
+    context.getLinha = function(linha){
+        return context.content[linha];
+    }
+
+    //Alias for getLinha
+    context.getLine = context.getLinha;
 
     context.values = function(){
         return context.content;
@@ -172,6 +219,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
     * Percorre cada linha da matrix, aplicando uma função de callback, retornando um resultado
     * @param {Function} callback(index, element, context)
+    * @returns {Vectorization.Vector or Vectorization.Matrix}
     */
     context.map = function(callback){
         let novaMatrix = [];
@@ -181,7 +229,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             novaMatrix[i] = callback( i, context.content[i], context );
         }
 
-        return novaMatrix;
+        //Se a função de callback ao ser aplicada resultar numa matrix, então ele converte resultado para Matrix
+        if( Vectorization.Vector.isVector( novaMatrix[0] ) ){
+            return Vectorization.Matrix(novaMatrix);
+        }else{
+            return Vectorization.Vector(novaMatrix);
+        }
     }
 
     /**
@@ -1005,4 +1058,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
           return Reflect.set(target, prop, value);
         }
     });
+}
+
+/**
+* Métodos estáticos
+*/
+window.Vectorization.Matrix.isMatrix = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Matrix');
 }

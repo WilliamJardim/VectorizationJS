@@ -9,6 +9,11 @@
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Vector = function( config=[], classConfig={} ){
+    //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
+    if( Vectorization.Vector.isVector(config) && config.objectName == 'Vector' ){
+        return Vectorization.Vector( config.values() );
+    }
+
     let context = window.Vectorization.Base(classConfig);
     context.objectName = 'Vector';
     context.path = 'Vectorization.Vector';
@@ -83,6 +88,64 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     context.media = function(){
         return context.mean();
+    }
+
+    /**
+    * Verifica se todos os elementos deste vetor são "true"
+    * @returns {Boolean}
+    */
+    context.todosVerdadeiros = function(){
+        let retorno = false;
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {   
+            if( context.content[i] == true ){
+                retorno = true;
+            }else{
+                retorno = false;
+                break;
+            }
+        }
+
+        return retorno;
+    }
+
+    /**
+    * Verifica se todos os elementos deste vetor são "false"
+    * @returns {Boolean}
+    */
+    context.todosFalsos = function(){
+        let retorno = false;
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {   
+            if( context.content[i] == false ){
+                retorno = true;
+            }else{
+                retorno = false;
+                break;
+            }
+        }
+
+        return retorno;
+    }
+
+    /**
+    * Verifica se todos os elementos deste vetor são iguais a um valor
+    * @param {Number} valor - o valor
+    * @returns {Boolean}
+    */
+    context.todosIguaisA = function(valor){
+        let retorno = false;
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {   
+            if( context.content[i] == valor ){
+                retorno = true;
+            }else{
+                retorno = false;
+                break;
+            }
+        }
+
+        return retorno;
     }
 
     /**
