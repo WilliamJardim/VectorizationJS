@@ -228,7 +228,19 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.slice = function(linhaInicial, linhaFinal, intervalo=1){
         let dadosRecortados = [];
 
-        for( let i = linhaInicial ; i < linhaFinal+1 ; i = i + intervalo )
+        if( linhaInicial < 0 ){
+            throw 'A linhaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( linhaFinal > context.rows ){
+            throw 'A linhaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        if( intervalo <= 0 ){
+            throw 'O intervalo precisa ser maior que zero!';
+        }
+
+        for( let i = linhaInicial ; i < linhaFinal ; i = i + intervalo )
         {
             dadosRecortados.push( context.getLinha(i).raw() );
         }

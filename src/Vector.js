@@ -181,6 +181,36 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Permite fatiar(ou recortar) este vetor
+    * @param {linhaInicial} - inicio
+    * @param {linhaFinal} - final
+    * @param {intervalo} - intervalo
+    * @returns {Vectorization.Vector} - o vetor recortado
+    */
+    context.slice = function(elementoInicial, elementoFinal, intervalo=1){
+        let dadosRecortados = [];
+
+        if( elementoInicial < 0 ){
+            throw 'A elementoInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( elementoFinal > context.length ){
+            throw 'A elementoFinal precisa estar dentro da faixa de valores do Vector! valor muito alto!';
+        }
+
+        if( intervalo <= 0 ){
+            throw 'O intervalo precisa ser maior que zero!';
+        }
+
+        for( let i = elementoInicial ; i < elementoFinal ; i = i + intervalo )
+        {
+            dadosRecortados.push( context.readIndex(i) );
+        }
+
+        return Vectorization.Vector(dadosRecortados);
+    }
+
+    /**
     * Percorre cada elemento do vetor, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
     */
