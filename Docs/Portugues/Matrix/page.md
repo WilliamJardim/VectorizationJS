@@ -1,7 +1,7 @@
 # Documentação oficial do Vectorization
+Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 
 # Matrizes
-Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 Nesta página você pode encontrar informações sobre a classe Matrix
 
 # Dados da classe:
