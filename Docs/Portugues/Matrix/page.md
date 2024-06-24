@@ -1,8 +1,9 @@
 # Documentação oficial do Vectorization
-Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
-Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # Matrizes
+Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
+Nesta página você pode encontrar informações sobre a classe Matrix
+
 # Dados da classe:
  - **URL Arquivo**: [https://github.com/WilliamJardim/Vectorization/blob/main/src/Matrix.js] 
  - Localizado em: **src/Matrix.js**
@@ -45,11 +46,11 @@ var matrix2 = Vectorization.Matrix([
 
 ```
 
-# O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
+O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
 - [Métodos](Metodos/page.md)
 - [Atributos](Atributos/page.md)
 
-# Voce pode visualizar o código fonte completo da classe Matrix aqui:
+Voce pode visualizar o código fonte completo da classe Matrix aqui:
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Matrix.js)
 
 * [Voltar para página anterior](../Matrix/page.md)
