@@ -50,7 +50,11 @@ window.Vectorization.Matrix._translations = function(){
 
         "oppostMatrix": "matrixOposta",
 
-        "identity": "identidade"
+        "identity": "identidade",
+
+        "extractColumnValues": "extrairValoresColuna",
+
+        "extractLineValues": "extrairValoresLinha"
     };
 
     return {

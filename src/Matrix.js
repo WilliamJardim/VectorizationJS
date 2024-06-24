@@ -249,6 +249,28 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Permite extrair valores de uma coluna especifica
+    * @param {Number} indiceColuna - o indice da coluna que queremos extrair os valores
+    * @returns {Vectorization.Vector || Array}
+    */
+    context.extrairValoresColuna = function(indiceColuna){
+        let valoresColuna = [];
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            valoresColuna.push( Vectorization.Vector(context.getLinha(i)).readIndex(indiceColuna) );
+        }
+
+        if( context.isAdvancedMatrix ){
+            return Vectorization.Vector( valoresColuna );
+
+        }else{
+            return valoresColuna;
+        }
+    }
+
+    context.extrairValoresLinha = context.getLinha;
+
+    /**
     * Percorre cada linha da matrix, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
     */
