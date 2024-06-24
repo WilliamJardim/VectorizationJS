@@ -17,6 +17,9 @@ Eine einfache Bibliothek für Vektor- und Matrixoperationen in JavaScript.
 ![Beispiel 1 - Skalarprodukt zwischen zwei Vektoren](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Beispiel 2 - Skalarprodukt zwischen einer Matrix und einem Vektor](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Dokumentieren
+* [Dokument](Docs/docs-main.md)
+
 ## Projektdateien
 - `src/*`: Dies sind alle Projektdateien.
 

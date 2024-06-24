@@ -17,6 +17,9 @@ Une bibliothèque simple pour les opérations sur les vecteurs et les matrices e
 ![Exemple 1 - Produit scalaire entre deux vecteurs](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Exemple 2 - Produit scalaire entre une matrice et un vecteur](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Documentation
+* [Lire la documentation](Docs/docs-main.md)
+
 ## Fichiers du projet
 - `src/*`: Ce sont tous les fichiers du projet.
 

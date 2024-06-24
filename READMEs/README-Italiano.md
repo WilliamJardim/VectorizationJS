@@ -17,6 +17,9 @@ Una semplice libreria per operazioni con vettori e matrici in JavaScript.
 ![Esempio 1 - Prodotto scalare tra due vettori](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Esempio 2 - Prodotto scalare tra una matrice e un vettore](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Documentazione
+* [Leggi la documentazione](Docs/docs-main.md)
+
 ## File del progetto
 - `src/*`: Questi sono tutti i file del progetto.
 

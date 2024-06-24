@@ -17,6 +17,9 @@ Una biblioteca simple para operaciones vectoriales y matriciales en JavaScript.
 ![Ejemplo 1 - Producto escalar entre vectores](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Ejemplo 2 - Producto escalar de una matriz con un vector](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Documentación
+* [Leer documentación](Docs/docs-main.md)
+
 ## Archivos del proyecto
 - `src/*`: Son todos los archivos del proyecto.
 

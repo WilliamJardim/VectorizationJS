@@ -17,6 +17,9 @@ A simple library for vector and matrix operations in JavaScript.
 ![Exemplo 1 - Dot product between two vectors](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Exemplo 2 - Dot product between a matrix and vector](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Documentation
+* [Read Documentation](Docs/docs-main.md)
+
 ## Project Files
 - `src/*`: These are all the project files.
 

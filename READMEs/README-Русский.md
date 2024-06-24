@@ -17,6 +17,9 @@
 ![Пример 1 - Скалярное произведение между двумя векторами](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
 ![Пример 2 - Скалярное произведение между матрицей и вектором](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
 
+## Документация
+* [Читать документацию](Docs/docs-main.md)
+
 ## Файлы проекта
 - `src/*`: Все файлы проекта.
 
