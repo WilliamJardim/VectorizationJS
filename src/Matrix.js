@@ -9,6 +9,9 @@
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Matrix = function( config, classConfig={} ){
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.Matrix._translations || null;
+
     //Se o usuario tentar criar uma matrix a partir de outra matrix, ele recria a propio matrix passada, mantendo a estrutura como ainda sendo uma Matrix
     if( Vectorization.Matrix.isMatrix(config) && config.objectName == 'Matrix' ){
         return Vectorization.Matrix( config.raw() );
@@ -1038,6 +1041,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //Se a opção advanced estiver ativa, ele roda um método adicional após criar a matrix
     if( context.isAdvancedMatrix == true ){
         context._matrix2Advanced();
+    }
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.translateMethods( context._translations() );
     }
 
     //return context;

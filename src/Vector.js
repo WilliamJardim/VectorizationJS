@@ -9,6 +9,9 @@
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Vector = function( config=[], classConfig={} ){
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.Vector._translations || null;
+
     //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
     if( Vectorization.Vector.isVector(config) && config.objectName == 'Vector' ){
         return Vectorization.Vector( config.values() );
@@ -688,6 +691,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context._doDefaultBaseAfterCreate();
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.translateMethods( context._translations() );
+    }
 
     //return context;
     //Cria um Proxy para permitir acessar os indices do vetor diretamente
