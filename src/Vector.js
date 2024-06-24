@@ -724,3 +724,7 @@ window.Vectorization.Vector.isVector = function(obj){
     return ((obj.objectName != undefined && obj.objectName == 'Vector') || 
            Array.isArray(obj)) ? true : false;
 }
+
+window.Vectorization.Vector.isVectorizationVector = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Vector')
+}

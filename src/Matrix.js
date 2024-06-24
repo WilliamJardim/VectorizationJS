@@ -33,10 +33,20 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.isAdvancedMatrix = classConfig['advanced'] || true;
 
     //Se passar diretamente o conteudo
-    if( config instanceof Array && config[0] instanceof Array ){
-        context.content = config;
-        context.rows = config.length;
-        context.columns = config[0].length;
+    if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) ) ){
+
+        //Se as linhas forem vetores do pacote Vectorization
+        if( Vectorization.Vector.isVectorizationVector( config[0] ) == true ){
+            context.content = config;
+            context.rows = config.length;
+            context.columns = config[0].length;
+
+        //Se as linhas forem vetores normais
+        }else{
+            context.content = config;
+            context.rows = config.length;
+            context.columns = config[0].length;
+        }
 
     //Ou caso contrario
     }else{
@@ -206,6 +216,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }else{
             context.content.push(element);
         }
+    }
+
+    /**
+    * Permite fatiar(ou recortar) a matrix
+    * @param {linhaInicial} - inicio
+    * @param {linhaFinal} - final
+    * @param {intervalo} - intervalo
+    * @returns {Vectorization.Matrix} - a matriz recortada
+    */
+    context.slice = function(linhaInicial, linhaFinal, intervalo=1){
+        let dadosRecortados = [];
+
+        for( let i = linhaInicial ; i < linhaFinal+1 ; i = i + intervalo )
+        {
+            dadosRecortados.push( context.getLinha(i).raw() );
+        }
+
+        return Vectorization.Matrix(dadosRecortados);
     }
 
     /**
