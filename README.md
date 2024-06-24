@@ -1,11 +1,9 @@
 # Vectorization
 ![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
 
-Bem-vindo ao meu projeto Vectorization!
-¡Bienvenidos a mi proyecto Vectorización!
-Welcome to my project Vectorización!
+Welcome to my project Vectorization!
 
-# Select a language / Selecione um idioma
+# Select a language
 * [Português](README-Portugues.md)
 * [English](README-English.md)
 * [Español](README-Español.md)
@@ -23,6 +21,9 @@ A simple library for vector and matrix operations in JavaScript.
 
 ## Project Files
 - `src/*`: These are all the project files.
+
+## Source code
+https://github.com/WilliamJardim/Vectorization/tree/main/src
 
 ## Comparison of Results
 **NOTE:** The "compararResultados.py" file is not part of the project. It is only present to compare results and is not related to the project.

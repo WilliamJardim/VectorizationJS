@@ -20,6 +20,9 @@ A simple library for vector and matrix operations in JavaScript.
 ## Project Files
 - `src/*`: These are all the project files.
 
+## Source code
+https://github.com/WilliamJardim/Vectorization/tree/main/src
+
 ## Comparison of Results
 **NOTE:** The "compararResultados.py" file is not part of the project. It is only present to compare results and is not related to the project.
 
