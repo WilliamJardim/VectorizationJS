@@ -9,6 +9,11 @@ Welcome to my project Vectorización!
 * [Português](README-Portugues.md)
 * [English](README-English.md)
 * [Español](README-Español.md)
+* [Русский](README-Русский.md)
+* [Italiano](README-Italiano.md)
+* [한국어](README-한국어.md)
+* [Deutsch](README-Deutsch.md)
+* [Français](README-Français.md)
 
 A simple library for vector and matrix operations in JavaScript.
 

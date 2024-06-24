@@ -5,6 +5,11 @@
 * [Português](README-Portugues.md)
 * [English](README-English.md)
 * [Español](README-Español.md)
+* [Русский](README-Русский.md)
+* [Italiano](README-Italiano.md)
+* [한국어](README-한국어.md)
+* [Deutsch](README-Deutsch.md)
+* [Français](README-Français.md)
 
 Uma biblioteca simples para operações vetoriais e matriciais em JavaScript.
 
