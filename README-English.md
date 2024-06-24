@@ -1,11 +1,7 @@
 # Vectorization
-![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
+![Project logo](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
 
-Bem-vindo ao meu projeto Vectorization!
-¡Bienvenidos a mi proyecto Vectorización!
-Welcome to my project Vectorización!
-
-# Select a language / Selecione um idioma
+# Select the language
 * [Português](README-Portugues.md)
 * [English](README-English.md)
 * [Español](README-Español.md)
