@@ -4,14 +4,14 @@
 Welcome to my project Vectorization!
 
 # Select a language
-* [Português](README-Portugues.md)
-* [English](README-English.md)
-* [Español](README-Español.md)
-* [Русский](README-Русский.md)
-* [Italiano](README-Italiano.md)
-* [한국어](README-한국어.md)
-* [Deutsch](README-Deutsch.md)
-* [Français](README-Français.md)
+* [Português](READMEs/README-Portugues.md)
+* [English](READMEs/README-English.md)
+* [Español](READMEs/README-Español.md)
+* [Русский](READMEs/README-Русский.md)
+* [Italiano](READMEs/README-Italiano.md)
+* [한국어](READMEs/README-한국어.md)
+* [Deutsch](READMEs/README-Deutsch.md)
+* [Français](READMEs/README-Français.md)
 
 A simple library for vector and matrix operations in JavaScript.
 
