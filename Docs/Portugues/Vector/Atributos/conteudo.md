@@ -20,3 +20,8 @@ console.log( vetor.conteudo )
 ```json
  [ 12, 5, 11, 8.5 ]
 ```
+
+Voce pode visualizar o código fonte completo da classe Vector aqui:
+* [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
+
+* [Voltar para página anterior](../page.md)

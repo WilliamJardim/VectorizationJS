@@ -25,3 +25,8 @@ console.log( vetor.raw() );
 ```
 
 Ou seja, neste exemplo acima, criamos um vetor que possui 10 elementos, e todos eles são o número 5.
+
+Voce pode visualizar o código fonte completo da classe Vector aqui:
+* [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
+
+* [Voltar para página anterior](../page.md)
