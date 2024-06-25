@@ -57,3 +57,8 @@ console.log("\nVetor com Matriz", resultado.raw())
 ```json
 [ 51, 97, 87, 1287 ]
 ```
+
+Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Vector**
+* [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
+
+* [Voltar para página anterior](../page.md)
