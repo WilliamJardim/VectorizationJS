@@ -26,10 +26,10 @@ Cada coluna é um número. Ou seja, as colunas são valores numéricos, que na m
 
 //Matrix com vetor
 var matrix1 = Vectorization.Matrix([
-    [3,8,6,50],
-    [1,2,2,100],
-    [4,5,5,5],
-    [1,2,2,2]
+    [ 3, 8, 6,  50 ],
+    [ 1, 2, 2, 100 ],
+    [ 4, 5, 5,   5 ],
+    [ 1, 2, 2,   2 ]
 ]);
 
 ```
@@ -39,10 +39,10 @@ var matrix1 = Vectorization.Matrix([
 ```javascript
 
 var matrix2 = Vectorization.Matrix([
-    [-5,2,3,2],
-    [1,25,1,50],
-    [2,5,3,5],
-    [1,4,4,2]
+    [ -5, 2, 3, 2  ],
+    [ 1, 25, 1, 50 ],
+    [ 2, 5,  3, 5  ],
+    [ 1, 4,  4, 2  ]
 ]);
 
 ```

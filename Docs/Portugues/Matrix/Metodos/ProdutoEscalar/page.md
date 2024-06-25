@@ -16,17 +16,17 @@ Quando estamos querendo fazer o produto escalar de uma matriz com outra matriz, 
 
 //Matrix com matrix
 var matrix1 = Vectorization.Matrix([
-    [3, 8, 6, 50 ],
-    [1, 2, 2, 100],
-    [4, 5, 5, 5  ],
-    [1, 2, 2, 2  ]
+    [ 3, 8, 6, 50  ],
+    [ 1, 2, 2, 100 ],
+    [ 4, 5, 5, 5   ],
+    [ 1, 2, 2, 2   ]
 ]);
 
 var matrix2 = Vectorization.Matrix([
-    [-5, 2, 3, 2 ],
-    [1, 25, 1, 50],
-    [2, 5, 3,  5 ],
-    [1, 4, 4,  2 ]
+    [ -5, 2, 3,  2 ],
+    [ 1, 25, 1, 50 ],
+    [ 2, 5,  3,  5 ],
+    [ 1, 4,  4,  2 ]
 ]);
 
 var resultado = matrix1.produtoEscalar(matrix2);
@@ -37,10 +37,10 @@ console.log("\nMatrix matrix1 com Matrix matrix2", resultado.raw())
 # Resultado do exemplo
 ```json
 [ 
-  [55,  436,  235,  536 ]
-  [101, 462,  411,  312 ]
-  [0,   178,  52,   293 ]
-  [3,   70,   19,   116 ] 
+  [ 55,  436,  235,  536 ]
+  [ 101, 462,  411,  312 ]
+  [ 0,   178,  52,   293 ]
+  [ 3,   70,   19,   116 ] 
 ]
 ```
 
@@ -51,10 +51,10 @@ Quando estamos querendo fazer o produto escalar de uma matriz com um vetor, as c
 ```javascript
 //Matrix com vetor
 var matrix = Vectorization.Matrix([
-    [3,8,6,50],
-    [1,2,2,100],
-    [4,5,5,5],
-    [1,2,2,2]
+    [ 3, 8, 6, 50 ],
+    [ 1, 2, 2, 100],
+    [ 4, 5, 5, 5  ],
+    [ 1, 2, 2, 2  ]
 ]);
 
 var vector = Vectorization.Vector([12, 5, 11, 8.5]);
@@ -75,3 +75,4 @@ Você poderá ver o código fonte dessas operações dentro da classe **Vectoriz
 ## Outros casos possíveis de produto escalar 
 Além disso, o contrário também é possivel. Ou seja, também podemos realizar o produto escalar de um vetor com outro vetor, e também de um vetor com uma matriz. As condições e requisitos são semelhantes, porém o método a ser seguido vai mudar um pouco também, e os resultados serão diferentes, pois a ordem importa. Ou seja, o resultado de fazer o produto escalar de uma matriz com um vetor vai ser matematicamente diferente de fazer o produto escalar de um vetor com uma matriz. Porém este tópico sobre produto escalar vai cobrir apenas os produtos escalares que podem ser realizados no contexto da matriz. Se você desejar aprender sobre produto escalar para vetores e seus casos, essa informação estará presente no tópico sobre produto escalar dos vetores, em outra página desta mesma documentação.
 
+* [Voltar para página anterior](../page.md)
