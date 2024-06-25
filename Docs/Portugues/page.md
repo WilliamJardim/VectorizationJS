@@ -6,3 +6,5 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 - [Matrix](Matrix/page.md)
 - [Vector](Matrix/page.md)
 - [Scalar](Scalar/page.md)
+
+* [Voltar para página anterior](../docs-main.md)
