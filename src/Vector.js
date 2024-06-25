@@ -743,7 +743,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Se existir uma tradução para a classe
     if(context._translations && typeof context._translations === 'function'){
-        context.translateMethods( context._translations() );
+        context.applyTranslations( context._translations() );
     }
 
     //return context;
