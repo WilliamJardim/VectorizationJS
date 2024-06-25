@@ -13,7 +13,7 @@ Nesta página você pode encontrar informações sobre a classe Scalar
  - Path: **Vectorization.Scalar**
 
 # Descrição geral
-Na matemática, escalares são basicamente números. Simplismente isso. Por exemplo, os números 2, 3, -5, 0, 10, 50, 1000, etc, todos eles são chamados de escalares. Em algebra linear e em vetores, cada elemento do vetor é um escalar. Esse termo é muito usado em algebra linear, e em matrizes, vetores, tensores, etc. Todos eles fazem uso do conceito de escalares.
+Na matemática, escalares são basicamente números. Simplismente isso. Por exemplo, os números 2, 3, -5, 0, 10, 50, 1000, etc, todos eles são chamados de escalares. Em algebra linear e em vetores, cada elemento do vetor é um escalar, **Veja [Vectorization.Vector](../Vector/page.md)**. Esse termo é muito usado em algebra linear, e em matrizes **(Veja  [Vectorization.Matrix](../Matrix/page.md))**, vetores, tensores, etc. Todos eles fazem uso do conceito de escalares.
 
 # Escalares no Vectorization
 No Vectorization, existe uma classe que serve especificamente para representar números(escalares). 
