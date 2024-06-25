@@ -350,6 +350,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.multiplicarNumero = function(numero){
         let vetorResultado = [];
+        let vectorA = context.content;
 
         for( let i = 0 ; i < vectorA.length ; i++ )
         {   
