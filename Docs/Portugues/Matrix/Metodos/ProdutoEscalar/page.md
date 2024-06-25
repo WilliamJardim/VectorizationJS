@@ -66,7 +66,7 @@ console.log("\nMatrix com vetor", resultado.raw())
 
 # Resultado do exemplo
 ```json
-[567, 894, 170.5, 61]
+[ 567, 894, 170.5, 61 ]
 ```
 
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**

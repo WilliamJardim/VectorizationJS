@@ -54,4 +54,4 @@ O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedade
 Voce pode visualizar o código fonte completo da classe Matrix aqui:
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Matrix.js)
 
-* [Voltar para página anterior](../Matrix/page.md)
+* [Voltar para página anterior](../page.md)
