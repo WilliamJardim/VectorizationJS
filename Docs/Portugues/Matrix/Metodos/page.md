@@ -7,5 +7,6 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
 
 **Lista de métodos:**
  - [Produto Escalar](ProdutoEscalar/page.md)
+ - [Multiplicação elemento a elemento](Multiplicacao/page.md)
 
 * [Voltar para página anterior](../page.md)
