@@ -39,7 +39,7 @@ The concepts implemented in this library were inspired by various sources, inclu
 ## Implementation
 The implementations were done independently, based on the understanding of mathematical concepts.
 
-# Licença
+# License
 **WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
 
 # Author and Contact Information:
