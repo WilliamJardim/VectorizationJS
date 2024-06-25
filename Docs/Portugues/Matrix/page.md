@@ -49,6 +49,19 @@ var matrix2 = Vectorization.Matrix([
 
 ```
 
+Também é possivel criar matrizes atravez de um objeto json, com paramêtros a atributos especificos. 
+
+# Criando matrizes usando objetos com paramêtros
+```javascript
+
+var matrix3 = Vectorization.Matrix({ 
+    valorPreencher: 10, 
+    linhas: 4, 
+    colunas: 2 
+});
+
+```
+
 # Métodos e atributos
 O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
 - [Métodos](Metodos/page.md)

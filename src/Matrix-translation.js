@@ -60,8 +60,11 @@ window.Vectorization.Matrix._translations = function(){
     const translatedAttributes = {
         //Portugues
         "valorPreencher": "fillValue",
+        "preencherValor": "fillValue",
         "matrizAvancada": "isAdvancedMatrix",
-        "matrixAvancada": "isAdvancedMatrix"
+        "matrixAvancada": "isAdvancedMatrix",
+        "linhas": "rows",
+        "colunas": "columns"
     };
 
     return {

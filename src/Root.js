@@ -121,7 +121,7 @@ window.Vectorization.Base = function(config){
            const nomeMetodoTraduzido = translationsKeys[i];
            const nomeOriginal = translations.translatedAttributes[nomeMetodoTraduzido];
 
-           if( nomeOriginal != undefined && !propioDicionario[nomeOriginal] && context[nomeOriginal] ){
+           if( nomeOriginal != undefined && !propioDicionario[nomeOriginal] ){
                novoObjeto[nomeOriginal] = propioDicionario[nomeMetodoTraduzido];
            }
         }
