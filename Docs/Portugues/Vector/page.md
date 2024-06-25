@@ -19,7 +19,7 @@ Vetores são estruturas matemáticas que permitem organizar elementos, em forma 
 Os vetores possuem identificadores para seus elementos, basicamente números, que na matemática são chamados de índices. Como no exemplo forncecido, o nome do primeiro produto na sua lista de compras seria o elemento de índice 1, ou seja o primeiro elemento.
 
 # Elementos
-Os elementos de um vetor podem ser qualquer coisa. Mais geralmente, como no caso de vetores na física e na matemática, os elementos são números, podendo ser inteiros ou decimais. Mais também podemos chamar cada elemento de escalar.
+Os elementos de um vetor podem ser qualquer coisa. Mais geralmente, como no caso de vetores na física e na matemática, os elementos são números, podendo ser inteiros ou decimais. Mais também podemos chamar cada elemento de escalar. **Veja [Vectorization.Scalar](../Scalar/page.md).**
 
 # Criação de vetores no Vectorization
 ```javascript

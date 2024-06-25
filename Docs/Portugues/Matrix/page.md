@@ -16,10 +16,10 @@ Nesta página você pode encontrar informações sobre a classe Matrix
 Uma matriz é uma estrutura matemática que possui linhas e colunas. Essa estrutura permite organizar os elementos desta forma. Matrizes são semelhantes a uma tabela, que também possui linhas e colunas. Tantos as linhas quanto as colunas possuem indices, que podem ser usados para acessar seus elementos. Dentro de uma matriz podemos ter quantas linhas e colunas quisermos.
 
 # Linhas
-A matriz por si só ja é um vetor. E, as linhas também são vetores. Na verdade, cada linha é um vetor. Isso por que a matriz é na realidade um vetor de vetores, ou seja, em outras palavras, matrizes são vetores dentro de vetores. Numa matriz podemos ter quantas linhas quisermos.
+A matriz por si só ja é um vetor. E, as linhas também são vetores, **Veja [Vectorization.Vector](../Vector/page.md)**. Na verdade, cada linha é um vetor. Isso por que a matriz é na realidade um vetor de vetores, ou seja, em outras palavras, matrizes são vetores dentro de vetores. Numa matriz podemos ter quantas linhas quisermos.
 
 # Colunas
-Cada coluna é um número. Ou seja, as colunas são valores numéricos, que na matemática também são chamados de escalares. Cada linha possui colunas, e podemos ter quantas colunas quisermos.
+Cada coluna é um número. Ou seja, as colunas são valores numéricos, que na matemática também são chamados de escalares. **Veja [Vectorization.Scalar](../Scalar/page.md)**. Cada linha possui colunas, e podemos ter quantas colunas quisermos.
 
 # Exemplos de criação de matrizes no Vectorization
 ```javascript
