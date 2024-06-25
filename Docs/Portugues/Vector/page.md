@@ -32,6 +32,20 @@ console.log(vetor);
 
 Para criar um vetor no Vectorization, podemos simplismente chamar a classe **Vectorization.Vector**, passando como paramêtro a lista de números, podendo ser eles inteiros ou decimais, é você quem escolhe.
 
+Além disso, também é possivel criar um vetor a partir de um objeto com paramêtros.
+
+# Criação de um vetor com objeto de paramêtros
+```javascript
+
+var vetor = Vectorization.Vector({ 
+    valorPreencher: 5, 
+    elementos: 10 
+});
+
+console.log( vetor.raw() );
+
+```
+
 # Métodos e atributos
 O objeto **Vectorization.Vector** possui varios métodos e atributos(propriedades). Você pode se aprofundar neles clicando nos links abaixo:
 - [Métodos](Metodos/page.md)

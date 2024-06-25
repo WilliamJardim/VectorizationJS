@@ -43,6 +43,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Ou caso contrario
     }else{
+        if( config instanceof Object && config['length'] ){
+            context.length = config['length'];
+        }
+
         //Inicializa o vetor
         for( let i = 0 ; i < context.length ; i++ )
         {
