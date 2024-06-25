@@ -1,3 +1,6 @@
+# Vectorization
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
+
 # Documentação oficial do Vectorization
 Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
@@ -6,7 +9,7 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 Nesta página você pode encontrar informações sobre o método **Multiplicação elemento a elemento** do objeto **Vectorization.Matrix**. 
 
 ## Informações gerais
-Diferente do produto escalar, na multiplicação elemento a elemento, nós literalmente multiplicamos cada elemento, ou seja, cada número, um por um, em suas posições correspondentes. Existem variações dessa técnica matemática. Por exemplo, ao multiplicar elemento a elemento uma matriz pela outra temos um passo a passo a ser seguido. Porém, ao multiplicar uma matriz com um vetor, temos outro passo a passo diferente. Vamos ver alguns deles.
+Diferente do produto escalar, na multiplicação elemento a elemento, nós literalmente multiplicamos cada elemento, ou seja, cada número, um por um, em suas posições correspondentes. Existem variações dessa técnica matemática. Por exemplo, ao multiplicar elemento a elemento uma matriz pela outra temos um passo a passo a ser seguido. Porém, ao multiplicar uma matriz com um vetor, temos outro passo a passo diferente. Vamos ver alguns deles. Lembrando que o método **Multiplicação elemento a elemento** do objeto **Vectorization.Matrix** é diferente do método **Produto Escalar**, **Veja [Produto Escalar](../ProdutoEscalar/page.md)**.
 
 ## Multiplicação de matriz com outra matriz
 Na **Multiplicação elemento a elemento**, de uma **Matriz** com outra **Matriz**, nós vamos basicamente multiplicar cada elemento da primeira matriz com a segunda matriz, nas suas respectivas posições correspondentes, ou seja, para calcular o primeiro elemento da matriz de resultado, vamos multiplicar o primeiro elemento da primeira linha da primeira matriz **com** o primeiro elemento da primeira linha da segunda matriz, ou seja, aqui as posições seriam linha 1, na coluna 1. **NOTA: Neste tipo de multiplicação, a quantidade de linhas e a quantidade de colunas de ambas as matrizes precisam ser exatamente iguais.**. E o resultado deve obrigatóriamente ser uma matriz, com exatamente a mesma quantidade de linhas e colunas.
