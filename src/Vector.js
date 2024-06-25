@@ -269,12 +269,15 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Scalar(produtoAtual);
     }
 
+    //Alias for produtoEscalar
+    context.produtoEscalarVetor = context.produtoEscalar;
+
     /**
      * Produto escalar entre este vetor e uma matrix
      * https://github.com/WilliamJardim/javascript-matematica/tree/main/produto-escalar-vetor-com-matriz
      * @param {Vectorization.Vector} vectorA 
      * @param {Vectorization.Vector} vectorB
-     * @returns {Vectorization.Scalar}
+     * @returns {Vectorization.Vector}
     */
     context.produtoEscalarMatrix = function(matrixA){
         let vectorB = context.content;
@@ -309,7 +312,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push(produtoAtual);
         }
     
-        return vetorResultado;
+        return Vectorization.Vector(vetorResultado);
     }
 
     /**
