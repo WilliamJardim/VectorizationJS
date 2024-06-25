@@ -8,6 +8,7 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 Nesta página você pode encontrar informações sobre os métodos disponíveis para uso na classe **Vectorization.Matrix**.
 
 **Lista de métodos:**
+ - [Matriz Transposta](Transposta/page.md)
  - [Produto Escalar](ProdutoEscalar/page.md)
  - [Multiplicação elemento a elemento](Multiplicacao/page.md)
 
