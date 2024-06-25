@@ -57,7 +57,7 @@ window.Vectorization.Matrix._translations = function(){
         "extractLineValues": "extrairValoresLinha",
 
         //Portugues
-        "obterTransposta": "tranposta"
+        "obterTransposta": "transposta"
     };
 
     const translatedAttributes = {

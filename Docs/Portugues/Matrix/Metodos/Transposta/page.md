@@ -21,6 +21,20 @@ var matrix = Vectorization.Matrix([
 
 var transpondo_matrix = matrix.obterTransposta();
 
+console.log( transpondo_matrix.raw() );
+
+```
+
+# Resultado deste exemplo
+```json
+
+[
+  [ 3,  1,   4, 1 ]
+  [ 8,  2,   5, 2 ]
+  [ 6,  2,   5, 2 ]
+  [ 50, 100, 5, 2 ]
+]
+
 ```
 
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
