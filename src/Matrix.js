@@ -21,6 +21,15 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.objectName = 'Matrix';
     context.path = 'Vectorization.Matrix';
 
+    //Aplica a tradução dos atributos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+    
+    //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
+    if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) )) ){
+        config = context.translateAttributes_andReturn(config, classConfig['translations']() );
+    }
+
+
     context.rows = config['rows'];
     context.columns = config['columns'];
     context.initialColumnValue = config['fillValue'] || 0;
@@ -60,6 +69,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }
         }
     }
+
+    //Alias em portugues
+    context.linhas = context.rows;
+    context.colunas = context.columns;
+    context.conteudo = context.content;
 
     /**
     * Método que converte a matrix para uma matrix avançada, onde cada linha é um Vector 
@@ -1107,7 +1121,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     //Se existir uma tradução para a classe
     if(context._translations && typeof context._translations === 'function'){
-        context.translateMethods( context._translations() );
+        context.applyTranslations( context._translations() );
     }
 
     //return context;

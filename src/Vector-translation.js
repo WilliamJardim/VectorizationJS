@@ -53,7 +53,14 @@ window.Vectorization.Vector._translations = function(){
         "identity": "identidade"
     };
 
+    const translatedAttributes = {
+        //Portugues
+        "valorPreencher": "fillValue",
+        "elementos": "length"
+    };
+
     return {
-        translatedMethods: translatedMethods
+        translatedMethods: translatedMethods,
+        translatedAttributes: translatedAttributes
     };
 }

@@ -21,6 +21,14 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.objectName = 'Vector';
     context.path = 'Vectorization.Vector';
 
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+
+    //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
+    if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
+        config = context.translateAttributes_andReturn(config, classConfig['translations']() );
+    }
+
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
@@ -52,6 +60,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Alias for context.toArray
     context.raw = context.toArray;
+
+    //Alias for context.content
+    context.conteudo = context.content;
 
     context.sizeOf = function(){
         return context.length;

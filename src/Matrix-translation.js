@@ -57,7 +57,15 @@ window.Vectorization.Matrix._translations = function(){
         "extractLineValues": "extrairValoresLinha"
     };
 
+    const translatedAttributes = {
+        //Portugues
+        "valorPreencher": "fillValue",
+        "matrizAvancada": "isAdvancedMatrix",
+        "matrixAvancada": "isAdvancedMatrix"
+    };
+
     return {
-        translatedMethods: translatedMethods
+        translatedMethods: translatedMethods,
+        translatedAttributes: translatedAttributes
     };
 }

@@ -85,14 +85,88 @@ window.Vectorization.Base = function(config){
         }
     }
 
+    //Métodos responsavel por fazer as traduções dos atributos
+    context.translateAttributes = function(translations) {
+        let translationsKeys;
+
+        //Traduz os atributos
+        translationsKeys = Object.keys(translations.translatedAttributes);
+
+        //Percorre cada nome a ser traduzido
+        for(let i = 0 ; i < translationsKeys.length ; i++)
+        {
+           const nomeMetodoTraduzido = translationsKeys[i];
+           const nomeOriginal = translations.translatedAttributes[nomeMetodoTraduzido];
+
+           //Aplica a tradução no atributo
+           if(context[nomeOriginal] != undefined && typeof context[nomeOriginal] != 'function' && !context[nomeMetodoTraduzido] ){
+              context[nomeMetodoTraduzido] = context[nomeOriginal];
+           }
+        }
+    }
+
+    //Parecido com a função translateAttributes, porém ele faz essa tradução e retorna um objeto com as traduções aplicadas
+    //No caso o translationsDicionario pode ser um objeto ja pronto que só precisa ser traduzido
+    //Isso vai ser usado na inicialização de algumas classes como Vectorization.Matrix e Vectorization.Vector
+    context.translateAttributes_andReturn = function(propioDicionario, translations){
+        let translationsKeys;
+        let novoObjeto = {... propioDicionario};
+
+        //Traduz os atributos
+        translationsKeys = Object.keys(propioDicionario);
+
+        //Percorre cada nome a ser traduzido
+        for(let i = 0 ; i < translationsKeys.length ; i++)
+        {
+           const nomeMetodoTraduzido = translationsKeys[i];
+           const nomeOriginal = translations.translatedAttributes[nomeMetodoTraduzido];
+
+           if( nomeOriginal != undefined && !propioDicionario[nomeOriginal] && context[nomeOriginal] ){
+               novoObjeto[nomeOriginal] = propioDicionario[nomeMetodoTraduzido];
+           }
+        }
+
+        return novoObjeto;
+    }
+
+    //Para não ter problemas com atributos desatualizados
+    context.atualizarAtributosTraduzidos = function(translations=context._internal_translations){
+        let translationsKeys;
+
+        //Pegar os atributos traduzidos
+        translationsKeys = Object.keys(translations.translatedAttributes);
+
+        //Percorre cada nome a ser traduzido
+        for(let i = 0 ; i < translationsKeys.length ; i++)
+        {
+            const nomeMetodoTraduzido = translationsKeys[i];
+            const nomeOriginal = translations.translatedAttributes[nomeMetodoTraduzido];
+
+            if( nomeOriginal != undefined && 
+                typeof context[nomeMetodoTraduzido] != 'function' && 
+                typeof context[nomeOriginal] != 'function' &&
+                context[nomeOriginal] != undefined &&
+                context[nomeMetodoTraduzido] != undefined
+            ){
+                context[nomeMetodoTraduzido] = context[nomeOriginal];
+            }
+        }
+    }
+
     //Start class
     context.copyArgs(config);
     context._doDefaultBaseAfterCreate();
 
-    //Se existir uma tradução para a classe
-    if(context._translations && typeof context._translations === 'function'){
-        context.translateMethods( context._translations() );
+    context.applyTranslations = function(translationFunction=null){
+        //Se existir uma tradução para a classe
+        if(context._translations && typeof context._translations === 'function'){
+            context._internal_translations = translationFunction || context._translations();
+            context.translateMethods( context._internal_translations );
+            context.translateAttributes( context._internal_translations );
+        }
     }
+
+    context.applyTranslations(null);
 
     return context;
 }
