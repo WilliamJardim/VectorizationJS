@@ -4,7 +4,7 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 
 ## Sumário
 - [Matrix](Matrix/page.md)
-- [Vector](Matrix/page.md)
+- [Vector](Vector/page.md)
 - [Scalar](Scalar/page.md)
 
 * [Voltar para página anterior](../docs-main.md)
