@@ -47,6 +47,7 @@ var matrix2 = Vectorization.Matrix([
 
 ```
 
+# Métodos e atributos
 O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
 - [Métodos](Metodos/page.md)
 - [Atributos](Atributos/page.md)

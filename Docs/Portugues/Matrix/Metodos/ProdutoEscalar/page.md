@@ -57,9 +57,9 @@ var matrix = Vectorization.Matrix([
     [ 1, 2, 2, 2  ]
 ]);
 
-var vector = Vectorization.Vector([12, 5, 11, 8.5]);
+var vetor = Vectorization.Vector([12, 5, 11, 8.5]);
 
-var resultado = matrix.produtoEscalar(vector);
+var resultado = matrix.produtoEscalar(vetor);
 
 console.log("\nMatrix com vetor", resultado.raw())
 ```
