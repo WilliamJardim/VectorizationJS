@@ -1,3 +1,21 @@
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+
+    require('./src/Root');
+    require('./src/Matrix');
+    require('./src/Matrix-translation');
+    require('./src/Vector');
+    require('./src/Vector-translation');
+    require('./src/Scalar');
+    
+//Se for navegador
+}else{
+    globalThis.module = {};
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
 //Vetor com vetor
 var vec1 = Vectorization.Vector([5,10,5,6])
 var vec2 = Vectorization.Vector([2,8,-5,-10])

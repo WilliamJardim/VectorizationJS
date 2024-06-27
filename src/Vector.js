@@ -6,6 +6,17 @@
  * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
 */
 
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Vector = function( config=[], classConfig={} ){
@@ -777,3 +788,5 @@ window.Vectorization.Vector.isVector = function(obj){
 window.Vectorization.Vector.isVectorizationVector = function(obj){
     return (obj.objectName != undefined && obj.objectName == 'Vector')
 }
+
+module.exports = window.Vectorization.Vector;
