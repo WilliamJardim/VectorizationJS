@@ -5,9 +5,9 @@ Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 ## Sumário
-- [Matrix](Matrix/page.md)
-- [Vector](Vector/page.md)
-- [Scalar](Scalar/page.md)
+- [Vectorization.Matrix - Classe Matrix](Matrix/page.md)
+- [Vectorization.Vector - Classe Vector](Vector/page.md)
+- [Vectorization.Scalar - Classe Scalar](Scalar/page.md)
 
 # Navegação
 * [Trocar idioma](../docs-main.md)
