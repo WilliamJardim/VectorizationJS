@@ -50,7 +50,14 @@ window.Vectorization.Vector._translations = function(){
 
         "oppostMatrix": "matrixOposta",
 
-        "identity": "identidade"
+        "identity": "identidade",
+
+        //Portugues
+        "somarMatriz": "somarMatrix",
+        "subtrairMatriz": "subtrairMatrix",
+        "multiplicarMatriz": "multiplicarMatrix",
+        "elevarMatriz": "elevarMatrix",
+        "produtoEscalarMatriz": "produtoEscalarMatrix"
     };
 
     const translatedAttributes = {
