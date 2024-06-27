@@ -11,5 +11,7 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
  - [Matriz Transposta](Transposta/page.md)
  - [Produto Escalar](ProdutoEscalar/page.md)
  - [Multiplicação elemento a elemento](Multiplicacao/page.md)
+ - [Soma elemento a elemento](Soma/page.md)
+ - [Subtração elemento a elemento](Subtracao/page.md)
 
 * [Voltar para página anterior](../page.md)
