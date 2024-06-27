@@ -38,4 +38,5 @@ O objeto **Vectorization.Scalar** possui alguns poucos métodos e atributos(prop
 Voce pode visualizar o código fonte completo da classe Scalar aqui:
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Scalar.js)
 
+# Navegação
 * [Voltar para página anterior](../page.md)

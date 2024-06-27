@@ -129,4 +129,5 @@ console.log( resultado.raw() )
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Matrix.js)
 
+# Navegação
 * [Voltar para página anterior](../page.md)

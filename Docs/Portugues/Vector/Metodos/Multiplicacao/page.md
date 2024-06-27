@@ -65,4 +65,5 @@ Aqui neste exemplo, o que foi feito é basicamente uma multiplicação de cada e
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Vector**
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
 
+# Navegação
 * [Voltar para página anterior](../page.md)

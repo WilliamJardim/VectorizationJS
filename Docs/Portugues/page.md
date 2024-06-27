@@ -9,4 +9,6 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 - [Vector](Vector/page.md)
 - [Scalar](Scalar/page.md)
 
+# Navegação
+* [Trocar idioma](../docs-main.md)
 * [Voltar para página anterior](../docs-main.md)

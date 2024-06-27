@@ -54,4 +54,5 @@ O objeto **Vectorization.Vector** possui varios métodos e atributos(propriedade
 Voce pode visualizar o código fonte completo da classe Vector aqui:
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
 
+# Navegação
 * [Voltar para página anterior](../page.md)

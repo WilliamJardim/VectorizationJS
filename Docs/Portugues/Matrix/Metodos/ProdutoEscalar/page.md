@@ -95,4 +95,5 @@ Você poderá ver o código fonte dessas operações dentro da classe **Vectoriz
 ## Outros casos possíveis de produto escalar 
 Além disso, o contrário também é possivel. Ou seja, também podemos realizar o produto escalar de um vetor com outro vetor, e também de um vetor com uma matriz. As condições e requisitos são semelhantes, porém o método a ser seguido vai mudar um pouco também, e os resultados serão diferentes, pois a ordem importa. Ou seja, o resultado de fazer o produto escalar de uma matriz com um vetor vai ser matematicamente diferente de fazer o produto escalar de um vetor com uma matriz. Porém este tópico sobre produto escalar vai cobrir apenas os produtos escalares que podem ser realizados no contexto da matriz. Se você desejar aprender sobre produto escalar para vetores e seus casos, essa informação estará presente no tópico sobre produto escalar dos vetores, em outra página desta mesma documentação.
 
+# Navegação
 * [Voltar para página anterior](../page.md)

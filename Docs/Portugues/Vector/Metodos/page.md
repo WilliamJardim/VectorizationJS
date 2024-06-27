@@ -11,4 +11,5 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
  - [Produto Escalar](ProdutoEscalar/page.md)
  - [Multiplicação elemento a elemento](Multiplicacao/page.md)
 
+# Navegação
 * [Voltar para página anterior](../page.md)
