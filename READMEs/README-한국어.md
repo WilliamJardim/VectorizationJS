@@ -26,6 +26,9 @@ JavaScript로 벡터 및 행렬 연산을 위한 간단한 라이브러리입니
 ## 소스 코드
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## 예
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## 결과 비교
 **참고:** "compararResultados.py" 파일은 프로젝트의 일부가 아닙니다. 결과를 비교하기 위해서만 존재하며 프로젝트와 관련이 없습니다.
 

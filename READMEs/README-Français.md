@@ -26,6 +26,9 @@ Une bibliothèque simple pour les opérations sur les vecteurs et les matrices e
 ## Code source
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## Exemples
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## Comparaison des résultats
 **REMARQUE :** Le fichier "compararResultados.py" ne fait pas partie du projet. Il est uniquement présent pour comparer les résultats et n'est pas lié au projet.
 

@@ -26,6 +26,9 @@ Uma biblioteca simples para operações vetoriais e matriciais em JavaScript.
 ## Código fonte
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## Exemplos
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## Comparação dos resultados
 **NOTA:** O arquivo `compararResultados.py` não faz parte do projeto. Ele está presente apenas para comparar os resultados e não está relacionado ao projeto.
 

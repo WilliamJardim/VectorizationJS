@@ -26,6 +26,9 @@ Eine einfache Bibliothek für Vektor- und Matrixoperationen in JavaScript.
 ## Quellcode
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## Beispiele
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## Vergleich der Ergebnisse
 **HINWEIS:** Die Datei "compararResultados.py" ist nicht Teil des Projekts. Sie ist nur zum Vergleichen der Ergebnisse vorhanden und nicht mit dem Projekt verbunden.
 

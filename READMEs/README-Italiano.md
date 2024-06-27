@@ -26,6 +26,9 @@ Una semplice libreria per operazioni con vettori e matrici in JavaScript.
 ## Codice sorgente
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## Esempi
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## Confronto dei risultati
 **NOTA:** Il file "compararResultados.py" non fa parte del progetto. È presente solo per confrontare i risultati e non è correlato al progetto.
 

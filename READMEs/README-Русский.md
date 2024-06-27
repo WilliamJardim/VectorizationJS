@@ -26,6 +26,9 @@
 ## Источник
 https://github.com/WilliamJardim/Vectorization/tree/main/src
 
+## Примеры
+https://github.com/WilliamJardim/Vectorization/tree/main/examples
+
 ## Сравнение результатов
 **ЗАМЕТКА:** Файл "compararResultados.py" не является частью проекта. Он присутствует только для сравнения результатов и не связан с проектом.
 
