@@ -9,6 +9,9 @@
 //Compatibilidade com NodeJS
 if( typeof window === 'undefined' ){
     global.window = global; 
+    require('./Root');
+    require('./Scalar');
+    require('./Vector');
     
 //Se for navegador
 }else{

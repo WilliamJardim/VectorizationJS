@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Browser import example </title>
+</head>
+<body>
+    <h1> Press F12 to view console </h1>
+</body>
+
+<script src="../src/Root.js"></script>
+<script src="../src/Scalar.js"></script>
+
+<script src="../src/Vector.js"></script>
+<script src="../src/Vector-translation.js"></script>
+
+<script src="../src/Matrix.js"></script>
+<script src="../src/Matrix-translation.js"></script>
+
+<script>
+    console.log( window.Vectorization.author );
+    console.log( window.Vectorization.version );
+
+    //Vetor com vetor
+    var vec1 = Vectorization.Vector([5,10,5,6])
+    var vec2 = Vectorization.Vector([2,8,-5,-10])
+
+    var result = vec1.produtoEscalar( vec2 );
+
+    console.log("\nVetor vec1 com vetor vec2", result);
+
+
+    //Matrix com vetor
+    var matrix1 = Vectorization.Matrix([
+        [3,8,6,50],
+        [1,2,2,100],
+        [4,5,5,5],
+        [1,2,2,2]
+    ]);
+
+    var vec3 = Vectorization.Vector([12, 5, 11, 8.5]);
+
+    var result = matrix1.produtoEscalar(vec3);
+
+    console.log("\nMatrix matrix1 com vec3", result.values())
+
+
+
+    //Matrix com matrix
+    var matrix1 = Vectorization.Matrix([
+        [3,8,6,50],
+        [1,2,2,100],
+        [4,5,5,5],
+        [1,2,2,2]
+    ]);
+
+    var matrix2 = Vectorization.Matrix([
+        [-5,2,3,2],
+        [1,25,1,50],
+        [2,5,3,5],
+        [1,4,4,2]
+    ]);
+
+    var result = matrix1.produtoEscalar(matrix2);
+
+    console.log("\nMatrix matrix1 com matrix matrix2", result.values())
+
+
+    var resultMultiplicar = matrix1.multiplicarMatrix(matrix2);
+    console.log("\nMULTIPLICAR ELEMENTO A ELEMENTO A Matrix matrix1 com matrix matrix2", resultMultiplicar.values());
+
+</script>
+
+</html>

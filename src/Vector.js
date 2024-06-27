@@ -9,6 +9,8 @@
 //Compatibilidade com NodeJS
 if( typeof window === 'undefined' ){
     global.window = global; 
+    require('./Scalar');
+    require('./Root');
     
 //Se for navegador
 }else{
