@@ -13,6 +13,8 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
  - [Multiplicação elemento a elemento](Multiplicacao/page.md)
  - [Soma elemento a elemento](Soma/page.md)
  - [Subtração elemento a elemento](Subtracao/page.md)
+ - [Divisão elemento a elemento](Divisao/page.md)
+ - [Potenciação elemento a elemento](Potenciacao/page.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)
