@@ -67,9 +67,54 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
     }
 
+    /**
+     * Permite definir uma posição especifica deste vetor
+     * @param {Number} indice 
+     * @param {any} valor 
+     */
+    context.definirElementoNoIndice = function(indice, valor){
+        context.content[indice] = valor;
+    }
+
+    context.estaVazio = function(){
+        return context.tamanho() == 0 ? true : false;
+    }
+    context.isVazio = context.estaVazio;
+
+    /**
+     * Permite trocar todos os valores deste vetor, elemento a elemento
+     * por valores que vem de outro vetor, com a mesma quantidade de elementos
+     * 
+     * @param {Vectorization.Vector} outroVector - O outro vetor que contem os valores
+     * @returns {Vectorization.Vector}
+     */
+    context.substituirElementosPor = function(outroVector){
+        let valoresASeremColocados = (Vectorization.Vector.isVector(outroVector) && Vectorization.Vector.isVectorizationVector(outroVector)) ? outroVector.valores() : outroVector;
+        let tamanhoSegundoVetor = (Vectorization.Vector.isVector(outroVector) && Vectorization.Vector.isVectorizationVector(outroVector)) ? outroVector.tamanho() : outroVector.length;
+
+        if(context.tamanho() != tamanhoSegundoVetor){
+            throw 'O tamanho do outroVetor precisa ser o mesmo!';
+        }
+        
+        if( context.tamanho() > 0 )
+        {
+            Vectorization.Vector(context.content).paraCadaElemento(function(indiceTrocar, elementoTrocar){
+                context.definirElementoNoIndice(indiceTrocar, valoresASeremColocados[indiceTrocar]);
+            });
+
+        }else{
+            throw 'O Vectorization.Vector não pode estar vazio!';
+        }
+
+        return valoresASeremColocados;
+    }
+
     context.values = function(){
         return context.content;
     }
+
+    //Alias for context.values
+    context.valores = context.values;
 
     context.toArray = function(){
         return context.content;
@@ -113,6 +158,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         context.content.push(element);
         context._update();
     }
+    context.adicionarElemento = context.push;
+
 
     context.readIndex = function(i){
         return context.content[i];
@@ -272,6 +319,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     /**
     * Percorre cada elemento do vetor, aplicando uma função de callback, retornando um resultado
     * @param {Function} callback(index, element, context)
+    * @returns {Vectorization.Vector}
     */
     context.map = function(callback){
         let novoVetor = [];
@@ -281,8 +329,100 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = callback( i, context.content[i], context );
         }
 
-        return novoVetor;
+        return Vectorization.Vector(novoVetor);
     }
+
+
+    //Também, se o config for um objeto(NÂO FOR UM ARRAY)
+    if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
+        context.aleatorio = config['aleatorio'] || false;
+        
+        if( context.aleatorio == true ){
+            context.content = []; // Zero o conteudo
+
+            //Se tem outros detalhes
+            if( config['minimo'] != undefined && 
+                config['maximo'] != undefined && 
+                config['elementos'] != undefined &&
+                typeof config['minimo'] == 'number' &&
+                typeof config['maximo'] == 'number' &&
+                typeof config['elementos'] == 'number'
+            ){
+                //Grava os parametros
+                context.minimoAleatorio = config['minimo'];
+                context.maximoAleatorio = config['maximo'];
+
+                //Se tiver um número base
+                if( config['sementeAleatoria'] != undefined &&
+                    typeof config['sementeAleatoria'] == 'number'
+                ){
+                    context.sementeAleatoria = config['sementeAleatoria'];
+                }else{
+                    context.sementeAleatoria = Vectorization.Random._sementeDefinida;
+                }
+
+                //Vai gerando os valores aleatorios enquanto não terminar a quantidade de elementos
+                while( context.content.length < config['elementos'] )
+                {
+                    let numeroAleatorioGeradoParaOIndice = Vectorization.Random.gerarNumeroAleatorio( Number(context.minimoAleatorio), Number(context.maximoAleatorio), context.sementeAleatoria );
+                    context.adicionarElemento( numeroAleatorioGeradoParaOIndice );
+                }
+
+                //Se o programador quiser arredondar
+                if( config['arredondar'] != undefined ){
+                    switch(config['arredondar']){
+                        case true:
+                            context.substituirElementosPor(
+                                Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                                    return Math.round(valor);
+                                }).valores()
+                            );
+                            break;
+
+                        case 'cima':
+                        case 'up':
+                            context.substituirElementosPor(
+                                Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                                    return Math.ceil(valor);
+                                }).valores()
+                            );
+                            break;
+            
+                        case 'baixo':
+                        case 'down':
+                            context.substituirElementosPor(
+                                Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                                    return Math.floor(valor);
+                                }).valores()
+                            );
+                            break;
+
+                        case 'automatico':
+                        case 'auto':
+                            context.substituirElementosPor(
+                                Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                                    return Math.round(valor);
+                                }).valores()
+                            );
+                            break;
+                    }
+                }
+
+            }else{
+                if( typeof config['minimo'] != 'number' ||
+                    typeof config['maximo'] != 'number' ||
+                    typeof config['elementos'] != 'number' 
+                ){
+                    throw 'Os valores minimo, máximo e quantidade de elementos precisam ser números!. Tipo não permitido.'
+                
+                }else{
+                    throw 'Para criar um Vector aleatório voce precisar passar a faixa de valores e a quantidade de elementos!';
+                }
+            }
+        }
+    }
+
+    //OUTROS MÉTODOS ABAIXO
 
     /**
      * Produto escalar entre dois vetores

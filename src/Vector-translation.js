@@ -73,7 +73,9 @@ window.Vectorization.Vector._translations = function(){
         "elevarMatriz": "elevarMatrix",
         "produtoEscalarMatriz": "produtoEscalarMatrix",
         
-        "paraCadaElemento": "forEach"
+        "paraCadaElemento": "forEach",
+        "adicionarElemento": "push",
+        "mapearValores": "map"
     };
 
     const translatedAttributes = {

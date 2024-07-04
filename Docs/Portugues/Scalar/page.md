@@ -30,6 +30,25 @@ var meu_numero_3 = Vectorization.Scalar(3);
 
 A única diferença de um **Vectorization.Scalar** para um número normal, é que a classe escalar possui alguns métodos e atributos. Ou seja, ela serve para representar números, e faz isso de uma forma personalizada. O objeto **Vectorization.Scalar** é usado internamente pelo Vectorization, em situações especificas, como por exemplo, quando fazemos certas operações como produto escalar em vetores, o resultado vai ser um objeto do tipo **Vectorization.Scalar**, ou seja um escalar.
 
+# Criando escalares aleatórios
+Também é possivel criar um **Vectorization.Scalar** contendo um número aleatório.
+Veja um exemplo disso abaixo:
+
+```javascript
+
+var meu_numero_aleatorio = Vectorization.Scalar({ 
+    aleatorio: true, 
+    minimo: 0, 
+    maximo: 5, 
+    sementeAleatoria: 45 
+});
+
+```
+
+Também é possivel passar o parametro **arredondar**, que permite arredondar o número gerado para cima, ou para baixo, etc.
+
+Para gerar o número aleatório, o Vectorization usa a classe interna **Vectorization.Random**.
+
 # Métodos e atributos
 O objeto **Vectorization.Scalar** possui alguns poucos métodos e atributos(propriedades). Você pode se aprofundar neles clicando nos links abaixo:
 - [Métodos](Metodos/page.md)

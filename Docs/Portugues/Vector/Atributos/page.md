@@ -11,6 +11,7 @@ Nesta página você pode encontrar informações sobre os atributos(propriedades
  - [conteudo](conteudo.md)
  - [elementos](elementos.md)
  - [valorPreencher](valorPreencher.md)
+ - [arredondar](arredondar.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)

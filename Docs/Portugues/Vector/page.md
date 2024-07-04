@@ -46,6 +46,27 @@ console.log( vetor.raw() );
 
 ```
 
+# Criando vetores contendo números aleatórios
+Também é possivel criar um **Vectorization.Vector** contendo números aleatórios.
+Veja um exemplo disso abaixo:
+
+```javascript
+
+var vetor_aleatorio = Vectorization.Vector({ 
+    aleatorio: true, 
+    minimo: 0, 
+    maximo: 5, 
+    elementos: 5
+});
+
+console.log( vetor_aleatorio.raw() );
+
+```
+
+Também é possivel passar o parametro **arredondar**, que permite arredondar os números gerados para cima, ou para baixo, etc.
+
+Para gerar o número aleatório, o Vectorization usa a classe interna **Vectorization.Random**.
+
 # Métodos e atributos
 O objeto **Vectorization.Vector** possui varios métodos e atributos(propriedades). Você pode se aprofundar neles clicando nos links abaixo:
 - [Métodos](Metodos/page.md)
