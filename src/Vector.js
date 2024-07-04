@@ -419,6 +419,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                     throw 'Para criar um Vector aleatório voce precisar passar a faixa de valores e a quantidade de elementos!';
                 }
             }
+
+            context.conteudo = context.content;
         }
     }
 
