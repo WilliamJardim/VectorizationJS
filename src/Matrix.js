@@ -89,6 +89,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.colunas = context.columns;
     context.conteudo = context.content;
 
+    //Uma matriz simples nunca vai ser profunda
+    context.matrixProfunda = false;
+
     /**
     * Método que converte a matrix para uma matrix avançada, onde cada linha é um Vector 
     */
@@ -102,6 +105,25 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
         context.isAdvancedMatrix = true;
     }
+
+    /**
+    * Obtem uma nova matriz exatamente igual a esta matrix.
+    * Ou seja, faz um copia do propio objeto, identico, porém sem manter as referencias. 
+    * @returns {Vectorization.Matrix}
+    */
+    context.duplicar = function(){
+        let novaMatrix = [];
+        
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
+        }
+
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    //Alias for duplicar
+    context.clonar = context.duplicar;
 
     /**
     * Calcula a forma (shape) da matrix
@@ -1162,6 +1184,10 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 * Métodos estáticos
 */
 window.Vectorization.Matrix.isMatrix = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Matrix');
+}
+
+window.Vectorization.Matrix.isVectorizationMatrix = function(obj){
     return (obj.objectName != undefined && obj.objectName == 'Matrix');
 }
 

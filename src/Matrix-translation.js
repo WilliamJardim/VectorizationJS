@@ -24,6 +24,9 @@ if(!window.Vectorization){ window.Vectorization = {} };
 window.Vectorization.Matrix._translations = function(){
     const translatedMethods = {
         //English
+        "deepLevel": "nivelProfundidade",
+        "getDeepLevel": "nivelProfundidade",
+
         "dotProduct": "produtoEscalar",
 
         "dotProductMatrix": "produtoEscalarMatrix",
@@ -86,7 +89,10 @@ window.Vectorization.Matrix._translations = function(){
         "matrizAvancada": "isAdvancedMatrix",
         "matrixAvancada": "isAdvancedMatrix",
         "linhas": "rows",
-        "colunas": "columns"
+        "colunas": "columns",
+
+        //Ingles
+        "deepMatrix": "matrixProfunda"
     };
 
     return {

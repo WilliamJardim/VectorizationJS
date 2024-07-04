@@ -78,6 +78,26 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     //Alias for context.toArray
     context.raw = context.toArray;
 
+    /**
+    * Obtem um novo Vector exatamente igual a este Vector
+    * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 
+    * @returns {Vectorization.Vector}
+    */
+    context.duplicar = function(){
+        let novoVector = [];
+        
+        for( let i = 0 ; i < context.length ; i++ )
+        {
+            novoVector.push( context.readIndex(i) );
+        }
+
+        return Vectorization.Vector(novoVector);
+    }
+
+    //Alias for duplicar
+    context.clonar = context.duplicar;
+
+
     //Alias for context.content
     context.conteudo = context.content;
 
@@ -607,6 +627,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.dividirNumero = function(numero){
         let novoVetor = [];
+        let vectorA = context.content;
 
         for( let i = 0 ; i < vectorA.length ; i++ )
         {
