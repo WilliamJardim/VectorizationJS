@@ -84,6 +84,102 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+
+    //Também, se o config for um objeto(NÂO FOR UM ARRAY)
+    if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
+        context.aleatorio = config['aleatorio'] || false;
+        
+        if( context.aleatorio == true ){
+            context.content = []; // Zero o conteudo
+
+            //Se tem outros detalhes
+            if( config['minimo'] != undefined && 
+                config['maximo'] != undefined && 
+                config['linhas'] != undefined &&
+                config['colunas'] != undefined &&
+                typeof config['minimo'] == 'number' &&
+                typeof config['maximo'] == 'number' &&
+                typeof context.rows == 'number' &&
+                typeof context.columns == 'number'
+            ){
+                //Grava os parametros
+                context.minimoAleatorio = config['minimo'];
+                context.maximoAleatorio = config['maximo'];
+
+                //Se tiver um número base
+                if( config['sementeAleatoria'] != undefined &&
+                    typeof config['sementeAleatoria'] == 'number'
+                ){
+                    context.sementeAleatoria = config['sementeAleatoria'];
+                }else{
+                    context.sementeAleatoria = Vectorization.Random._sementeDefinida;
+                }
+
+                //Vai gerando os valores aleatorios enquanto não terminar a quantidade de elementos
+                Vectorization.Vector({
+                    valorPreencher: 1,
+                    elementos: context.rows
+
+                }).paraCadaElemento(function(iLinhaMatrix, linhaMatrix){
+                    let objLinhaMatrix = linhaMatrix;
+                    context.content[iLinhaMatrix] = [];
+
+                    Vectorization.Vector({
+                        valorPreencher: 1,
+                        elementos: context.columns
+
+                    }).paraCadaElemento(function(jColunaMatrix, colunaMatrix){
+                        let objColunaMatrix = colunaMatrix;
+                        
+                        let numeroAleatorioGeradoParaOIndice = Vectorization.Random.gerarNumeroAleatorio( Number(context.minimoAleatorio), Number(context.maximoAleatorio), context.sementeAleatoria );
+                        context.content[iLinhaMatrix][jColunaMatrix] = numeroAleatorioGeradoParaOIndice;
+                    });
+                });
+
+                //Se o programador quiser arredondar
+                if( config['arredondar'] != undefined ){
+                    Vectorization.Vector({
+                        valorPreencher: 1,
+                        elementos: context.rows
+    
+                    }).paraCadaElemento(function(iLinhaMatrix, linhaMatrix){
+                        let objLinhaMatrix = context.content[iLinhaMatrix];
+
+                        if( Vectorization.Vector.isVector(objLinhaMatrix) &&
+                            Vectorization.Vector.isVectorizationVector(objLinhaMatrix)
+                        ){
+                           objLinhaMatrix.aplicarArredondamento(config['arredondar']);
+
+                        }else{
+                            if( Vectorization.Vector.isVector(objLinhaMatrix) )
+                            {
+                                let valoresObtidos = Vectorization.Vector(objLinhaMatrix).getValoresArredondados(config['arredondar']);
+                                
+                                for( let i = 0 ; i < valoresObtidos.tamanho() ; i++ )
+                                {
+                                    objLinhaMatrix[i] = valoresObtidos.readIndex(i);
+                                }
+                            }
+                        }
+                    });
+                }
+
+            }else{
+                if( typeof config['minimo'] != 'number' ||
+                    typeof config['maximo'] != 'number' ||
+                    typeof context.rows != 'number' || 
+                    typeof context.columns != 'number'
+                ){
+                    throw 'Os valores minimo, máximo e quantidade de elementos das linhas e colunas precisam ser números!. Tipo não permitido.'
+                
+                }else{
+                    throw 'Para criar uma Matrix aleatório voce precisar passar a faixa de valores e a quantidade de elementos nas linhas e colunas!';
+                }
+            }
+        }
+    }
+
+
     //Alias em portugues
     context.linhas = context.rows;
     context.colunas = context.columns;

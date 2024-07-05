@@ -424,6 +424,79 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
     }
 
+
+    /**
+    * Retorna os valores deste Vectorization.Vector como arredondados.
+    * @param {String} tipoArredondamentoAplicar
+    * @returns {Vectorization.Vector}
+    */
+    context.getValoresArredondados = function(tipoArredondamentoAplicar='cima'){
+        let novoVetorArredondado = Vectorization.Vector( context.duplicar() );
+
+        //Se o programador quiser arredondar
+        if( tipoArredondamentoAplicar != undefined ){
+            switch(tipoArredondamentoAplicar){
+                case true:
+                    novoVetorArredondado.substituirElementosPor(
+                        Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                            return Math.round(valor);
+                        }).valores()
+                    );
+                    break;
+
+                case 'cima':
+                case 'up':
+                    novoVetorArredondado.substituirElementosPor(
+                        Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                            return Math.ceil(valor);
+                        }).valores()
+                    );
+                    break;
+    
+                case 'baixo':
+                case 'down':
+                    novoVetorArredondado.substituirElementosPor(
+                        Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                            return Math.floor(valor);
+                        }).valores()
+                    );
+                    break;
+
+                case 'automatico':
+                case 'auto':
+                    novoVetorArredondado.substituirElementosPor(
+                        Vectorization.Vector(context.content).mapearValores(function(iValor, valor){
+                            return Math.round(valor);
+                        }).valores()
+                    );
+                    break;
+
+                default:
+                    if(tipoArredondamentoAplicar != false){
+                        throw 'Voce precisa falar que tipo de arredondamento voce quer fazer!';
+                    }
+                    break;
+            }
+        }
+
+        return novoVetorArredondado;
+    }
+
+    /**
+    * Aplica um arredondamento sobre os valores deste vetor
+    * CUIDADO: isso vai sobrescrever os valores
+    * 
+    * @param {String} tipoArredondamentoAplicar
+    * @returns {Vectorization.Vector} - o propio vetor
+    */
+    context.aplicarArredondamento = function(tipoArredondamentoAplicar='cima'){
+        context.substituirElementosPor(
+            context.getValoresArredondados(tipoArredondamentoAplicar)
+        );
+
+        return context;
+    }
+
     //OUTROS MÉTODOS ABAIXO
 
     /**
