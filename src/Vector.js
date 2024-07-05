@@ -109,6 +109,32 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return valoresASeremColocados;
     }
 
+    /**
+     * Permite trocar todos os valores deste vetor, PORÈM não elemento a elemento
+     * Ele vai casar os indices deste Vectorization.Vector com o vetor de objetos que identificam os indices e os valores
+     * 
+     * @param {Vectorization.Vector} outroVectorDeInformacoes - O outro vetor que contem os valores
+     * @returns {Vectorization.Vector}
+     */
+    context.substituirElementosPorIndice = function(outroVectorDeInformacoes){
+        let valoresASeremColocados = (Vectorization.Vector.isVector(outroVectorDeInformacoes) && Vectorization.Vector.isVectorizationVector(outroVectorDeInformacoes)) ? outroVectorDeInformacoes.valores() : outroVectorDeInformacoes;
+    
+        if( context.tamanho() > 0 )
+        {
+            Vectorization.Vector(valoresASeremColocados).paraCadaElemento(function(indice, elementoComAsInformacoes){
+                let indiceTrocar = elementoComAsInformacoes.indice;
+                let valorASerColocado = elementoComAsInformacoes.valor;
+                
+                context.definirElementoNoIndice(indiceTrocar, valorASerColocado);
+            });
+
+        }else{
+            throw 'O Vectorization.Vector não pode estar vazio!';
+        }
+
+        return context;
+    }
+
     context.values = function(){
         return context.content;
     }
@@ -317,6 +343,35 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Percorre cada elemento do vetor, aplicando uma função de callback, porém faz isso de forma contrária/revertida
+    * @param {Function} callback(index, element, context)
+    */
+    context.paraCadaElementoReverso = function(callback){
+        let valorComecar = context.tamanho()-1;
+        let valorVaiInterromper = 0;
+        let vaiParar = false;
+
+        for( let i = valorComecar ; vaiParar == false ; i-- )
+        {
+            if( i > valorVaiInterromper ){
+                vaiParar = false;
+            }else{
+                //Brecar aqui
+                vaiParar = true;
+            }
+
+            callback(
+                     //O indice
+                     i, 
+                     //O elemento atual
+                     context.content[i],
+                     //O propio contexto deste Vectorization.Vector 
+                     context
+                    );
+        }
+    }
+
+    /**
     * Percorre cada elemento do vetor, aplicando uma função de callback, retornando um resultado
     * @param {Function} callback(index, element, context)
     * @returns {Vectorization.Vector}
@@ -332,6 +387,160 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Vector(novoVetor);
     }
 
+    /**
+    * Percorre cada elemento do vetor, aplicando uma função de filtro, retornando um resultado que é filtrado de forma rígida.
+    * Isso ignora elementos que não atendam aos critérios que voce estabeleceu na função de filtro
+    * @param {Function} callback(index, element, context)
+    * @returns {Vectorization.Vector} - um novo Vectorization.Vector
+    */
+    context.filtrar = function(funcaoDeFiltro, incluirDetalhes=false){
+        let novoVetor = Vectorization.Vector([]);
+
+        if(!funcaoDeFiltro){
+            throw 'Voce precisa passar uma função de filtro!. Não permitido!';
+        }
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: context.tamanho()
+
+        }).paraCadaElemento(function(i, element, contextoLoop){
+            let checagemDoFiltro = funcaoDeFiltro( i, context.content[i], context );
+
+            if(checagemDoFiltro == true || checagemDoFiltro == 'manter' || checagemDoFiltro == 'keep' || checagemDoFiltro == 'ok'){
+                if( incluirDetalhes == true ){
+                    novoVetor.adicionarElemento({
+                        valor: context.content[i],
+                        indice: i,
+                        parIndiceValor: [i, context.content[i]],
+                        terminouExecutarFiltro: new Date().getTime(),
+                        resultadoFuncaoFiltro: checagemDoFiltro,
+                        context: context
+                    });
+
+                }else{
+                    novoVetor.adicionarElemento( context.content[i] );
+                }
+            }
+        });
+
+        return Vectorization.Vector( novoVetor.valores() );
+    }
+
+    context.sobrescreverConteudo = function(novoConteudoDoVetor){
+        context.content = Vectorization.Vector.isVectorizationVector( novoConteudoDoVetor ) ? novoConteudoDoVetor.valores() : novoConteudoDoVetor;
+        context.conteudo = context.content;
+    }
+
+    /**
+    * Similar ao context.filtrar
+    * Percorre cada elemento do vetor, aplicando uma função de filtro, retornando um resultado que é filtrado de forma rígida.
+    * Isso ignora elementos que não atendam aos critérios que voce estabeleceu na função de filtro
+    * 
+    * CUIDADO: Este método vai sobrescrever os valores deste Vectorization.Vector
+    */
+    context.aplicarFiltro = function(funcaoDeFiltro){
+        context.sobrescreverConteudo(
+            Vectorization.Vector(
+                context.filtrar(funcaoDeFiltro, incluirDetalhes=true)
+
+            ).mapearValores(function(indiceAtual, valorAtual){
+                //Se for um objeto retornado pela função filtrar
+                if(typeof valorAtual == 'object')
+                {
+                    return valorAtual.valor;
+                }else{
+                    return valorAtual;
+                }
+            })
+        );
+    }
+
+    //Preenche tudo com um unico valor especifico
+    context.preencherTudo = function(valorEspecifico){
+        context.paraCadaElemento(function(indicePreencher, elemento, contextoVetor){
+            context.content[indicePreencher] = valorEspecifico;
+        });
+
+        return context;
+    }
+
+    /**
+    * Similar ao preencherTudo, porém ele só preenche valores que atendam a certo critério simples
+    * Neste caso o critério é onde o valorEspecifico apareça no indice deste Vectorization.Vector
+    * Mais ele vai preencher todos os valores onde a condição bate
+    * @param {any} valorEspecifico 
+    * @param {any} novoValorEspecifico 
+    * @returns {Vectorization.Vector}
+    */
+    context.preencherTudoOnde = function(valorEspecifico, novoValorEspecifico){
+        context.paraCadaElemento(function(indicePreencher, elemento, contextoVetor){
+            let valorNaPosicaoAtualDoVetor = context.readIndex(indicePreencher);
+
+            if( String(valorNaPosicaoAtualDoVetor) == String(valorEspecifico) &&
+                String(valorNaPosicaoAtualDoVetor).length == String(valorEspecifico).length
+            ){
+                context.definirElementoNoIndice(indicePreencher, novoValorEspecifico);
+            }
+        });
+
+        return context;
+    }
+
+    /**
+    * Similar ao preencherTudoOnde, só que ele vai preencher só os N primeiros
+    * @param {any} valorEspecifico 
+    * @param {any} novoValorEspecifico 
+    * @returns {Vectorization.Vector} - o propio Vectorization.Vector
+    */
+    context.preencherAlgunsOnde = function(valorEspecifico, novoValorEspecifico, quantidadeLimitePreencher, direcaoOperar='esquerda'){
+        let quantidadeJaPreencheu = 0;
+        let valorNaPosicaoAtualDoVetor;
+
+        switch(direcaoOperar){
+            case 'esquerda':
+            case 'left':
+            case 'inicio':
+                context.paraCadaElemento(function(indicePreencher, elemento, contextoVetor){
+                    valorNaPosicaoAtualDoVetor = context.readIndex(indicePreencher);
+        
+                    if( String(valorNaPosicaoAtualDoVetor) == String(valorEspecifico) &&
+                        String(valorNaPosicaoAtualDoVetor).length == String(valorEspecifico).length
+                    ){
+                        if( quantidadeJaPreencheu < quantidadeLimitePreencher ){
+                            context.definirElementoNoIndice(indicePreencher, novoValorEspecifico);
+                        }
+        
+                        quantidadeJaPreencheu++;
+                    }
+                });
+                break;
+
+            case 'direita':
+            case 'frente':
+            case 'right':
+                context.paraCadaElementoReverso(function(indicePreencher, elemento, contextoVetor){
+                    valorNaPosicaoAtualDoVetor = context.readIndex(indicePreencher);
+        
+                    if( String(valorNaPosicaoAtualDoVetor) == String(valorEspecifico) &&
+                        String(valorNaPosicaoAtualDoVetor).length == String(valorEspecifico).length
+                    ){
+                        if( quantidadeJaPreencheu < quantidadeLimitePreencher ){
+                            context.definirElementoNoIndice(indicePreencher, novoValorEspecifico);
+                        }
+        
+                        quantidadeJaPreencheu++;
+                    }
+                });
+                break;
+
+            default:
+                throw 'Voce precisa dizer em qual direção voce quer usar'
+                break;
+        }
+
+        return context;
+    }
 
     //Também, se o config for um objeto(NÂO FOR UM ARRAY)
     if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){

@@ -66,6 +66,8 @@ window.Vectorization.Vector._translations = function(){
 
         "identity": "identidade",
 
+        "filter": "filtrar",
+
         //Portugues
         "somarMatriz": "somarMatrix",
         "subtrairMatriz": "subtrairMatrix",
@@ -75,7 +77,8 @@ window.Vectorization.Vector._translations = function(){
         
         "paraCadaElemento": "forEach",
         "adicionarElemento": "push",
-        "mapearValores": "map"
+        "mapearValores": "map",
+        "filtrarValores": "filtrar"
     };
 
     const translatedAttributes = {
