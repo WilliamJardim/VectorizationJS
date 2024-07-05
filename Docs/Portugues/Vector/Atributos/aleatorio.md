@@ -21,3 +21,9 @@ console.log( vetor_aleatorio.raw() );
 Também é possivel passar o parametro **arredondar**, que permite arredondar os números gerados para cima, ou para baixo, etc. **[Veja arredondar](arredondar.md)**
 
 Para gerar o número aleatório, o Vectorization usa a classe interna **Vectorization.Random**.
+
+Voce pode visualizar o código fonte completo da classe Vector aqui:
+* [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
+
+# Navegação
+* [Voltar para página anterior](../page.md)
