@@ -8,6 +8,7 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 - [Vectorization.Matrix - Matrizes](Matrix/page.md)
 - [Vectorization.Vector - Vetores](Vector/page.md)
 - [Vectorization.Scalar - Escalares](Scalar/page.md)
+- [Vectorization.Random - Números aleatórios](Random/page.md)
 
 ## Classes internas
 - [Vectorization.Root - Base de todas as outras classes](Root/page.md)

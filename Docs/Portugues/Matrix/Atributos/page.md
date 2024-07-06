@@ -17,5 +17,7 @@ Nesta página você pode encontrar informações sobre os atributos(propriedades
  - [isIdentidade](isIdentidade.md)
  - [matrizAvancada](matrizAvancada.md)
  - [valorPreencher](valorPreencher.md)
+ - [aleatorio](aleatorio.md)
+ - [arredondar](arredondar.md)
 
 * [Voltar para página anterior](../page.md)

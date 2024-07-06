@@ -12,6 +12,7 @@ Nesta página você pode encontrar informações sobre os atributos(propriedades
  - [elementos](elementos.md)
  - [valorPreencher](valorPreencher.md)
  - [arredondar](arredondar.md)
+ - [aleatorio](aleatorio.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)
