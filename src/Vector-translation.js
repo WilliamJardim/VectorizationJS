@@ -78,7 +78,9 @@ window.Vectorization.Vector._translations = function(){
         "paraCadaElemento": "forEach",
         "adicionarElemento": "push",
         "mapearValores": "map",
-        "filtrarValores": "filtrar"
+        "filtrarValores": "filtrar",
+        "lerIndice": "readIndex",
+        "getIndice": "readIndex"
     };
 
     const translatedAttributes = {

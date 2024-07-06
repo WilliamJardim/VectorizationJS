@@ -416,6 +416,102 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     context.extrairValoresLinha = context.getLinha;
 
+    context._definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
+        context.getLinha(indice)
+               .definirElementoNoIndice(indiceAdicionar, vetorDaLinha);
+    }
+
+    context.definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
+        context._definirValorLinha(indice, indiceAdicionar, vetorDaLinha);
+    }
+
+    //Cria uma nova coluna nesta Vectorization.Matrix
+    context.adicionarColuna = function(valoresNovaColuna){
+        let isVetorVectorization = (
+            Vectorization.Vector.isVector(valoresNovaColuna || []) == true &&
+            Vectorization.Vector.isVectorizationVector(valoresNovaColuna || []) 
+        ) == true;
+           
+        let valoresNovaColuna_Vector = isVetorVectorization == true ? valoresNovaColuna : Vectorization.Vector(valoresNovaColuna || []);
+        let tamanhoVetorNovo = valoresNovaColuna_Vector.tamanho();
+        let quantidadeLinhasMatrix = context.getLinhas();
+
+        if( typeof valoresNovaColuna_Vector == 'object' &&
+            tamanhoVetorNovo == quantidadeLinhasMatrix
+        ){
+            //Para cada linha
+            Vectorization.Vector({
+                valorPreencher: 1,
+                elementos: quantidadeLinhasMatrix
+
+            }).paraCadaElemento(function(iLinha){
+                let valoresDaLinhaObtidos = context.getLinha(iLinha);
+
+                switch( Vectorization.Vector.isVectorizationVector(valoresDaLinhaObtidos) )
+                {
+                    case true:
+                        valoresDaLinhaObtidos.adicionarElemento( valoresNovaColuna[iLinha] );
+                        break;
+
+                    case false:
+                        let novoVetorVectorization = Vectorization.Vector(valoresDaLinhaObtidos).adicionarElemento( valoresNovaColuna[iLinha] )
+                        context._definirValorLinha(iLinha, valoresDaLinhaObtidos.length, [... novoVetorVectorization.valores()] );
+                        break;
+                }
+            });
+
+            //Atualiza a quantidade das colunas
+            context.columns = matrix1.calcTamanhos().lerIndice(1);
+            context.colunas = context.columns;
+
+        }else{
+            throw 'Não da pra adicionar uma nova coluna se a quantidade de elementos não bater com a quantidade de linhas!. Não permitido.';
+        }
+    }
+
+    context.zerarColuna = function(indiceColuna, valorDefinirNoLugar=0){
+        let quantidadeLinhasMatrix = context.getLinhas();
+
+        //Para cada linha
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: quantidadeLinhasMatrix
+
+        }).paraCadaElemento(function(iLinha){
+            context._definirValorLinha(iLinha, indiceColuna, valorDefinirNoLugar );
+        });
+    }
+
+    context.zerarLinha = function(indiceLinha, valorDefinirNoLugar=0){
+        context.getLinha(indiceLinha).substituirElementosPor( Vectorization.Vector({
+            valorPreencher: valorDefinirNoLugar,
+            elementos: context.columns
+        }) );
+    }
+
+    /**
+    * Aplica um arredondamento sobre os valores deste vetor
+    * CUIDADO: isso vai sobrescrever os valores
+    * 
+    * @param {String} tipoArredondamentoAplicar
+    * @returns {Vectorization.Matrix} - a matrix arredondada
+    */
+    context.aplicarArredondamento = function(tipoArredondamentoAplicar='cima'){
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: context.rows
+
+        }).paraCadaElemento(function(i){
+            let subVetorAplicarArredondamento = context.getLinha(i);
+
+            if( Vectorization.Vector.isVectorizationVector(subVetorAplicarArredondamento) ){
+                subVetorAplicarArredondamento.aplicarArredondamento(tipoArredondamentoAplicar);
+            }
+        });
+
+        return context;
+    }
+
     /**
     * Percorre cada linha da matrix, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
