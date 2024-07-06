@@ -82,7 +82,10 @@ window.Vectorization.Matrix._translations = function(){
         "produtoEscalarMatriz": "produtoEscalarMatrix",
         "addColuna": "adicionarColuna",
         "preencherLinha": "zerarLinha",
-        "preencherColuna": "zerarColuna"
+        "preencherColuna": "zerarColuna",
+        "paraCadaLinha": "forEach",
+        "percorrerElementosColuna": "percorrerColuna",
+        "mapearElementosColuna": "mapearColuna"
     };
 
     const translatedAttributes = {

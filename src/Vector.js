@@ -407,7 +407,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }).paraCadaElemento(function(i, element, contextoLoop){
             let checagemDoFiltro = funcaoDeFiltro( i, context.content[i], context );
 
-            if(checagemDoFiltro == true || checagemDoFiltro == 'manter' || checagemDoFiltro == 'keep' || checagemDoFiltro == 'ok'){
+            if(checagemDoFiltro == true || checagemDoFiltro == 'incluir' || checagemDoFiltro == 'manter' || checagemDoFiltro == 'keep' || checagemDoFiltro == 'ok'){
                 if( incluirDetalhes == true ){
                     novoVetor.adicionarElemento({
                         valor: context.content[i],

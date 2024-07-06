@@ -513,6 +513,113 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
+    * @param {Number} indiceColuna - o indice da coluna em questão
+    * @param {Function} callbackPercorrer - callbackPercorrer(valorNoIndiceDeInteresse, iLinha, LinhaMatrix_Vector, context)
+    */
+    context.percorrerColuna = function(indiceColuna, callbackPercorrer){
+        context.paraCadaLinha(function(iLinha){
+            let LinhaMatrix_Vector = context.getLinha(iLinha);
+            let valorNoIndiceDeInteresse = LinhaMatrix_Vector.lerIndice(indiceColuna);
+
+            callbackPercorrer( valorNoIndiceDeInteresse, 
+                      iLinha, LinhaMatrix_Vector, context 
+                    );
+        });
+    }
+
+    /**
+    * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
+    * SIMILAR AO context.percorrerColuna, porém ele vai implementar algo mais parecido com o Vectorization.Vector.mapearValores
+    * @param {Number} indiceColuna - o indice da coluna em questão
+    * @param {Function} callbackMapeamento - callbackMapeamento(valorNoIndiceDeInteresse, iLinha, LinhaMatrix_Vector, context)
+    * @returns {Vectorization.Vector} - a coluna após a aplicação desta função
+    */
+    context.mapearColuna = function(indiceColuna, callbackMapeamento){
+        let valoresAposAplicacaoMetodo = Vectorization.Vector([]);
+
+        context.paraCadaLinha(function(iLinha){
+            let LinhaMatrix_Vector = context.getLinha(iLinha);
+            let valorNoIndiceDeInteresse = LinhaMatrix_Vector.lerIndice(indiceColuna);
+
+            let resultadoAplicacaoFuncao = callbackMapeamento( valorNoIndiceDeInteresse, 
+                      iLinha, LinhaMatrix_Vector, context 
+                    );
+
+            valoresAposAplicacaoMetodo.adicionarElemento(resultadoAplicacaoFuncao);
+        });
+
+        return Vectorization.Vector(valoresAposAplicacaoMetodo);
+    }
+
+    /**
+    * Vai permitir "Peneirar" os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
+    * SIMILAR AO Vectorization.Vector.filtrarValores
+    * @param {Number} indiceColuna - o indice da coluna em questão
+    * @param {Function} callbackFiltragem - callbackFiltragem(valorNoIndiceDeInteresse, iLinha, LinhaMatrix_Vector, context)
+    * @returns {Vectorization.Vector} - a coluna após a aplicação deste filtro
+    */
+    context.filtrarColuna = function(indiceColuna, callbackFiltragem){
+        let valoresAposAplicacaoMetodo = Vectorization.Vector([]);
+
+        context.paraCadaLinha(function(iLinha){
+            let LinhaMatrix_Vector = context.getLinha(iLinha);
+            let valorNoIndiceDeInteresse = LinhaMatrix_Vector.lerIndice(indiceColuna);
+
+            if(!callbackFiltragem){
+                throw 'Voce precisa passar uma função de filtro!. Não permitido!';
+            }
+
+            let resultadoAplicacaoFuncao = callbackFiltragem( valorNoIndiceDeInteresse, 
+                      iLinha, LinhaMatrix_Vector, context 
+                    );
+
+            let checagemDoFiltro = resultadoAplicacaoFuncao;
+
+            if(checagemDoFiltro == true || checagemDoFiltro == 'incluir' || checagemDoFiltro == 'manter' || checagemDoFiltro == 'keep' || checagemDoFiltro == 'ok'){
+                valoresAposAplicacaoMetodo.adicionarElemento(valorNoIndiceDeInteresse);
+            }
+
+        });
+
+        return Vectorization.Vector(valoresAposAplicacaoMetodo);
+    }
+
+    /**
+    * Aplica um "peneiramento" na coluna desta Vectorization.Matrix
+    * @param {Number} indiceColuna - o indice da coluna em questão
+    * @param {Function} callbackFiltragem - callbackFiltragem(iColuna, elementoNaPosicaoAtual, context)
+    * @returns {Vectorization.Matrix} - Esta propia Vectorization.Matrix
+    * 
+    * CUIDADO: isso vai sobrescrever esta Vectorization.Matrix
+    */
+    context.aplicarFiltroColuna = function(indiceColuna, callbackFiltragem){
+
+        context.paraCadaLinha(function(iLinha){
+            let LinhaMatrix_Vector = context.getLinha(iLinha);
+            let LinhaMatrix_Vector_copia = ( LinhaMatrix_Vector || Vectorization.Vector([]) ).duplicar();
+            let dadosLinhaMatrix_Vector_Filtrados = Vectorization.Vector( LinhaMatrix_Vector_copia.filtrarValores(callbackFiltragem) );
+
+            if(!callbackFiltragem){
+                throw 'Voce precisa passar uma função de filtro!. Não permitido!';
+            }
+
+            if( Vectorization.Vector.isVectorizationVector(dadosLinhaMatrix_Vector_Filtrados) ){
+                //Atualiza esta Vectorization.Matrix
+                LinhaMatrix_Vector.sobrescreverConteudo(
+                    Vectorization.Vector( dadosLinhaMatrix_Vector_Filtrados.valores() || [] )
+                );
+
+            }else{
+                console.warn('Nenhum filtro foi aplicado');
+            }
+
+        });
+
+        return context;
+    }
+
+    /**
     * Percorre cada linha da matrix, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
     */
