@@ -915,6 +915,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.somarNumero = function(numero){
         let novoVetor = [];
+        let vectorA = context.content;
 
         for( let i = 0 ; i < vectorA.length ; i++ )
         {

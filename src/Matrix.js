@@ -482,6 +482,41 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         });
     }
 
+    /**
+    * @param {Number} indiceColuna 
+    * @param {Number} valorDefinirNoLugar 
+    * @param {Number} funcaoDeCondicao - a função(indiceDaLinhaAtual, indiceDaColunaEmQuestao, vetorDaLinhaAtual, valoresBrutosDaLinha, valorDaColunaAtualDaLinhaAtual, contextoPropiaMatrix) 
+    */
+    context.zerarColunaOnde = function(indiceColuna, valorDefinirNoLugar=0, funcaoDeCondicao){
+        if( typeof funcaoDeCondicao == 'function' && funcaoDeCondicao != undefined )
+        {
+            let quantidadeLinhasMatrix = context.getLinhas();
+
+            //Para cada linha
+            Vectorization.Vector({
+                valorPreencher: 1,
+                elementos: quantidadeLinhasMatrix
+
+            }).paraCadaElemento(function(iLinha){
+                let vetorDaLinhaAtual = context.getLinha(iLinha),
+                    valoresBrutosDaLinha = vetorDaLinhaAtual.valores(),
+                    indiceDaLinhaAtual = iLinha,
+                    indiceDaColunaEmQuestao = indiceColuna,
+                    valorDaColunaAtualDaLinhaAtual = vetorDaLinhaAtual.readIndex(indiceColuna),
+                    contextoPropiaMatrix = context;
+
+                let checagemDaFuncaoDeCondicao = funcaoDeCondicao(indiceDaLinhaAtual, indiceDaColunaEmQuestao, vetorDaLinhaAtual, valoresBrutosDaLinha, valorDaColunaAtualDaLinhaAtual, contextoPropiaMatrix);
+
+                if( checagemDaFuncaoDeCondicao == true || checagemDaFuncaoDeCondicao == 'limpar' || checagemDaFuncaoDeCondicao == 'zerar' || checagemDaFuncaoDeCondicao == 'clear' || checagemDaFuncaoDeCondicao == 'clean'){
+                    context._definirValorLinha(iLinha, indiceColuna, valorDefinirNoLugar );
+                }
+            });
+
+        }else{
+            throw 'Precisa ter a funcaoDeCondicao';
+        }
+    }
+
     context.zerarLinha = function(indiceLinha, valorDefinirNoLugar=0){
         context.getLinha(indiceLinha).substituirElementosPor( Vectorization.Vector({
             valorPreencher: valorDefinirNoLugar,
@@ -617,6 +652,58 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         });
 
         return context;
+    }
+
+    /**
+    * Descobre qual que é a maior quantidade de elementos das linhas cadastradas na matrix
+    */
+    context.getMaiorQuantidadeColunas = function(){
+        let primeiraLinha = context.getLinha(0);
+        let maiorQuantiaAtualmenteObtida = primeiraLinha.tamanho();
+        let quantidadeLinhasMatrix = context.rows;
+
+        Vectorization.Vector({
+           valorPreencher: 1,
+           elementos: quantidadeLinhasMatrix
+           
+        }).paraCadaElemento(
+            function(i){
+                let linhaAtual = context.getLinha(i);
+                let tamanhoDaLinhaAtual = linhaAtual.tamanho();
+                maiorQuantiaAtualmenteObtida = (maiorQuantiaAtualmenteObtida <= tamanhoDaLinhaAtual) ? tamanhoDaLinhaAtual : maiorQuantiaAtualmenteObtida;
+            });
+
+        return maiorQuantiaAtualmenteObtida;
+    }
+
+    /**
+    Descobre qual que é a linha que tem mais quantidade de elementos.
+    */
+    context.getMaiorLinha = function(){
+        let primeiraLinha = context.getLinha(0);
+        let maiorLinha = primeiraLinha;
+        let quantidadeLinhasMatrix = context.rows;
+        let maiorQuantidadeColunas = context.getMaiorQuantidadeColunas();
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: quantidadeLinhasMatrix
+            
+         }).paraCadaElemento(
+             function(i){
+                 let linhaAtual = context.getLinha(i);
+                 let tamanhoDaLinhaAtual = linhaAtual.tamanho();
+                 if( tamanhoDaLinhaAtual >= maiorQuantidadeColunas ){ maiorLinha = linhaAtual };
+             });
+
+        return maiorLinha;
+    }
+
+    /**
+    * Método que ele vai sair percorrendo cada linha, e vai deixar todas as linhas com a mesma quantidade de elemeentos
+    */
+    context.igualarColunas = function(){
+
     }
 
     /**

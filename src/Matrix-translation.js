@@ -83,6 +83,7 @@ window.Vectorization.Matrix._translations = function(){
         "addColuna": "adicionarColuna",
         "preencherLinha": "zerarLinha",
         "preencherColuna": "zerarColuna",
+        "preencherColunaOnde": "zerarColunaOnde",
         "paraCadaLinha": "forEach",
         "percorrerElementosColuna": "percorrerColuna",
         "mapearElementosColuna": "mapearColuna"
