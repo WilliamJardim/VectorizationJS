@@ -701,9 +701,34 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     /**
     * Método que ele vai sair percorrendo cada linha, e vai deixar todas as linhas com a mesma quantidade de elemeentos
+    * Se baseando estritamente na quantidade de colunas atual desta Vectorization.Matrix
     */
-    context.igualarColunas = function(){
+    context.igualarColunas = function(valorDefinirNoLugar){
+        let maiorQuantidadeColunas = context.getMaiorQuantidadeColunas();
+        let quantidadeLinhasMatrix = context.rows;
 
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: quantidadeLinhasMatrix
+            
+        }).paraCadaElemento(function(i){
+            let linhaAtual = context.getLinha(i);
+            let tamanhoDaLinhaAtual = linhaAtual.tamanho();
+
+            if( tamanhoDaLinhaAtual < maiorQuantidadeColunas )
+            {
+                let quantosElementosFaltam = Math.abs( tamanhoDaLinhaAtual - maiorQuantidadeColunas );
+                
+                let novoVetorASerAcrescentado = Vectorization.Vector({
+                    valorPreencher: valorDefinirNoLugar,
+                    elementos: quantosElementosFaltam
+                });
+
+                //Vai acrescentar um novo Vectorization.Vector dentro da linha atual desta Vectorization.Matrix
+                //Vai usar um método chamado acrescentarVetor do Vectorization.Vector
+                linhaAtual.acrescentarVetor(novoVetorASerAcrescentado);
+            }
+        });
     }
 
     /**

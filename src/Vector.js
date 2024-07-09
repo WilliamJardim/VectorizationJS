@@ -706,6 +706,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context;
     }
 
+    context.acrescentarVetor = function(){
+        
+    }
+
     //OUTROS MÉTODOS ABAIXO
 
     /**
