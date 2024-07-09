@@ -1,5 +1,5 @@
 # Vectorization
-![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
 
 # Selecione o idioma
 * [Português](README-Portugues.md)

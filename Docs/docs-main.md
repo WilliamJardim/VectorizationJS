@@ -1,5 +1,5 @@
 # Official Vectorization documentation
-![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo256x256.png)
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
 
 ## Languages avaliable
 - [Portugues](Portugues/page.md)
