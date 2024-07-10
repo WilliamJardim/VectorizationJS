@@ -706,8 +706,22 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context;
     }
 
-    context.acrescentarVetor = function(){
-        
+    /**
+    * @param {Vectorization.Vector} novoVetorASerAcrescentado 
+    * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
+    */
+    context.acrescentarVetor = function(novoVetorASerAcrescentado){
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let contextoEsteVetor = context;
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_Vector.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            const elementoVetorASerAdicionado = novoVetorASerAcrescentado_Vector.lerIndice(i);
+            context.adicionarElemento(elementoVetorASerAdicionado);
+        });
     }
 
     //OUTROS MÉTODOS ABAIXO
