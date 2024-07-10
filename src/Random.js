@@ -68,6 +68,8 @@ for( let i = 0 ; i < window.Vectorization.Random._sementes.length ; i++ ){
     sequenciaAtual.indiceAtual = 0;
 }
 
+window.Vectorization.Random._numeroSementePadraoDefinida = 5;
+
 //Extrai os dados da semente definida pelo úsuario
 window.Vectorization.Random._get_dados_semente = function(numeroDaSemente){
     let iSemente = 0;
@@ -95,7 +97,7 @@ window.Vectorization.Random._get_dados_semente = function(numeroDaSemente){
     }
 }
 
-window.Vectorization.Random._sementeDefinida = window.Vectorization.Random._get_dados_semente(5);
+window.Vectorization.Random._sementeDefinida = window.Vectorization.Random._get_dados_semente( window.Vectorization.Random._numeroSementePadraoDefinida );
 
 window.Vectorization.Random.definirSemente = function(numeroDaSemente){
     switch(typeof numeroDaSemente){
@@ -228,6 +230,18 @@ window.Vectorization.Random.gerarNumeroInteiroAleatorio = function(minimo, maxim
 window.Vectorization.Random.gerarNumeroFloatAleatorio = function(minimo, maximo, sementeDefinida=window.Vectorization.Random._sementeDefinida){
     let numeroAleatorioAtual = window.Vectorization.Random.gerarNumeroAleatorio(minimo, maximo, sementeDefinida=window.Vectorization.Random._sementeDefinida);
     return Number.parseFloat(numeroAleatorioAtual);
+}
+
+
+//Cria uma cópia segura das sementes como elas estavam antes de serem manipuladas/utilizadas pelo usuario
+window.Vectorization.Random._sementesIniciais = Vectorization.Vector([... window.Vectorization.Random._sementes.copyWithin()]).duplicar();
+window.Vectorization.Random._sementeDefinidaInicial = {... window.Vectorization.Random._sementeDefinida};
+
+window.Vectorization.Random.resetarEstadoInicial = function(){
+    window.Vectorization.Random._sementes = window.Vectorization.Random._sementesIniciais.duplicar().valores();
+    window.Vectorization.Random.definirSemente( window.Vectorization.Random._numeroSementePadraoDefinida );
+    window.Vectorization.Random._sementeDefinida = {... window.Vectorization.Random._sementeDefinidaInicial};
+    console.warn('sementes aleatórias redefinidas!')
 }
 
 
