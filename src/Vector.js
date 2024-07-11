@@ -784,6 +784,40 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         )
     }
 
+    /**
+    * Se parece muito ao context.acrescentarNoInicioVetor, só que aqui, ele vai apenas retornar uma novo Vectorization.Vector, NÂO SUBSTITUI ESTE VETOR
+    * @param {Vectorization.Vector} novoVetorASerAcrescentado 
+    * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
+    */
+    context.juntarComOutroVetorNoInicio = function(novoVetorASerAcrescentado){
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado.duplicar() : Vectorization.Vector(novoVetorASerAcrescentado).duplicar(); 
+        let contextoEsteVetorDuplicado = context.duplicar();
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: contextoEsteVetorDuplicado.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            const elementoVetorASerAdicionado = contextoEsteVetorDuplicado.lerIndice(i);
+            novoVetorASerAcrescentado_Vector.adicionarElemento(elementoVetorASerAdicionado);
+        });
+
+        let novoVetorASerAcrescentado_VectorFinal = Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_Vector.tamanho()
+        });
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_VectorFinal.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            novoVetorASerAcrescentado_VectorFinal[i] = novoVetorASerAcrescentado_Vector.lerIndice(i);
+        });
+
+        return novoVetorASerAcrescentado_VectorFinal;
+    }
+
     //OUTROS MÉTODOS ABAIXO
 
     /**
