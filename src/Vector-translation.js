@@ -86,7 +86,8 @@ window.Vectorization.Vector._translations = function(){
     const translatedAttributes = {
         //Portugues
         "valorPreencher": "fillValue",
-        "elementos": "length"
+        "elementos": "length",
+        "conteudo": "numeros"
     };
 
     return {

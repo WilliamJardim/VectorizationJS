@@ -186,6 +186,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
     context.adicionarElemento = context.push;
 
+    context.adicionarElementoNoInicio = function(elemento){
+        context.content.unshift(elemento);
+        context._update();
+    }
 
     context.readIndex = function(i){
         return context.content[i];
@@ -546,6 +550,12 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
         context.aleatorio = config['aleatorio'] || false;
         
+        if( config['aleatorio'] != undefined &&
+            config['numeros'] != undefined
+        ){
+            throw 'Voce não pode criar um Vectorization.Vector com contéudo definido, e ao mesmo tempo sendo aleatório!';
+        }
+
         if( context.aleatorio == true ){
             context.content = []; // Zero o conteudo
 
@@ -627,6 +637,23 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 }else{
                     throw 'Para criar um Vector aleatório voce precisar passar a faixa de valores e a quantidade de elementos!';
                 }
+            }
+
+            context.conteudo = context.content;
+        
+        //Se for um objeto, que não possui o atributo "aleatorio"
+        }else if(context.aleatorio == false){
+            
+            if( config['numeros'] != undefined &&
+                Vectorization.Vector.isVector(config['numeros'])
+            ){
+                if( config['aleatorio'] != undefined ){
+                    throw 'Voce não pode criar um Vectorization.Vector com contéudo definido, e ao mesmo tempo sendo aleatório!';
+                }
+
+                context.content = config['numeros'] != undefined ? 
+                                  (Vectorization.Vector.isVectorizationVector(config['numeros']) ? config['numeros'].valores() : 
+                                   config['numeros']) : [];
             }
 
             context.conteudo = context.content;
@@ -1315,6 +1342,16 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     //Se existir uma tradução para a classe
     if(context._translations && typeof context._translations === 'function'){
         context.applyTranslations( context._translations() );
+    }
+
+    //Aplica arredondamentos, se o usuario desejar, mesmo não sendo um Vectorization.Vector aleatorio
+    if( context._config != undefined &&
+        (
+            context._config['aleatorio'] == undefined || context._config['aleatorio'] == false
+        ) == true && 
+        context._config['arredondar'] != undefined
+    ){
+        context.aplicarArredondamento(context._config['arredondar']);
     }
 
     //return context;
