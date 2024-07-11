@@ -724,6 +724,66 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         });
     }
 
+    /**
+    * Se parece muito ao context.acrescentarVetor, só que aqui, ele vai apenas retornar uma novo Vectorization.Vector, NÂO SUBSTITUI ESTE VETOR
+    * @param {Vectorization.Vector} novoVetorASerAcrescentado 
+    * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
+    */
+    context.juntarComOutroVetor = function(novoVetorASerAcrescentado){
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let contextoEsteVetor = context;
+
+        let novoVetorASerAcrescentado_VectorFinal = contextoEsteVetor.duplicar();
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_Vector.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            const elementoVetorASerAdicionado = novoVetorASerAcrescentado_Vector.lerIndice(i);
+            novoVetorASerAcrescentado_VectorFinal.adicionarElemento(elementoVetorASerAdicionado);
+        });
+
+        return novoVetorASerAcrescentado_VectorFinal;
+    }
+
+    /**
+    * Se parece muito ao context.acrescentarVetor, porém ele pôem os elementos no inicio do vetor, ao invés de colocar no final do mesmo
+    * @param {Vectorization.Vector} novoVetorASerAcrescentado 
+    * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
+    */
+    context.acrescentarNoInicioVetor = function(novoVetorASerAcrescentado){
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let contextoEsteVetor = context;
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: contextoEsteVetor.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            const elementoVetorASerAdicionado = contextoEsteVetor.lerIndice(i);
+            novoVetorASerAcrescentado_Vector.adicionarElemento(elementoVetorASerAdicionado);
+        });
+
+        let novoVetorASerAcrescentado_VectorFinal = Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_Vector.tamanho()
+        });
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: novoVetorASerAcrescentado_VectorFinal.tamanho()
+        })
+        .paraCadaElemento(function(i){
+            novoVetorASerAcrescentado_VectorFinal[i] = novoVetorASerAcrescentado_Vector.lerIndice(i);
+        });
+
+        contextoEsteVetor.sobrescreverConteudo(
+            novoVetorASerAcrescentado_VectorFinal.duplicar()
+                                                 .valores()
+        )
+    }
+
     //OUTROS MÉTODOS ABAIXO
 
     /**
