@@ -732,6 +732,44 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Quase identico ao context.igualarColunas, porém com uma diferença drástica: ele adiciona no inicio da linha
+    * 
+    * Método que ele vai sair percorrendo cada linha, e vai deixar todas as linhas com a mesma quantidade de elemeentos
+    * Se baseando estritamente na quantidade de colunas atual desta Vectorization.Matrix
+    */
+    context.igualarColunasNoInicio = function(valorDefinirNoLugar){
+        let maiorQuantidadeColunas = context.getMaiorQuantidadeColunas();
+        let quantidadeLinhasMatrix = context.rows;
+
+        Vectorization.Vector({
+            valorPreencher: 1,
+            elementos: quantidadeLinhasMatrix
+            
+        }).paraCadaElemento(function(i){
+            let linhaAtual = context.getLinha(i);
+            let tamanhoDaLinhaAtual = linhaAtual.tamanho();
+
+            if( tamanhoDaLinhaAtual < maiorQuantidadeColunas )
+            {
+                let quantosElementosFaltam = Math.abs( tamanhoDaLinhaAtual - maiorQuantidadeColunas );
+                
+                let novoVetorASerAcrescentado = Vectorization.Vector({
+                    valorPreencher: valorDefinirNoLugar,
+                    elementos: quantosElementosFaltam
+                });
+
+                //Vai acrescentar um novo Vectorization.Vector dentro da linha atual desta Vectorization.Matrix
+                //Vai usar um método chamado acrescentarVetor do Vectorization.Vector
+                linhaAtual.acrescentarNoInicioVetor(novoVetorASerAcrescentado.valores());
+            }
+        });
+    }
+
+    context.adicionarEmTodasLinhas = function(){
+
+    }
+
+    /**
     * Percorre cada linha da matrix, aplicando uma função de callback
     * @param {Function} callback(index, element, context)
     */
