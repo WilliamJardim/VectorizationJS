@@ -144,7 +144,18 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.valores = context.values;
 
     context.toArray = function(){
-        return context.content;
+        if( context.usarEscalares != undefined && context.usarEscalares == true )
+        {
+            let valoresSemEstarEmEscalar = [];
+            Vectorization.Vector(context.duplicar()).paraCadaElemento(function(i, objetoEscalar){
+                valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+            });
+
+            return valoresSemEstarEmEscalar;
+
+        }else{
+            return context.content;
+        }
     }
 
     //Alias for context.toArray
@@ -1339,6 +1350,25 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
+    */
+    context._vectorElementos2Escalares = function(vectorClassConfig={}){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            const extraPropsOfLine = {... vectorClassConfig};
+            context.content[i] = Vectorization.Scalar(context.content[i], extraPropsOfLine);
+        }
+    }
+
+    if( context.configRecebidaUsuario['usarEscalares'] != undefined || classConfig['usarEscalares'] != undefined ){
+        if( context.configRecebidaUsuario['usarEscalares'] == true || classConfig['usarEscalares'] == true )
+        {
+            context.usarEscalares = true;
+            context._vectorElementos2Escalares();
+        }
     }
 
     context._doDefaultBaseAfterCreate();

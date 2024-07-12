@@ -87,6 +87,10 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     context.objectName = 'Scalar';
     context.path = 'Vectorization.Scalar';
 
+    context.obterValor = function(){
+        return context.value;
+    }
+
     //Troca o número aleatorio dentro desse Vectorization.Scalar
     context.trocarNumeroAleatorio = function(novoMinimo=context.ultimoMinimoUsado, novoMaximo=context.ultimoMaximoUsado, novaSemente=null){
         if( context.aleatorio == true ){
