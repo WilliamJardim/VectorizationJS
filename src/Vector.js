@@ -33,6 +33,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     let context = window.Vectorization.Base(classConfig);
     context.objectName = 'Vector';
     context.path = 'Vectorization.Vector';
+    context.configRecebidaUsuario = config;
 
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
     classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
@@ -654,6 +655,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 context.content = config['numeros'] != undefined ? 
                                   (Vectorization.Vector.isVectorizationVector(config['numeros']) ? config['numeros'].valores() : 
                                    config['numeros']) : [];
+
+                context.length = context.content.length;
+                context.elementos = context.length;
             }
 
             context.conteudo = context.content;
@@ -1349,9 +1353,14 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         (
             context._config['aleatorio'] == undefined || context._config['aleatorio'] == false
         ) == true && 
-        context._config['arredondar'] != undefined
+        (
+            context._config['arredondar'] != undefined ||
+            context.configRecebidaUsuario['arredondar'] != undefined
+        ) == true
     ){
-        context.aplicarArredondamento(context._config['arredondar']);
+        context.aplicarArredondamento(
+            context._config['arredondar'] != undefined ? context._config['arredondar'] : context.configRecebidaUsuario['arredondar'] 
+        );
     }
 
     //return context;

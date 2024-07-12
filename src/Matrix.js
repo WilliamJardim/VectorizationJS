@@ -34,6 +34,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     let context = window.Vectorization.Base(classConfig);
     context.objectName = 'Matrix';
     context.path = 'Vectorization.Matrix';
+    
+    context.configRecebidaUsuario = config;
 
     //Aplica a tradução dos atributos, pra ser capaz de entender nomes de atributos em outros idiomas
     classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
@@ -88,6 +90,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //Também, se o config for um objeto(NÂO FOR UM ARRAY)
     if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
         context.aleatorio = config['aleatorio'] || false;
+
+        if( config['aleatorio'] != undefined &&
+            config['numeros'] != undefined
+        ){
+            throw 'Voce não pode criar um Vectorization.Matrix com contéudo definido, e ao mesmo tempo sendo aleatório!';
+        }
         
         if( context.aleatorio == true ){
             context.content = []; // Zero o conteudo
@@ -176,6 +184,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                     throw 'Para criar uma Matrix aleatório voce precisar passar a faixa de valores e a quantidade de elementos nas linhas e colunas!';
                 }
             }
+
+        }else if(context.aleatorio == false){
+        
+            if( config['numeros'] != undefined &&
+                Vectorization.Vector.isVector(config['numeros'])
+            ){
+                if( config['aleatorio'] != undefined ){
+                    throw 'Voce não pode criar um Vectorization.Matrix com contéudo definido, e ao mesmo tempo sendo aleatório!';
+                }
+
+                context.content = config['numeros'] != undefined ? 
+                                  (Vectorization.Matrix.isVectorizationMatrix(config['numeros']) ? config['numeros'].valores() : 
+                                   config['numeros']) : [];
+            }
+
+            context.conteudo = context.content;
+            context.rows = config['numeros'].length;
+            context.columns = config['numeros'][0].length;
         }
     }
 
@@ -1607,6 +1633,19 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //Se existir uma tradução para a classe
     if(context._translations && typeof context._translations === 'function'){
         context.applyTranslations( context._translations() );
+    }
+
+    //Aplica arredondamentos, se o usuario desejar, mesmo não sendo um Vectorization.Matrix aleatoria
+    if( context._config != undefined &&
+        (
+            context._config['aleatorio'] == undefined || context._config['aleatorio'] == false
+        ) == true && 
+        (
+            context._config['arredondar'] != undefined ||
+            context.configRecebidaUsuario['arredondar'] != undefined
+        ) == true
+    ){
+        context.aplicarArredondamento(context._config['arredondar'] || context.configRecebidaUsuario['arredondar']);
     }
 
     //return context;
