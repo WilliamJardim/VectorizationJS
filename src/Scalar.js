@@ -89,6 +89,7 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
 
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
+    context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
 
     context._isBloqueado = function(){
         if( context.bloqueado != undefined && context.bloqueado == true ){
@@ -98,7 +99,12 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     }
 
     context.bloquearModificacoes = function(){
-        context.bloqueado = true;
+        if( context.permitirBloquear == true ){
+            context.bloqueado = true;
+
+        }else{
+            throw 'Ação não permitida para este Vectorization.Scalar!';
+        }
     }
 
     context.desbloquearModificacoes = function(){
@@ -180,7 +186,7 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
     context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
         let listaAtributosProtegidos = [
-            
+            'permitirBloquear'
         ];
 
         let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;

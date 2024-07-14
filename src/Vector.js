@@ -47,6 +47,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.content = [];
 
     context.permitirDesbloquear = (config['permitirDesbloquear'] != undefined || classConfig['permitirDesbloquear'] != undefined) ? (config['permitirDesbloquear'] || classConfig['permitirDesbloquear']) : true;
+    context.permitirBloquear = (config['permitirBloquear'] != undefined || classConfig['permitirBloquear'] != undefined) ? (config['permitirBloquear'] || classConfig['permitirBloquear']) : true;
 
     context._isBloqueado = function(){
         if( context.bloqueado != undefined && context.bloqueado == true ){
@@ -56,14 +57,19 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.bloquearModificacoes = function(){
-        context.bloqueado = true;
+        if( context.permitirBloquear == true ){
+            context.bloqueado = true;
 
-        if(context.usarEscalares != undefined && context.usarEscalares == true)
-        {
-            //Bloquear também os filhos dentro deste Vectorization.Vector
-            context.paraCadaElemento(function(i, elementoVetor){
-                elementoVetor.bloquearModificacoes();
-            });
+            if(context.usarEscalares != undefined && context.usarEscalares == true)
+            {
+                //Bloquear também os filhos dentro deste Vectorization.Vector
+                context.paraCadaElemento(function(i, elementoVetor){
+                    elementoVetor.bloquearModificacoes();
+                });
+            }
+
+        }else{
+            throw 'Ação não permitida para este Vectorization.Vector!';
         }
     }
 
@@ -1496,7 +1502,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
         let listaAtributosProtegidos = [
-            
+            'permitirBloquear'
         ];
 
         let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
