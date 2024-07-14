@@ -80,7 +80,9 @@ window.Vectorization.Vector._translations = function(){
         "mapearValores": "map",
         "filtrarValores": "filtrar",
         "lerIndice": "readIndex",
-        "getIndice": "readIndex"
+        "getIndice": "readIndex",
+        "bloquear": "bloquearModificacoes",
+        "desbloquear": "desbloquearModificacoes"
     };
 
     const translatedAttributes = {

@@ -46,6 +46,27 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
+    context.permitirDesbloquear = (config['permitirDesbloquear'] != undefined || classConfig['permitirDesbloquear'] != undefined) ? (config['permitirDesbloquear'] || classConfig['permitirDesbloquear']) : true;
+
+    context._isBloqueado = function(){
+        if( context.bloqueado != undefined && context.bloqueado == true ){
+            return true;
+        }
+        return false;
+    }
+
+    context.bloquearModificacoes = function(){
+        context.bloqueado = true;
+    }
+
+    context.desbloquearModificacoes = function(){
+        if( context.permitirDesbloquear == true ){
+            context.bloqueado = false;
+        }else{
+            throw 'Ação não permitida para este Vectorization.Vector!';
+        }
+    }
+
     context._update = function(){
         context.length = config.length;
     }
@@ -120,6 +141,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.substituirElementosPorIndice = function(outroVectorDeInformacoes){
         let valoresASeremColocados = (Vectorization.Vector.isVector(outroVectorDeInformacoes) && Vectorization.Vector.isVectorizationVector(outroVectorDeInformacoes)) ? outroVectorDeInformacoes.valores() : outroVectorDeInformacoes;
     
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         if( context.tamanho() > 0 )
         {
             Vectorization.Vector(valoresASeremColocados).paraCadaElemento(function(indice, elementoComAsInformacoes){
@@ -193,12 +219,22 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.push = function(element){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.content.push(element);
         context._update();
     }
     context.adicionarElemento = context.push;
 
     context.adicionarElementoNoInicio = function(elemento){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+        
         context.content.unshift(elemento);
         context._update();
     }
@@ -444,6 +480,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.sobrescreverConteudo = function(novoConteudoDoVetor){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.content = Vectorization.Vector.isVectorizationVector( novoConteudoDoVetor ) ? novoConteudoDoVetor.valores() : novoConteudoDoVetor;
         context.conteudo = context.content;
     }
@@ -456,6 +497,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * CUIDADO: Este método vai sobrescrever os valores deste Vectorization.Vector
     */
     context.aplicarFiltro = function(funcaoDeFiltro){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.sobrescreverConteudo(
             Vectorization.Vector(
                 context.filtrar(funcaoDeFiltro, incluirDetalhes=true)
@@ -474,6 +520,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Preenche tudo com um unico valor especifico
     context.preencherTudo = function(valorEspecifico){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.paraCadaElemento(function(indicePreencher, elemento, contextoVetor){
             context.content[indicePreencher] = valorEspecifico;
         });
@@ -490,6 +541,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector}
     */
     context.preencherTudoOnde = function(valorEspecifico, novoValorEspecifico){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.paraCadaElemento(function(indicePreencher, elemento, contextoVetor){
             let valorNaPosicaoAtualDoVetor = context.readIndex(indicePreencher);
 
@@ -512,6 +568,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.preencherAlgunsOnde = function(valorEspecifico, novoValorEspecifico, quantidadeLimitePreencher, direcaoOperar='esquerda'){
         let quantidadeJaPreencheu = 0;
         let valorNaPosicaoAtualDoVetor;
+
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
 
         switch(direcaoOperar){
             case 'esquerda':
@@ -741,6 +802,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - o propio vetor
     */
     context.aplicarArredondamento = function(tipoArredondamentoAplicar='cima'){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.substituirElementosPor(
             context.getValoresArredondados(tipoArredondamentoAplicar)
         );
@@ -755,6 +821,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.acrescentarVetor = function(novoVetorASerAcrescentado){
         let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
         let contextoEsteVetor = context;
+
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
 
         Vectorization.Vector({
             valorPreencher: 1,
@@ -797,6 +868,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.acrescentarNoInicioVetor = function(novoVetorASerAcrescentado){
         let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
         let contextoEsteVetor = context;
+
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
 
         Vectorization.Vector({
             valorPreencher: 1,
@@ -1393,6 +1469,18 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         );
     }
 
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    context.bloqueado = (config['bloqueado'] != undefined || classConfig['bloqueado'] != undefined) ? (config['bloqueado'] || classConfig['bloqueado']) : false;
+
+    context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
+        let listaAtributosProtegidos = [
+            
+        ];
+
+        let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
+        return confereSePodeMexe == true ? true : false;
+    }
+
     //return context;
     //Cria um Proxy para permitir acessar os indices do vetor diretamente
     return new Proxy(context, {
@@ -1404,6 +1492,16 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         },
 
         set: function(target, prop, value) {
+          //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+          if( target._isBloqueado() == true ){
+             throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+          }
+
+          //Outros casos barrar
+          if( prop == 'bloqueado' || prop == 'permitirDesbloquear' || context.isAtributoProtegidoPeloVectorization(prop) ){
+             throw 'Você não pode modificar esta atributo do Vectorization.Vector!';
+          }
+
           if (typeof prop === 'string' && !isNaN(prop)) {
             target.content[Number(prop)] = value;
             return true;
