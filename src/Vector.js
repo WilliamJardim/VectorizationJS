@@ -57,11 +57,28 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     context.bloquearModificacoes = function(){
         context.bloqueado = true;
+
+        if(context.usarEscalares != undefined && context.usarEscalares == true)
+        {
+            //Bloquear também os filhos dentro deste Vectorization.Vector
+            context.paraCadaElemento(function(i, elementoVetor){
+                elementoVetor.bloquearModificacoes();
+            });
+        }
     }
 
     context.desbloquearModificacoes = function(){
         if( context.permitirDesbloquear == true ){
             context.bloqueado = false;
+
+            if(context.usarEscalares != undefined && context.usarEscalares == true)
+            {
+                //Desbloquear também os filhos dentro deste Vectorization.Vector
+                context.paraCadaElemento(function(i, elementoVetor){
+                    elementoVetor.desbloquearModificacoes();
+                });
+            }
+            
         }else{
             throw 'Ação não permitida para este Vectorization.Vector!';
         }
@@ -1471,6 +1488,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
     context.bloqueado = (config['bloqueado'] != undefined || classConfig['bloqueado'] != undefined) ? (config['bloqueado'] || classConfig['bloqueado']) : false;
+
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    if( context._isBloqueado() == true ){
+        context.bloquearModificacoes();
+    }
 
     context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
         let listaAtributosProtegidos = [

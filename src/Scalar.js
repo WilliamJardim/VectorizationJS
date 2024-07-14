@@ -87,12 +87,39 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     context.objectName = 'Scalar';
     context.path = 'Vectorization.Scalar';
 
+
+    context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
+
+    context._isBloqueado = function(){
+        if( context.bloqueado != undefined && context.bloqueado == true ){
+            return true;
+        }
+        return false;
+    }
+
+    context.bloquearModificacoes = function(){
+        context.bloqueado = true;
+    }
+
+    context.desbloquearModificacoes = function(){
+        if( context.permitirDesbloquear == true ){
+            context.bloqueado = false;
+        }else{
+            throw 'Ação não permitida para este Vectorization.Scalar!';
+        }
+    }
+
     context.obterValor = function(){
         return context.value;
     }
 
     //Troca o número aleatorio dentro desse Vectorization.Scalar
     context.trocarNumeroAleatorio = function(novoMinimo=context.ultimoMinimoUsado, novoMaximo=context.ultimoMaximoUsado, novaSemente=null){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Scalar
+        if( context._isBloqueado() == true ){
+           throw 'Este Vectorization.Scalar está bloqueado para novas gravações!';
+        }
+
         if( context.aleatorio == true ){
 
             if( novaSemente == null ){
@@ -148,7 +175,35 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         return String(context.value);
     }
 
-    return context;
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    context.bloqueado = (classConfig['bloqueado'] != undefined) ? (classConfig['bloqueado']) : false;
+
+    context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
+        let listaAtributosProtegidos = [
+            
+        ];
+
+        let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
+        return confereSePodeMexe == true ? true : false;
+    }
+
+    //return context;
+    return new Proxy(context, {
+        
+        set: function(target, prop, value) {
+          //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Scalar
+          if( target._isBloqueado() == true ){
+             throw 'Este Vectorization.Scalar está bloqueado para novas gravações!';
+          }
+
+          //Outros casos barrar
+          if( prop == 'bloqueado' || prop == 'permitirDesbloquear' || context.isAtributoProtegidoPeloVectorization(prop) ){
+             throw 'Você não pode modificar esta atributo do Vectorization.Vector!';
+          }
+
+          return Reflect.set(target, prop, value);
+        }
+    });
 }
 
 module.exports = window.Vectorization.Scalar;
