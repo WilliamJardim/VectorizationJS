@@ -26,6 +26,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //Define a tradução
     classConfig['translations'] = window.Vectorization.Matrix._translations || null;
 
+    let classeBaseMatrix = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseMatrix.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+
     //Se o usuario tentar criar uma matrix a partir de outra matrix, ele recria a propio matrix passada, mantendo a estrutura como ainda sendo uma Matrix
     if( Vectorization.Matrix.isMatrix(config) && config.objectName == 'Matrix' ){
         return Vectorization.Matrix( config.raw() );
@@ -38,7 +43,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.configRecebidaUsuario = config;
 
     //Aplica a tradução dos atributos, pra ser capaz de entender nomes de atributos em outros idiomas
-    classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+    //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
     
     //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
     if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) )) ){

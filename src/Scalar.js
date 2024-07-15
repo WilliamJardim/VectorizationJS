@@ -24,7 +24,16 @@ if( typeof window === 'undefined' ){
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
-    let context = {... classConfig};
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.Scalar._translations || null;
+
+    let classeBaseEscalar = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseEscalar.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+
+    //let context = {... classConfig};
+    let context = window.Vectorization.Base({... classConfig});
 
     if( value != undefined && 
         !(value instanceof Object) &&
@@ -191,6 +200,11 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
         let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
         return confereSePodeMexe == true ? true : false;
+    }
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.applyTranslations( context._translations() );
     }
 
     //return context;

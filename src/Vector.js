@@ -25,6 +25,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     //Define a tradução
     classConfig['translations'] = window.Vectorization.Vector._translations || null;
 
+    let classeBaseVector = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseVector.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+
     //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
     if( Vectorization.Vector.isVector(config) && config.objectName == 'Vector' ){
         return Vectorization.Vector( config.values() );
@@ -36,7 +41,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.configRecebidaUsuario = config;
 
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
-    classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+    //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
 
     //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
     if( config instanceof Object && !(config instanceof Array && (config instanceof Array || Vectorization.Vector.isVector(config) )) ){
