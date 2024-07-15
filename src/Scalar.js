@@ -11,6 +11,7 @@ if( typeof window === 'undefined' ){
     global.window = global; 
     
     if( window.Vectorization.Random == undefined ){
+        require('./Root'); 
         require('./Random'); 
     }
     
