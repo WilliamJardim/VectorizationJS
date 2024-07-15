@@ -188,6 +188,24 @@ window.Vectorization.Base = function(config){
 
     context.applyTranslations(null);
 
+    context.getTodasConfiguracoesAplicadas = function(){
+        let todasConfiguracoesClassConfig = {};
+        let keysConfiguracoesClassConfig = [... Object.keys(context)];
+
+        for( let i = 0 ; i < keysConfiguracoesClassConfig.length ; i++ )
+        {
+            let nomeConfiguracaoClassConfig = keysConfiguracoesClassConfig[i],
+                valorConfiguracaoClassConfig = context[nomeConfiguracaoClassConfig];
+            
+            todasConfiguracoesClassConfig[nomeConfiguracaoClassConfig] = valorConfiguracaoClassConfig;
+        }
+
+        return { 
+                  configuracoesUsadas: todasConfiguracoesClassConfig,
+                  quantidadeDentro: keysConfiguracoesClassConfig.length
+               };
+    }
+
     return context;
 }
 
