@@ -5,11 +5,26 @@ Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **Vectorization.Vector**, que permite arredondar os valores aleatórios gerados no vetor.
+Atributo presente na classe **Vectorization.Vector**, que permite arredondar os valores definidos pelo usúario ou mesmo aleatórios gerados no vetor.
 
-**NOTA: Este atributo não arredonda os números do vetor durante a criação. Ele só funciona quando voce escolhe criar um vetor aleatório.**Para mais informações **[Veja aleatorio](aleatorio.md)**
+# Exemplo
+```javascript
 
-# Exemplo 
+var vetor = Vectorization.Vector({
+    numeros: [4.8888, 2.0, 9.16],
+    arredondar: true 
+});
+
+console.log( vetor.raw() )
+
+```
+
+# Resultado do exemplo
+```json
+ [5, 2, 9]
+```
+
+# Outro exemplo 
 ```javascript
 
 var vetor = Vectorization.Vector({

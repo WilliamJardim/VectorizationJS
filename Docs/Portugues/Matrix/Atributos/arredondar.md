@@ -5,11 +5,35 @@ Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **Vectorization.Matrix**, que permite arredondar os valores aleatórios gerados no vetor.
+Atributo presente na classe **Vectorization.Matrix**, que permite arredondar os valores definidos pelo usúario ou mesmo aleatórios gerados no vetor.
 
-**NOTA: Este atributo não arredonda os números da Matrix durante a criação. Ele só funciona quando voce escolhe criar uma Matrix aleatória.**Para mais informações **[Veja aleatorio](aleatorio.md)**
+# Exemplo
+```javascript
 
-# Exemplo 
+var matrix_definida = Vectorization.Matrix({ 
+    numeros: [ 
+                [3.436, 2.1, 3], 
+                [4.444, 2.5] 
+             ],
+
+    arredondar: true 
+});
+
+console.log( matrix_definida.raw() );
+
+```
+
+# Resultado do exemplo
+```json
+
+[
+  [3, 2, 3]
+  [4, 3]
+]
+
+```
+
+# Outro exemplo 
 ```javascript
 
 var matrix_aleatoria = Vectorization.Matrix({ 
@@ -18,7 +42,7 @@ var matrix_aleatoria = Vectorization.Matrix({
     colunas: 2, 
     minimo: 0, 
     maximo: 10,
-    arredondar: false 
+    arredondar: true 
 });
 
 console.log( matrix_aleatoria.raw() );
