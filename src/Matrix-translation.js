@@ -86,7 +86,9 @@ window.Vectorization.Matrix._translations = function(){
         "preencherColunaOnde": "zerarColunaOnde",
         "paraCadaLinha": "forEach",
         "percorrerElementosColuna": "percorrerColuna",
-        "mapearElementosColuna": "mapearColuna"
+        "mapearElementosColuna": "mapearColuna",
+        "bloquear": "bloquearModificacoes",
+        "desbloquear": "desbloquearModificacoes"
     };
 
     const translatedAttributes = {

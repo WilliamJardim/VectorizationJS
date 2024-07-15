@@ -51,6 +51,49 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.initialColumnValue = config['fillValue'] || 0;
     context.content = [];
 
+    context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
+    context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
+
+    context._isBloqueado = function(){
+        if( context.bloqueado != undefined && context.bloqueado == true ){
+            return true;
+        }
+        return false;
+    }
+
+    context.bloquearModificacoes = function(){
+        if( context.permitirBloquear == true ){
+            context.bloqueado = true;
+
+            if(context.isAdvancedMatrix == true)
+            {
+                //Bloquear também os filhos Vectorization.Vector dentro deste Vectorization.Matrix
+                context.paraCadaLinha(function(i, elementoVetorLinhaMatrix){
+                    elementoVetorLinhaMatrix.bloquearModificacoes();
+                });
+            }
+
+        }else{
+            throw 'Ação não permitida para este Vectorization.Matrix!';
+        }
+    }
+
+    context.desbloquearModificacoes = function(){
+        if( context.permitirDesbloquear == true ){
+            context.bloqueado = false;
+
+            if(context.isAdvancedMatrix == true)
+            {
+                //Desbloquear também os filhos Vectorization.Vector dentro deste Vectorization.Matrix
+                context.paraCadaLinha(function(i, elementoVetorLinhaMatrix){
+                    elementoVetorLinhaMatrix.desbloquearModificacoes();
+                });
+            }
+        }else{
+            throw 'Ação não permitida para este Vectorization.Matrix!';
+        }
+    }
+
     //Alguns atributos uteis
     context.isTransposta = classConfig['isTransposta'] || false;
     context.isOposta = classConfig['isOposta'] || false;
@@ -382,6 +425,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     context.push = function(element){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         if( context.isAdvancedMatrix ){
             context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
 
@@ -443,6 +491,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.extrairValoresLinha = context.getLinha;
 
     context._definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         context.getLinha(indice)
                .definirElementoNoIndice(indiceAdicionar, vetorDaLinha);
     }
@@ -453,6 +506,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     //Cria uma nova coluna nesta Vectorization.Matrix
     context.adicionarColuna = function(valoresNovaColuna){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         let isVetorVectorization = (
             Vectorization.Vector.isVector(valoresNovaColuna || []) == true &&
             Vectorization.Vector.isVectorizationVector(valoresNovaColuna || []) 
@@ -496,6 +554,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     context.zerarColuna = function(indiceColuna, valorDefinirNoLugar=0){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         let quantidadeLinhasMatrix = context.getLinhas();
 
         //Para cada linha
@@ -514,6 +577,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * @param {Number} funcaoDeCondicao - a função(indiceDaLinhaAtual, indiceDaColunaEmQuestao, vetorDaLinhaAtual, valoresBrutosDaLinha, valorDaColunaAtualDaLinhaAtual, contextoPropiaMatrix) 
     */
     context.zerarColunaOnde = function(indiceColuna, valorDefinirNoLugar=0, funcaoDeCondicao){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+        
         if( typeof funcaoDeCondicao == 'function' && funcaoDeCondicao != undefined )
         {
             let quantidadeLinhasMatrix = context.getLinhas();
@@ -544,6 +612,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     context.zerarLinha = function(indiceLinha, valorDefinirNoLugar=0){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         context.getLinha(indiceLinha).substituirElementosPor( Vectorization.Vector({
             valorPreencher: valorDefinirNoLugar,
             elementos: context.columns
@@ -558,6 +631,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * @returns {Vectorization.Matrix} - a matrix arredondada
     */
     context.aplicarArredondamento = function(tipoArredondamentoAplicar='cima'){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         Vectorization.Vector({
             valorPreencher: 1,
             elementos: context.rows
@@ -655,6 +733,10 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * CUIDADO: isso vai sobrescrever esta Vectorization.Matrix
     */
     context.aplicarFiltroColuna = function(indiceColuna, callbackFiltragem){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
 
         context.paraCadaLinha(function(iLinha){
             let LinhaMatrix_Vector = context.getLinha(iLinha);
@@ -733,6 +815,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         let maiorQuantidadeColunas = context.getMaiorQuantidadeColunas();
         let quantidadeLinhasMatrix = context.rows;
 
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
         Vectorization.Vector({
             valorPreencher: 1,
             elementos: quantidadeLinhasMatrix
@@ -766,6 +853,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.igualarColunasNoInicio = function(valorDefinirNoLugar){
         let maiorQuantidadeColunas = context.getMaiorQuantidadeColunas();
         let quantidadeLinhasMatrix = context.rows;
+
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
 
         Vectorization.Vector({
             valorPreencher: 1,
@@ -1648,6 +1740,23 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         context.aplicarArredondamento(context._config['arredondar'] || context.configRecebidaUsuario['arredondar']);
     }
 
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    context.bloqueado = (config['bloqueado'] != undefined || classConfig['bloqueado'] != undefined) ? (config['bloqueado'] || classConfig['bloqueado']) : false;
+
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    if( context._isBloqueado() == true ){
+        context.bloquearModificacoes();
+    }
+
+    context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
+        let listaAtributosProtegidos = [
+            'permitirBloquear'
+        ];
+
+        let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
+        return confereSePodeMexe == true ? true : false;
+    }
+
     //return context;
     //Cria um Proxy para permitir acessar os indices da matrix diretamente
     return new Proxy(context, {
@@ -1659,6 +1768,16 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         },
 
         set: function(target, prop, value) {
+          //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+          if( target._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+          }
+
+          //Outros casos barrar
+          if( prop == 'bloqueado' || prop == 'permitirDesbloquear' || context.isAtributoProtegidoPeloVectorization(prop) ){
+            throw 'Você não pode modificar esta atributo do Vectorization.Matrix!';
+          }
+
           if (typeof prop === 'string' && !isNaN(prop)) {
             target.content[Number(prop)] = value;
             return true;
