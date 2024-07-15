@@ -1,3 +1,9 @@
+# Documentação oficial do Vectorization
+![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
+
+Seja bem vindo!. Está é a documentação da biblioteca Vectorization.
+Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
+
 # conteudo
 Atributo presente na classe **Vectorization.Matrix**, que permite "bloquear" todos os elementos presentes dentro da mesma, para impedir e barrar toda e qualquer possível manipulação dentro do objeto **Vectorization.Matrix**, possuindo um comportamento semelhante a uma constante, por não ser possível haver manipulações, conforme descrito.
 
