@@ -13,6 +13,8 @@ Nesta página você pode encontrar informações sobre os atributos(propriedades
  - [valorPreencher](valorPreencher.md)
  - [arredondar](arredondar.md)
  - [aleatorio](aleatorio.md)
+ - [bloqueado](bloqueado.md)
+ - [usarEscalares](usarEscalares.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)
