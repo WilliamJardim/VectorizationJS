@@ -75,8 +75,6 @@ window.Vectorization.Matrix._translations = function(){
 
         "blockModifications": "bloquearModificacoes",
         "unblockModifications": "desbloquearModificacoes",
-        "allowBlock": "permitirBloquear",
-        "allowUnblock": "permitirDesbloquear",
 
         //Portugues
         "obterTransposta": "transposta",
@@ -108,6 +106,8 @@ window.Vectorization.Matrix._translations = function(){
         //English
         //Ingles
         "blocked": "bloqueado",
+        "allowBlock": "permitirBloquear",
+        "allowUnblock": "permitirDesbloquear",
         "deepMatrix": "matrixProfunda"
     };
 

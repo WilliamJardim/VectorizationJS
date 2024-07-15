@@ -70,8 +70,6 @@ window.Vectorization.Vector._translations = function(){
 
         "blockModifications": "bloquearModificacoes",
         "unblockModifications": "desbloquearModificacoes",
-        "allowBlock": "permitirBloquear",
-        "allowUnblock": "permitirDesbloquear",
 
         //Portugues
         "somarMatriz": "somarMatrix",
@@ -93,6 +91,8 @@ window.Vectorization.Vector._translations = function(){
     const translatedAttributes = {
         //English
         "blocked": "bloqueado",
+        "allowBlock": "permitirBloquear",
+        "allowUnblock": "permitirDesbloquear",
 
         //Portugues
         "valorPreencher": "fillValue",
