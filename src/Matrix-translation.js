@@ -73,6 +73,11 @@ window.Vectorization.Matrix._translations = function(){
 
         "extractLineValues": "extrairValoresLinha",
 
+        "blockModifications": "bloquearModificacoes",
+        "unblockModifications": "desbloquearModificacoes",
+        "allowBlock": "permitirBloquear",
+        "allowUnblock": "permitirDesbloquear",
+
         //Portugues
         "obterTransposta": "transposta",
         "somarMatriz": "somarMatrix",
@@ -100,7 +105,9 @@ window.Vectorization.Matrix._translations = function(){
         "linhas": "rows",
         "colunas": "columns",
 
+        //English
         //Ingles
+        "blocked": "bloqueado",
         "deepMatrix": "matrixProfunda"
     };
 

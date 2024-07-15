@@ -68,6 +68,11 @@ window.Vectorization.Vector._translations = function(){
 
         "filter": "filtrar",
 
+        "blockModifications": "bloquearModificacoes",
+        "unblockModifications": "desbloquearModificacoes",
+        "allowBlock": "permitirBloquear",
+        "allowUnblock": "permitirDesbloquear",
+
         //Portugues
         "somarMatriz": "somarMatrix",
         "subtrairMatriz": "subtrairMatrix",
@@ -86,6 +91,9 @@ window.Vectorization.Vector._translations = function(){
     };
 
     const translatedAttributes = {
+        //English
+        "blocked": "bloqueado",
+
         //Portugues
         "valorPreencher": "fillValue",
         "elementos": "length",
