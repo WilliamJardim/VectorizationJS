@@ -76,6 +76,8 @@ window.Vectorization.Matrix._translations = function(){
         "blockModifications": "bloquearModificacoes",
         "unblockModifications": "desbloquearModificacoes",
 
+        "planify": "planificar",
+
         //Portugues
         "obterTransposta": "transposta",
         "somarMatriz": "somarMatrix",

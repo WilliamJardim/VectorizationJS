@@ -1720,6 +1720,23 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Matrix(novaMatrix);
     }
 
+    /**
+    * Pega todos os elementos que estão dentro desta Vectorization.Matrix,
+    * e deixa todos eles num unico Vectorization.Vector, desprezando as dimensões, e deste modo: concentrando tudo em um unico Vectorization.Vector. 
+    * @returns {Vectorization.Vector}
+    */
+    context.planificar = function(){
+        let novoVetorASerRetornado = Vectorization.Vector([]);
+        Vectorization.Matrix(context.duplicar())
+        .paraCadaLinha(
+            function(iLinha, vetorDaLinha){
+                const vetorDaLinha_Vector = Vectorization.Vector.isVectorizationVector(vetorDaLinha) ? vetorDaLinha : Vectorization.Vector(vetorDaLinha);
+                novoVetorASerRetornado.acrescentarVetor( Vectorization.Vector( vetorDaLinha_Vector ).duplicar() );
+            }); 
+
+        return Vectorization.Vector(novoVetorASerRetornado);
+    }
+
     context._doDefaultBaseAfterCreate();
 
     //Se a opção advanced estiver ativa, ele roda um método adicional após criar a matrix
