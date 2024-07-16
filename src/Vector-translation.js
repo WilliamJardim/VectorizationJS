@@ -75,6 +75,7 @@ window.Vectorization.Vector._translations = function(){
         "findMax": "valorMaximo",
         "sortAscending": "ordenarCrescente",
         "sortDescending": "ordenarDecrescente",
+        "mapFunction": "aplicarFuncao",
 
         //Portugues
         "somarMatriz": "somarMatrix",
@@ -103,6 +104,7 @@ window.Vectorization.Vector._translations = function(){
         "blocked": "bloqueado",
         "allowBlock": "permitirBloquear",
         "allowUnblock": "permitirDesbloquear",
+        "mapUsingFunction": "funcaoAplicar",
 
         //Portugues
         "valorPreencher": "fillValue",
