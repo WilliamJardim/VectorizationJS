@@ -308,6 +308,22 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context.content[i];
     }
 
+    /**
+    * @param {Function} funcao 
+    * @returns {Vectorization.Vector} - o propio Vectorization.Vector
+    * 
+    * CUIDADO: isso vai modificar este propio Vectorization.Vector
+    */
+    context.aplicarFuncao = function(funcao){
+        context.substituirElementosPor(
+            context.mapearValores(function(indice, elementoVetor){
+                return funcao(elementoVetor, indice);
+            })
+        );
+
+        return context;
+    }
+
     context.valorMinimo = function(){
         let valoresAnalisar = context.duplicar();
         let menorValorEncontrado = valoresAnalisar.readIndex(0);
@@ -1595,6 +1611,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
         let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
         return confereSePodeMexe == true ? true : false;
+    }
+
+    //Se tiver uma função a ser aplicada por cima de tudo
+    if( config['funcaoAplicar'] != undefined || classConfig['funcaoAplicar'] != undefined ){
+        context.aplicarFuncao( config['funcaoAplicar'] || classConfig['funcaoAplicar'] );
     }
 
     //return context;
