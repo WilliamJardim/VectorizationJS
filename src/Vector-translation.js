@@ -73,6 +73,8 @@ window.Vectorization.Vector._translations = function(){
 
         "findMin": "valorMinimo",
         "findMax": "valorMaximo",
+        "sortAscending": "ordenarCrescente",
+        "sortDescending": "ordenarDecrescente",
 
         //Portugues
         "somarMatriz": "somarMatrix",
@@ -91,7 +93,9 @@ window.Vectorization.Vector._translations = function(){
         "desbloquear": "desbloquearModificacoes",
         "indiceDe": "indexOf",
         "encontrarIndiceDe": "indexOf",
-        "encontrarIndice": "indexOf"
+        "encontrarIndice": "indexOf",
+        "ordemCrescente": "ordenarCrescente",
+        "ordemDecrescente": "ordenarDecrescente"
     };
 
     const translatedAttributes = {

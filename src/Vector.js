@@ -124,6 +124,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     context._update = function(){
         context.length = config.length;
+        context.elementos = config.length;
     }
 
     //Se passar diretamente o conteudo
@@ -1553,6 +1554,82 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return Vectorization.Vector(novoVetor);
+    }
+
+    context.removerApenasUm = function(elementoRemover){
+        let novoVectorRetirado = Vectorization.Vector([]);
+        let vetorPercorrer = context.duplicar();
+        let jaFoi = false;
+
+        vetorPercorrer.paraCadaElemento(function(i, elementoVetor){
+            if( jaFoi == false && elementoVetor == elementoRemover){
+                jaFoi = true;
+
+            }else{
+                novoVectorRetirado.adicionarElemento(elementoVetor);
+            }
+        });
+
+        novoVectorRetirado._update();
+        return novoVectorRetirado;
+    }
+
+    /**
+    * Ordena este Vectorization.Vector em ordem crescente
+    * @returns {Vectorization.Vector} - um novo Vectorization.Vector ordenado
+    */
+    context.ordenarCrescente = function(){
+        let novoVectorOrdenado = Vectorization.Vector([]);
+        let vetorPercorrer = context.duplicar();
+        let vetorTrabalhando = vetorPercorrer.duplicar();
+
+        while( novoVectorOrdenado.elementos != vetorPercorrer.elementos )
+        {
+            let valorMinimoVetorTrabalhando = vetorTrabalhando.valorMinimo();
+    
+            let jaFoiAPrimeira = false;
+            vetorTrabalhando.paraCadaElemento(function(i, elementoVetor){
+                if( jaFoiAPrimeira == false && elementoVetor == valorMinimoVetorTrabalhando ){
+                    novoVectorOrdenado.adicionarElemento( elementoVetor );
+                    jaFoiAPrimeira = true;
+                }
+            })
+
+            //Substitui o vetorTrabalhando
+            vetorTrabalhando = vetorTrabalhando.removerApenasUm(valorMinimoVetorTrabalhando);
+            jaFoiAPrimeira = false;
+        }
+
+        return novoVectorOrdenado;
+    }
+
+    /**
+    * Ordena este Vectorization.Vector em ordem decrescente
+    * @returns {Vectorization.Vector} - um novo Vectorization.Vector ordenado
+    */
+    context.ordenarDecrescente = function(){
+        let novoVectorOrdenado = Vectorization.Vector([]);
+        let vetorPercorrer = context.duplicar();
+        let vetorTrabalhando = vetorPercorrer.duplicar();
+
+        while( novoVectorOrdenado.elementos != vetorPercorrer.elementos )
+        {
+            let valorMaximoVetorTrabalhando = vetorTrabalhando.valorMaximo();
+    
+            let jaFoiAPrimeira = false;
+            vetorTrabalhando.paraCadaElemento(function(i, elementoVetor){
+                if( jaFoiAPrimeira == false && elementoVetor == valorMaximoVetorTrabalhando ){
+                    novoVectorOrdenado.adicionarElemento( elementoVetor );
+                    jaFoiAPrimeira = true;
+                }
+            })
+
+            //Substitui o vetorTrabalhando
+            vetorTrabalhando = vetorTrabalhando.removerApenasUm(valorMaximoVetorTrabalhando);
+            jaFoiAPrimeira = false;
+        }
+
+        return novoVectorOrdenado;
     }
 
     /**
