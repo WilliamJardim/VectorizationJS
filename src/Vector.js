@@ -350,6 +350,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return maiorElementoEncontrado;
     }
 
+    context.indexOf = function(elemento, comecandoAPartirDoIndice){
+        return Vectorization.Vector(context).duplicar().content.indexOf(elemento, comecandoAPartirDoIndice);
+    }
+
     context.sum = function(){
         let result = 0;
         for( let i = 0 ; i < context.length ; i++ )
