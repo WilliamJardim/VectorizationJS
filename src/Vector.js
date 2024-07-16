@@ -95,6 +95,33 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
     }
 
+    context.trocarValoresAleatorios = function(novoMinimo=null, novoMaximo=null, novaSemente=null){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+        
+        if( context.usarEscalares == true )    
+        {
+            context.paraCadaElemento(function(i, elementoVetor){
+                elementoVetor.trocarNumeroAleatorio(novoMinimo, novoMaximo, novaSemente);
+            });
+
+        }else{
+            context.substituirElementosPor(
+                context.mapearValores(function(i, elementoVetor){
+                    return Vectorization.Scalar({
+                        aleatorio: true,
+                        minimo: 0,
+                        maximo: 10
+                    }).trocarNumeroAleatorio(novoMinimo, novoMaximo, novaSemente);
+                })
+            );
+        }
+
+        return context;
+    }
+
     context._update = function(){
         context.length = config.length;
     }
@@ -123,6 +150,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
      * @param {any} valor 
      */
     context.definirElementoNoIndice = function(indice, valor){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
+
         context.content[indice] = valor;
     }
 
@@ -141,6 +173,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.substituirElementosPor = function(outroVector){
         let valoresASeremColocados = (Vectorization.Vector.isVector(outroVector) && Vectorization.Vector.isVectorizationVector(outroVector)) ? outroVector.valores() : outroVector;
         let tamanhoSegundoVetor = (Vectorization.Vector.isVector(outroVector) && Vectorization.Vector.isVectorizationVector(outroVector)) ? outroVector.tamanho() : outroVector.length;
+
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
+        }
 
         if(context.tamanho() != tamanhoSegundoVetor){
             throw 'O tamanho do outroVetor precisa ser o mesmo!';

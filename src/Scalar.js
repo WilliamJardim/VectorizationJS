@@ -55,7 +55,7 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
                 context.ultimoMaximoUsado = value.maximo;
                 context.ultimoMinimoUsado = value.minimo;
                 context.sementeAleatoria = context.sementeAleatoria || Vectorization.Random._sementeDefinida;
-               
+
                 if( value.sementeAleatoria != undefined ){
                     context.sementeAleatoria = value.sementeAleatoria;
 
@@ -137,6 +137,14 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         }
 
         if( context.aleatorio == true ){
+
+            if( novoMinimo == null ){
+                novoMinimo = context.ultimoMinimoUsado;
+            }
+
+            if( novoMaximo == null ){
+                novoMaximo = context.ultimoMaximoUsado;
+            }
 
             if( novaSemente == null ){
                 novaSemente = context.sementeAleatoria;
