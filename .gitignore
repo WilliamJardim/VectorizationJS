@@ -2,6 +2,10 @@ TODO.txt
 ./src/dev/*
 src/dev
 src/dev/*
+./examples/dev
+./examples/dev/*
+examples/dev
+examples/dev/*
 notas
 ./notas
 notas/*
