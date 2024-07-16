@@ -71,6 +71,9 @@ window.Vectorization.Vector._translations = function(){
         "blockModifications": "bloquearModificacoes",
         "unblockModifications": "desbloquearModificacoes",
 
+        "findMin": "valorMinimo",
+        "findMax": "valorMaximo",
+
         //Portugues
         "somarMatriz": "somarMatrix",
         "subtrairMatriz": "subtrairMatrix",

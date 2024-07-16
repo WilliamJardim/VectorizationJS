@@ -308,6 +308,48 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context.content[i];
     }
 
+    context.valorMinimo = function(){
+        let valoresAnalisar = context.duplicar();
+        let menorValorEncontrado = valoresAnalisar.readIndex(0);
+
+        // Verificar se o vetor não está vazio
+        if (valoresAnalisar.elementos == 0) {
+            throw 'Este Vectorization.Vector não tem nada dentro.';
+        }
+
+        valoresAnalisar.paraCadaElemento(function(i){
+            const elemento = valoresAnalisar.readIndex(i);
+
+            if( elemento < menorValorEncontrado )
+            {
+                menorValorEncontrado = elemento;
+            }
+        });
+
+        return menorValorEncontrado;
+    }
+
+    context.valorMaximo = function(){
+        let valoresAnalisar = context.duplicar();
+        let maiorElementoEncontrado = valoresAnalisar.readIndex(0);
+
+        // Verificar se o vetor não está vazio
+        if (valoresAnalisar.elementos == 0) {
+            throw 'Este Vectorization.Vector não tem nada dentro.';
+        }
+
+        valoresAnalisar.paraCadaElemento(function(i){
+            const elemento = valoresAnalisar.readIndex(i);
+
+            if( elemento > maiorElementoEncontrado )
+            {
+                maiorElementoEncontrado = elemento;
+            }
+        });
+
+        return maiorElementoEncontrado;
+    }
+
     context.sum = function(){
         let result = 0;
         for( let i = 0 ; i < context.length ; i++ )
