@@ -1737,17 +1737,52 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.isOrdenado = function(){
         return (context.isOrdenadoCrescente() || context.isOrdenadoDecrescente());
     }
-    context.estaOrdenado = context.estaOrdenado;
+    context.estaOrdenado = context.isOrdenado;
     context.estiverOrdenado = context.estaOrdenado;
+    context.estiverOrdenadoCrescente = context.isOrdenadoCrescente;
+
+    context.primeiroItem = function(){
+        return context.lerIndice(0);
+    }
+
+    context.segundoItem = function(){
+        return context.lerIndice(1);
+    }
 
     /**
     * @param {Number} numeroQuerendoPesquisar 
+    * @returns {Object}
     */
-    context.pesquisaBinaria = function(numeroQuerendoPesquisar){
-        if( context.estiverOrdenado() )
+    context.pesquisaBinaria = function(numeroQuerendoPesquisar, naoChecarOrdenacao=false){
+        let resultado = {
+            encontrou: false,
+            indiceAchou: -1
+        };
+
+        if( naoChecarOrdenacao == true || context.estiverOrdenadoCrescente() )
         {
-            
+            let esteVetorCopiado = context.duplicar();
+            let esteVetor_dividido = esteVetorCopiado.dividirEmPartes(2);
+            let tamanhoEsteVetor = esteVetorCopiado.elementos;
+            let tamanhoEsteVetor_pelaMetade = Math.round( tamanhoEsteVetor/2 );
+
+            let parte1 = esteVetor_dividido.primeiroItem(),
+                parte2 = esteVetor_dividido.segundoItem();
+
+            if( numeroQuerendoPesquisar >= esteVetorCopiado.lerIndice(tamanhoEsteVetor_pelaMetade) ){
+                resultado.indiceAchou = parte2.indiceDe(numeroQuerendoPesquisar);
+                resultado.encontrou = resultado.indiceAchou > -1 ? true : false;
+
+            }else{
+                resultado.indiceAchou = parte1.indiceDe(numeroQuerendoPesquisar);
+                resultado.encontrou = resultado.indiceAchou > -1 ? true : false;
+            }   
+
+        }else{
+            throw 'Você precisa ordenar primeiro em ordem crescente!';
         }
+
+        return resultado;
     }
 
     /**
