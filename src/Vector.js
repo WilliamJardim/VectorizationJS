@@ -1635,6 +1635,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 if( jaFoiAPrimeira == false && elementoVetor == valorMinimoVetorTrabalhando ){
                     novoVectorOrdenado.adicionarElemento( elementoVetor );
                     jaFoiAPrimeira = true;
+
+                    //Vai parar o loop do elementoVetor
+                    return {
+                        acao: 'parar_loop'
+                    }
                 }
             })
 
@@ -1664,6 +1669,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 if( jaFoiAPrimeira == false && elementoVetor == valorMaximoVetorTrabalhando ){
                     novoVectorOrdenado.adicionarElemento( elementoVetor );
                     jaFoiAPrimeira = true;
+
+                    //Vai parar o loop do elementoVetor
+                    return {
+                        acao: 'parar_loop'
+                    }
                 }
             })
 

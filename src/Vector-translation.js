@@ -96,7 +96,9 @@ window.Vectorization.Vector._translations = function(){
         "encontrarIndiceDe": "indexOf",
         "encontrarIndice": "indexOf",
         "ordemCrescente": "ordenarCrescente",
-        "ordemDecrescente": "ordenarDecrescente"
+        "ordemDecrescente": "ordenarDecrescente",
+        "isOrdemCrescente": "isOrdenadoCrescente",
+        "isOrdemDecrescente": "isOrdenadoDecrescente"
     };
 
     const translatedAttributes = {
