@@ -141,7 +141,12 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         //Inicializa o vetor
         for( let i = 0 ; i < context.length ; i++ )
         {
-            context.content[i] = context.initialColumnValue;
+            if( Vectorization.Vector.isVectorizationVector(context.initialColumnValue) == true ){
+                context.content[i] = context.initialColumnValue.duplicar();
+
+            }else{
+                context.content[i] = context.initialColumnValue;
+            }
         }
     }
 
@@ -1630,6 +1635,119 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return novoVectorOrdenado;
+    }
+
+    /**
+     * Permite dividir este Vectorization.Vector em N partes iguais.
+     * @param {Number} numeroPartesDividir 
+     * @returns {Vectorization.Vector} - um Vectorization.Vector de outros Vectorization.Vector(s)
+     */
+    context.dividirEmPartes = function(numeroPartesDividir){
+        let esteVetorCopiado = context.duplicar();
+        let tamanhosAproximados = Math.round( esteVetorCopiado.elementos / numeroPartesDividir );
+        let ondeParou = 0;
+
+        let listaResultadoDivisao = Vectorization.Vector({
+            valorPreencher: Vectorization.Vector([]),
+            elementos: numeroPartesDividir
+        });
+
+        Vectorization.Vector({
+            valorPreencher: tamanhosAproximados,
+            elementos: numeroPartesDividir
+        }).paraCadaElemento(function(iParte, tamanhoParte){
+
+            let quantosJaColocou = 0;
+            let jaTerminouEste = false;
+            
+            Vectorization.Vector(esteVetorCopiado)
+            .paraCadaElemento(function(iElemento){
+                let elementoAtual = esteVetorCopiado.lerIndice(iElemento);
+                let consideradouEsteIndice = ( (ondeParou == 0 || iElemento > ondeParou) == true && quantosJaColocou <= (tamanhoParte-1) == true) == true;
+                let jaColocouTudoDaParte = (quantosJaColocou <= (tamanhoParte-1)) == false;
+
+                if( jaTerminouEste == false && (ondeParou == 0 || iElemento > ondeParou) && quantosJaColocou <= (tamanhoParte-1) )
+                {
+                    listaResultadoDivisao.lerIndice(iParte)
+                                         .adicionarElemento(elementoAtual);
+
+                    ondeParou = iElemento;
+                    quantosJaColocou++;
+                    
+                }else{
+                    //Se ele pulou o indice por que ainda não começou a faixa de valores do proximo pedaço, ele ignora e não vai marcar que ja terminou
+                    if( jaColocouTudoDaParte == true ){
+                        jaTerminouEste = true;
+                    }
+                }
+
+            });
+        })
+
+        return Vectorization.Vector(listaResultadoDivisao);
+    }
+    context.split = context.dividirEmPartes;
+
+    /**
+     * Verifica se este Vectorization.Vector está ordenado de forma crescente
+     * @returns {Boolean}
+     */
+    context.isOrdenadoCrescente = function(){
+        let esteVetorCopiado = context.duplicar();
+        let estaOrdenado = true;
+        Vectorization.Vector(esteVetorCopiado)
+        .paraCadaElemento(function(i){
+            let elementoAtual = esteVetorCopiado.readIndex(i);
+            let elementoMaisUm = esteVetorCopiado.readIndex(i+1) || NaN;
+            let elementoMenosUm = esteVetorCopiado.readIndex(i-1) || NaN;
+
+            if( elementoMaisUm < elementoAtual || elementoMenosUm > elementoAtual ){
+                estaOrdenado = false;
+            }
+        });
+
+        return estaOrdenado;
+    }
+
+    /**
+     * Verifica se este Vectorization.Vector está ordenado de forma decrescente
+     * @returns {Boolean}
+     */
+    context.isOrdenadoDecrescente = function(){
+        let esteVetorCopiado = context.duplicar();
+        let estaOrdenado = true;
+        Vectorization.Vector(esteVetorCopiado)
+        .paraCadaElemento(function(i){
+            let elementoAtual = esteVetorCopiado.readIndex(i);
+            let elementoMaisUm = esteVetorCopiado.readIndex(i+1) || NaN;
+            let elementoMenosUm = esteVetorCopiado.readIndex(i-1) || NaN;
+
+            if( elementoMaisUm > elementoAtual || elementoMenosUm < elementoAtual ){
+                estaOrdenado = false;
+            }
+        });
+
+        return estaOrdenado;
+    }
+
+    /**
+     * Verifica se este Vectorization.Vector está ordenado de forma crescente ou então decrescente
+     * @returns {Boolean}
+     */
+    context.isOrdenado = function(){
+        return (context.isOrdenadoCrescente() || context.isOrdenadoDecrescente());
+    }
+    context.estaOrdenado = context.estaOrdenado;
+    context.estiverOrdenado = context.estaOrdenado;
+
+    /**
+    * @param {Number} numeroQuerendoPesquisar 
+    */
+    context.pesquisaBinaria = function(numeroQuerendoPesquisar){
+        if( context.estiverOrdenado() )
+        {
+            
+        }
     }
 
     /**
