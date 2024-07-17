@@ -141,7 +141,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         //Inicializa o vetor
         for( let i = 0 ; i < context.length ; i++ )
         {
-            if( Vectorization.Vector.isVectorizationVector(context.initialColumnValue) == true ){
+            if( Vectorization.Vector.isVectorizationVector(context.initialColumnValue) == true ||
+                Vectorization.Matrix.isMatrix(context.initialColumnValue) == true
+            ){
                 context.content[i] = context.initialColumnValue.duplicar();
 
             }else{
