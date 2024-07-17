@@ -525,7 +525,43 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.forEach = function(callback){
         for( let i = 0 ; i < context.content.length ; i++ )
         {
-            callback( i, context.content[i], context );
+            let ultimoEstadoRetornado = callback( i, context.content[i], context );
+    
+            if( ultimoEstadoRetornado instanceof Object )
+            {
+                ultimoEstadoRetornado.propriedadesControle = {};
+
+                switch(ultimoEstadoRetornado.acao){
+                    case 'parar':
+                    case 'parar_loop':
+                    case 'interromper':
+                    case 'stop':
+                        ultimoEstadoRetornado.propriedadesControle.vaiPararLoop = true;
+                        break;
+
+                    case 'reiniciar':
+                    case 'reiniciar_loop':
+                    case 'restart':
+                        i = 0;
+                        break;
+
+                    case 'ir_indice':
+                    case 'ir_iteracao':
+                    case 'go_iteration':
+                        if( ultimoEstadoRetornado.valor != undefined )
+                        {
+                            i = ultimoEstadoRetornado.valor;
+                        }else{
+                            throw 'Não é possivel ir para uma iteração sem um numero';
+                        }
+                        break;
+                }
+
+                //Interromper este loop
+                if( ultimoEstadoRetornado.propriedadesControle.vaiPararLoop == true ){
+                    break;
+                }
+            }
         }
     }
 
@@ -1680,6 +1716,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                     //Se ele pulou o indice por que ainda não começou a faixa de valores do proximo pedaço, ele ignora e não vai marcar que ja terminou
                     if( jaColocouTudoDaParte == true ){
                         jaTerminouEste = true;
+
+                        //Vai parar o loop do iElemento
+                        return {
+                            acao: 'parar_loop'
+                        }
                     }
                 }
 
@@ -1705,6 +1746,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
             if( elementoMaisUm < elementoAtual || elementoMenosUm > elementoAtual ){
                 estaOrdenado = false;
+
+                return {
+                    acao: 'parar_loop'
+                }
             }
         });
 
@@ -1726,6 +1771,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
             if( elementoMaisUm > elementoAtual || elementoMenosUm < elementoAtual ){
                 estaOrdenado = false;
+
+                return {
+                    acao: 'parar_loop'
+                }
             }
         });
 
