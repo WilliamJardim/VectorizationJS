@@ -26,7 +26,7 @@ meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVeto
 # Outro exemplo usando matemática
 ```javascript
 let meu_vetor = Vectorization.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
-let vetor_vazio =Vectorization.Vector([]);
+let vetor_vazio = Vectorization.Vector([]);
 
 meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVetor){
     //Adicionando os elementos deste vetor ao vetor_vazio, porém elevados ao quadrado
@@ -78,7 +78,7 @@ Note que o loop só fez 11 elementos ao quadrado. Mais parou quando um elemento 
 
 **Esse tipo de coisa é útil quando percebemos que continuar a iteração vai ser desnecessário, consumindo recursos computacionais desnecessários. Então podemos cortar isso.**
 
-**NOTA: A funçao passada para o comando precisa estar preparada para receber os seguintes parêmtros: ***
+**NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros:**
  - indiceElemento: o indice
  - propioElemento: o número
  - contextoVetor: o contexto do Vectorization.Vector

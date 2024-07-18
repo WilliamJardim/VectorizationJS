@@ -38,7 +38,7 @@ console.log( vetor_filtrado.valores() );
 
 Neste exemplo, deixamos apenas os números que são maiores do que zero. Porém, as possibilidades de uso são infinitas.
 
-**NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros: ***
+**NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros:**
  - indiceElemento: o indice
  - propioElemento: o número
  - contextoVetor: o contexto do Vectorization.Vector

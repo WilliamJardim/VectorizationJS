@@ -32,7 +32,7 @@ console.log( vetor_mapeado.valores() );
  [0.2, 0.01, -0.05, 0.01, 0.01, 0, 0.5, 0.8, 0.9, 0.5, 0.1, 0.22, 0.25, 0.01, 0.06, 1]
 ```
 
-**NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros: ***
+**NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros:**
  - indiceElemento: o indice
  - propioElemento: o número
  - contextoVetor: o contexto do Vectorization.Vector
