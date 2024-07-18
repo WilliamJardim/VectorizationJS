@@ -199,6 +199,39 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         return String(context.value);
     }
 
+    context.somarNumero = function(numero){
+        context.value = context.value + numero;
+        return context.value;
+    }
+
+    context.subtrairNumero = function(numero){
+        context.value = context.value - numero;
+        return context.value;
+    }
+
+    context.dividirNumero = function(numero){
+        context.value = context.value / numero;
+        return context.value;
+    }
+
+    context.multiplicarNumero = function(numero){
+        context.value = context.value * numero;
+        return context.value;
+    }
+
+    context.elevarNumero = function(numero){
+        context.value = Math.pow(context.value, numero);
+        return context.value;
+    }
+
+    context.aoQuadrado = function(){
+        return context.elevarNumero(2);
+    }
+
+    context.metade = function(){
+        return context.dividirNumero(2);
+    }
+
     //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
     context.bloqueado = (classConfig['bloqueado'] != undefined) ? (classConfig['bloqueado']) : false;
 
