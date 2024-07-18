@@ -48,7 +48,7 @@ Você poderá encontrar uma lista desses métodos abaixo:
 
   - **[Veja paraCadaElemento](../ParaCadaElemento/page.md)** 
   - **[Veja paraCadaElementoReverso](../ParaCadaElementoReverso/page.md)**
-  - **[Veja filtrarValores](../FiltrarValores/page.md)**
+  - **[Veja mapearValores](../MapearValores/page.md)**
 
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Vector**
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Vector.js)
