@@ -1849,7 +1849,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.estiverOrdenadoCrescente = context.isOrdenadoCrescente;
 
     context.primeiroItem = function(){
-        return context.lerIndice(0) + 0;
+        return context.lerIndice(0);
     }
 
     context.ultimoItem = function(){
@@ -1857,31 +1857,31 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.segundoItem = function(){
-        return context.lerIndice(1) + 0;
+        return context.lerIndice(1);
     }
     context.terceiroItem = function(){
-        return context.lerIndice(2) + 0;
+        return context.lerIndice(2);
     }
     context.quartoItem = function(){
-        return context.lerIndice(3) + 0;
+        return context.lerIndice(3);
     }
     context.quintoItem = function(){
-        return context.lerIndice(4) + 0;
+        return context.lerIndice(4);
     }
     context.sextoItem = function(){
-        return context.lerIndice(5) + 0;
+        return context.lerIndice(5);
     }
     context.setimoItem = function(){
-        return context.lerIndice(6) + 0;
+        return context.lerIndice(6);
     }
     context.oitavoItem = function(){
-        return context.lerIndice(7) + 0;
+        return context.lerIndice(7);
     }
     context.nonoItem = function(){
-        return context.lerIndice(8) + 0;
+        return context.lerIndice(8);
     }
     context.decimoItem = function(){
-        return context.lerIndice(9) + 0;
+        return context.lerIndice(9);
     }
 
     /**

@@ -23,7 +23,8 @@ if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.Scalar._translations = function(){
     const translatedMethods = {
-        
+        'elevarQuadrado': 'aoQuadrado',
+        'elevarAoQuadrado': 'aoQuadrado'
     };
 
     const translatedAttributes = {

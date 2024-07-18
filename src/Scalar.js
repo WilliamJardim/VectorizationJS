@@ -33,6 +33,11 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
     classConfig = classeBaseEscalar.translateAttributes_andReturn(classConfig, classConfig['translations']() );
 
+    //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
+    if( value.objectName != undefined && value.objectName == 'Scalar' ){
+        return Vectorization.Scalar( value.raw(), {... classConfig} );
+    }
+
     //let context = {... classConfig};
     let context = window.Vectorization.Base({... classConfig});
 
