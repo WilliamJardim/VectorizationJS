@@ -200,28 +200,23 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     }
 
     context.somarNumero = function(numero){
-        context.value = context.value + numero;
-        return context.value;
+        return context.value + numero;
     }
 
     context.subtrairNumero = function(numero){
-        context.value = context.value - numero;
-        return context.value;
+        return context.value - numero;
     }
 
     context.dividirNumero = function(numero){
-        context.value = context.value / numero;
-        return context.value;
+        return context.value / numero;
     }
 
     context.multiplicarNumero = function(numero){
-        context.value = context.value * numero;
-        return context.value;
+        return context.value * numero;
     }
 
     context.elevarNumero = function(numero){
-        context.value = Math.pow(context.value, numero);
-        return context.value;
+        return Math.pow(context.value, numero);
     }
 
     context.aoQuadrado = function(){
