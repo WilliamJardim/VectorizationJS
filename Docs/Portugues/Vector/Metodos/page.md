@@ -10,6 +10,10 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
 **Lista de métodos:**
  - [Produto Escalar](ProdutoEscalar/page.md)
  - [Multiplicação elemento a elemento](Multiplicacao/page.md)
+ - [Para Cada Elemento](ParaCadaElemento/page.md)
+ - [Para Cada Elemento Reverso](ParaCadaElementoReverso/page.md)
+ - [Mapear Valores](MapearValores/page.md)
+ - [Filtrar Valores](FiltrarValores/page.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)

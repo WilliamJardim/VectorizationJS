@@ -583,7 +583,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 vaiParar = true;
             }
 
-            callback(
+            ultimoEstadoRetornado = callback(
                      //O indice
                      i, 
                      //O elemento atual
@@ -591,6 +591,42 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                      //O propio contexto deste Vectorization.Vector 
                      context
                     );
+
+            if( ultimoEstadoRetornado instanceof Object )
+            {
+                ultimoEstadoRetornado.propriedadesControle = {};
+
+                switch(ultimoEstadoRetornado.acao){
+                    case 'parar':
+                    case 'parar_loop':
+                    case 'interromper':
+                    case 'stop':
+                        ultimoEstadoRetornado.propriedadesControle.vaiPararLoop = true;
+                        break;
+
+                    case 'reiniciar':
+                    case 'reiniciar_loop':
+                    case 'restart':
+                        i = 0;
+                        break;
+
+                    case 'ir_indice':
+                    case 'ir_iteracao':
+                    case 'go_iteration':
+                        if( ultimoEstadoRetornado.valor != undefined )
+                        {
+                            i = ultimoEstadoRetornado.valor;
+                        }else{
+                            throw 'Não é possivel ir para uma iteração sem um numero';
+                        }
+                        break;
+                }
+
+                //Interromper este loop
+                if( ultimoEstadoRetornado.propriedadesControle.vaiPararLoop == true ){
+                    break;
+                }
+            }
         }
     }
 
