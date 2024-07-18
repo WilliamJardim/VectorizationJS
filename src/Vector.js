@@ -25,6 +25,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     //Define a tradução
     classConfig['translations'] = window.Vectorization.Vector._translations || null;
 
+    //Por padrão o usarEscalares vai ser true
+    if( config['usarEscalares'] == undefined && classConfig['usarEscalares'] == undefined && config['usarEscalares'] != false && classConfig['usarEscalares'] != false ){
+        config['usarEscalares'] = true;
+    }
+
     let classeBaseVector = window.Vectorization.Base({... classConfig});
 
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
@@ -236,7 +241,12 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.values = function(){
-        return context.content;
+        if( context.usarEscalares == true ){
+            return context.raw();
+
+        }else{
+            return context.content;
+        }
     }
 
     //Alias for context.values
@@ -246,7 +256,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         if( context.usarEscalares != undefined && context.usarEscalares == true )
         {
             let valoresSemEstarEmEscalar = [];
-            Vectorization.Vector(context.duplicar()).paraCadaElemento(function(i, objetoEscalar){
+            context.paraCadaElemento(function(i, objetoEscalar){
                 valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
             });
 
@@ -1839,35 +1849,39 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.estiverOrdenadoCrescente = context.isOrdenadoCrescente;
 
     context.primeiroItem = function(){
-        return context.lerIndice(0);
+        return context.lerIndice(0) + 0;
+    }
+
+    context.ultimoItem = function(){
+        return context.lerIndice(context.elementos - 1) + 0;
     }
 
     context.segundoItem = function(){
-        return context.lerIndice(1);
+        return context.lerIndice(1) + 0;
     }
     context.terceiroItem = function(){
-        return context.lerIndice(2);
+        return context.lerIndice(2) + 0;
     }
     context.quartoItem = function(){
-        return context.lerIndice(3);
+        return context.lerIndice(3) + 0;
     }
     context.quintoItem = function(){
-        return context.lerIndice(4);
+        return context.lerIndice(4) + 0;
     }
     context.sextoItem = function(){
-        return context.lerIndice(5);
+        return context.lerIndice(5) + 0;
     }
     context.setimoItem = function(){
-        return context.lerIndice(6);
+        return context.lerIndice(6) + 0;
     }
     context.oitavoItem = function(){
-        return context.lerIndice(7);
+        return context.lerIndice(7) + 0;
     }
     context.nonoItem = function(){
-        return context.lerIndice(8);
+        return context.lerIndice(8) + 0;
     }
     context.decimoItem = function(){
-        return context.lerIndice(9);
+        return context.lerIndice(9) + 0;
     }
 
     /**
