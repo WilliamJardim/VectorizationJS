@@ -1921,6 +1921,29 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Vai percorrer cada elemento deste Vectorization.Vector, visando localizar elementos que aparecem mais de uma vez.
+    * E com isso, ele vai remover tais repetições de elementos, retornando um novo Vectorization.Vector que não contenha duplicidade. 
+    */
+    context.valoresUnicos = function(){
+        const esteVetorCopiado = context.duplicar();
+        const jaFoi = {};
+        
+        let novoVetor_sem_repeticoes = Vectorization.Vector([]);
+
+        esteVetorCopiado.paraCadaElemento(function(i){
+            let elementoAtual = esteVetorCopiado.readIndex(i);
+
+            if( jaFoi[ elementoAtual ] == undefined )
+            {
+                novoVetor_sem_repeticoes.adicionarElemento(elementoAtual);
+                jaFoi[ elementoAtual ] = true;
+            }
+        });
+
+        return novoVetor_sem_repeticoes;
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){

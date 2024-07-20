@@ -76,6 +76,7 @@ window.Vectorization.Vector._translations = function(){
         "sortAscending": "ordenarCrescente",
         "sortDescending": "ordenarDecrescente",
         "mapFunction": "aplicarFuncao",
+        "unicalValues": "valoresUnicos",
 
         //Portugues
         "somarMatriz": "somarMatrix",
