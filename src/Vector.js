@@ -1944,6 +1944,189 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Conta quantas vezes um elemento em questão apareceu dentro deste Vectorization.Vector
+    */
+    context.contarFrequenciaElemento = function(elementoEmQuestao='nenhumElemento'){
+        let quantidade = 0;
+        if( elementoEmQuestao == 'nenhumElemento' ){
+            throw 'Voce precisa passar um elemento!';
+        }
+
+        context.paraCadaElemento(function(iii){
+            const elementoAtual = context.lerIndice(iii);
+            if( elementoAtual == elementoEmQuestao )
+            {
+                quantidade = quantidade + 1;
+            }
+        });
+
+        return quantidade;
+    }
+
+    /**
+     * Sub-classe auxiliar, para uso interno
+     * Possui uma estrutura personalizada para armazenar frequencias
+     * @param { Object{contextVinculado:Vectorization.Vector, calcular:Vectorization.Vector||Array} } dadosFrequencias
+     * @returns {Vectorization.Vector.FrequenciaComputada}
+     */
+    Vectorization.Vector.FrequenciaComputada = function(dadosFrequencias){
+        let dadosFrequencias_Obj = {};
+        let dadosProcurar = [];
+
+        let contextPropioVector = null;
+        if( !Vectorization.Vector.isVector(dadosFrequencias) ){
+            dadosFrequencias_Obj = {... dadosFrequencias};
+            contextPropioVector = dadosFrequencias_Obj.contextVinculado;
+            dadosProcurar = dadosFrequencias_Obj.calcular;
+
+            if( dadosProcurar == null || dadosProcurar == undefined ){
+                throw 'Voce precisa informar o calcular';
+            }
+
+            if( contextPropioVector == null || contextPropioVector == undefined ){
+                throw 'Voce precisa informar o contexto do Vectorization.Vector';
+            }   
+        }
+
+        let informacoesCopiadas = Vectorization.Base(dadosFrequencias_Obj);
+        let context_informacoesCopiadas = informacoesCopiadas;
+        context_informacoesCopiadas.tabelaFrequencias = {};
+
+        context_informacoesCopiadas.path = 'Vectorization.Vector.FrequenciaComputada';
+        context_informacoesCopiadas.namespace = 'window.Vectorization';
+        context_informacoesCopiadas.dadosProcurar = dadosProcurar;
+
+        //Permite adicionar ao frequencias_Vector um elemento a ser contado
+        informacoesCopiadas.adicionarInformacao = function(conteudo, quantidade=undefined){
+            if(quantidade == undefined || quantidade == null){
+                quantidade = context_informacoesCopiadas.contextVinculado.contarFrequenciaElemento(conteudo);
+            }
+
+            //Cadastra a quantidade informada(ou identificada)
+            context_informacoesCopiadas.tabelaFrequencias[ conteudo ] = quantidade;
+        }
+
+        informacoesCopiadas.obterContagens = function(){
+            return context_informacoesCopiadas.tabelaFrequencias;
+        }
+
+        informacoesCopiadas.dados = function(){
+            return context_informacoesCopiadas.tabelaFrequencias;
+        }
+
+        informacoesCopiadas.obter = function(){
+            return context_informacoesCopiadas.tabelaFrequencias;
+        }
+
+        informacoesCopiadas.mostrar = function(){
+            return context_informacoesCopiadas.tabelaFrequencias;
+        }
+
+        informacoesCopiadas.raw = function(){
+            return context_informacoesCopiadas.tabelaFrequencias;
+        }
+
+        informacoesCopiadas.maisAparece = function(){
+            let contagens = informacoesCopiadas.obterContagens();
+            let maiorValorPresente = Vectorization.Vector( Object.values( contagens ) ).valorMaximo();
+            let valoresIndexados = Vectorization.Vector( Object.keys( contagens ).map( function(numero){return Number(numero)} ) );
+            let maisAparece = contagens[ Object.keys( contagens )[0] ];
+
+            valoresIndexados.paraCadaElemento(function(iii){
+                const nomeIndice = valoresIndexados.lerIndice(iii);
+                const quantidadeElementoEmQuestao = contagens[ nomeIndice ];
+
+                if( quantidadeElementoEmQuestao == maiorValorPresente ){
+                    maisAparece = nomeIndice;
+
+                    return {
+                        acao: 'parar_loop'
+                    }
+                }
+            });
+
+            return maisAparece;
+        }
+
+        //Nao precisa ser apenas um
+        informacoesCopiadas.menosAparece = function(){
+            let contagens = informacoesCopiadas.obterContagens();
+            let menorValorPresente = Vectorization.Vector( Object.values( contagens ) ).valorMinimo();
+            let valoresIndexados = Vectorization.Vector( Object.keys( contagens ).map( function(numero){return Number(numero)} ) );
+            let menosAparece = contagens[ Object.keys( contagens )[0] ];
+
+            valoresIndexados.paraCadaElemento(function(iii){
+                const nomeIndice = valoresIndexados.lerIndice(iii);
+                const quantidadeElementoEmQuestao = contagens[ nomeIndice ];
+
+                if( quantidadeElementoEmQuestao == menorValorPresente ){
+                    menosAparece = nomeIndice;
+
+                    return {
+                        acao: 'parar_loop'
+                    }
+                }
+            });
+
+            return menosAparece;
+        }
+
+        informacoesCopiadas.atualizarContagem = function(novosDadosProcurar=null){
+            context_informacoesCopiadas.tabelaFrequencias = {};
+
+            if(novosDadosProcurar != null){
+                informacoesCopiadas.dadosProcurar = novosDadosProcurar;
+                informacoesCopiadas.calcular = novosDadosProcurar;
+            }
+
+            if( Vectorization.Vector.isVector(informacoesCopiadas.dadosProcurar) && !Vectorization.Vector.isVectorizationVector(informacoesCopiadas.dadosProcurar) ){
+                Vectorization.Vector(informacoesCopiadas.dadosProcurar).paraCadaElemento(function(ii, elementoAtualSublaco, contextoEsteDadosProcurar){
+                    const elementoAtual = contextoEsteDadosProcurar.lerIndice(ii);
+                    informacoesCopiadas.adicionarInformacao(elementoAtual.obterValor(), null);
+                });
+    
+            }else if(Vectorization.Vector.isVectorizationVector(informacoesCopiadas.dadosProcurar) == true){
+                informacoesCopiadas.dadosProcurar.paraCadaElemento(function(ii, elementoAtualSublaco, contextoEsteDadosProcurar){
+                    const elementoAtual = contextoEsteDadosProcurar.lerIndice(ii);
+                    informacoesCopiadas.adicionarInformacao(elementoAtual.obterValor(), null);
+                });
+            }
+        }
+
+        informacoesCopiadas.atualizarContagem();
+        return informacoesCopiadas;
+    }
+
+    /**
+    * Vai percorrer cada elemento deste Vectorization.Vector, visando contabilizar a quantia de cada elemento que aparece. 
+    * Ou seja, a quantidade de cada elemento, caso haja repetiçoes. Similar a um histograma
+    */
+    context.contabilizarFrequencias = function(valoresBrutos=false){
+        let frequenciaComputada = Vectorization.Vector.FrequenciaComputada({
+            contextVinculado: context,
+            calcular: context.duplicar().valores()
+        });
+
+        return valoresBrutos == true ? frequenciaComputada.obterContagens() : frequenciaComputada;
+    }
+
+    /**
+    * Vai percorrer cada elemento deste Vectorization.Vector, visando contabilizar a quantia de cada elemento que aparece. 
+    * Ou seja, a quantidade de cada elemento, caso haja repetiçoes. Similar a um histograma
+    * Similar ao context.contabilizarFrequencias
+    * porém este contabiliza apenas valores especificos
+    * @param {Vectorization.Vector} valoresAnalisar
+    */
+    context.contabilizarFrequenciasValores = function(valoresAnalisar){
+        let frequenciaComputada = Vectorization.Vector.FrequenciaComputada({
+            contextVinculado: context,
+            calcular: valoresAnalisar
+        });
+
+        return frequenciaComputada;
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){

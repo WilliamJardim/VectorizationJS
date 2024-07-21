@@ -272,4 +272,11 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     });
 }
 
+/**
+* Métodos estáticos
+*/
+window.Vectorization.Scalar.isScalar = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Scalar') || typeof obj == 'number';
+}
+
 module.exports = window.Vectorization.Scalar;
