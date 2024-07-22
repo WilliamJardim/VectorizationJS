@@ -14,6 +14,10 @@ if( typeof window === 'undefined' ){
         require('./Root'); 
         require('./Random'); 
     }
+
+    if( window.Vectorization.Utilidades == undefined ){
+        require('./Utilidades'); 
+    }
     
 //Se for navegador
 }else{
@@ -43,9 +47,9 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
     if( value != undefined && 
         !(value instanceof Object) &&
-        typeof value == 'number' 
+        (typeof value == 'number' || Vectorization.Utilidades.apenasNumeros(value)) == true
     ){
-        context.value = value;
+        context.value = Number(value);
         context.configuracoesValue = {};
     
     //Se for um objeto com configurações
