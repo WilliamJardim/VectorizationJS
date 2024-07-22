@@ -50,6 +50,16 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
         
     }
 
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.applyTranslations( context._translations() );
+    }
+
+    //Se tiver uma função a ser aplicada por cima de tudo
+    if( config['funcaoAplicar'] != undefined || classConfig['funcaoAplicar'] != undefined ){
+        context.aplicarFuncao( config['funcaoAplicar'] || classConfig['funcaoAplicar'] );
+    }
+
     return context;
 };
 
