@@ -113,6 +113,20 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
         let esteTexto = context;
         return Vectorization.StringVector( esteTexto.obterValor().split('') );
     }
+    context.paraVetorCaracteres = context.toCharacterVector;
+
+
+    context.letrasMaiusculas = function(){
+        return Vectorization.Text( String( context.obterValor() ).toUpperCase() );
+    }
+    context.toUpperCase = context.letrasMaiusculas;
+
+
+    
+    context.letrasMinusculas = function(){
+        return Vectorization.Text( String( context.obterValor() ).toLowerCase() );
+    }
+    context.toLowerCase = context.letrasMinusculas;
 
     /**
     * Verifica se este Vectorization.Text é igual a outro Vectorization.Text
