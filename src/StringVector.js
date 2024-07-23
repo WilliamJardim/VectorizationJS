@@ -23,6 +23,11 @@ if( typeof window === 'undefined' ){
 if(!window.Vectorization){ window.Vectorization = {} };
 
 window.Vectorization.StringVector = function( config=[], classConfig={} ){
+    //Por padrão o usarEscalares vai ser true
+    if( config['usarTextos'] == undefined && classConfig['usarTextos'] == undefined && config['usarTextos'] != false && classConfig['usarTextos'] != false ){
+        config['usarTextos'] = true;
+    }
+    
     //Define a tradução
     classConfig['translations'] = window.Vectorization.StringVector._translations || null;
 
@@ -53,6 +58,49 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
     //Se existir uma tradução para a classe
     if(context._translations && typeof context._translations === 'function'){
         context.applyTranslations( context._translations() );
+    }
+
+    /**
+    * Método que converte este Vectorization.StringVector para um Vectorization.StringVector avançado, onde cada elemento dentro do mesmo é um Vectorization.Text
+    */
+    context._vectorElementos2Textos = function(vectorClassConfig={}){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            const extraPropsOfLine = {... vectorClassConfig};
+            context.content[i] = Vectorization.Text(context.content[i], extraPropsOfLine);
+        }
+    }
+
+    /**
+    * @override
+    * @returns {Array}
+    */
+    context.toArray = function(){
+        if( context.usarTextos != undefined && context.usarTextos == true )
+        {
+            let valoresSemEstarEmTextos = [];
+            context.paraCadaElemento(function(i, objetoTexto){
+                valoresSemEstarEmTextos.push( objetoTexto.obterValor() );
+            });
+
+            return valoresSemEstarEmTextos;
+
+        }else{
+            return context.content;
+        }
+    }
+    /**
+    * @override
+    * @returns {Array}
+    */
+    context.raw = context.toArray;
+
+    if( context.configRecebidaUsuario['usarTextos'] != undefined || classConfig['usarTextos'] != undefined ){
+        if( context.configRecebidaUsuario['usarTextos'] == true || classConfig['usarTextos'] == true )
+        {
+            context.usarTextos = true;
+            context._vectorElementos2Textos();
+        }
     }
 
     //Se tiver uma função a ser aplicada por cima de tudo
