@@ -73,8 +73,30 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
     context.toLowerCase = context.letrasMinusculas;
 
     
+    /**
+     * Retorna um Vectorization.Vector, contendo as distancias hamming de cada elemento Vectorizaion.Text
+     * @param {Vectorization.StringVector} outroStringVector 
+     * @returns {Vectorization.Vector}
+     */
     context.distanciaPalavras = function(outroStringVector){
-        
+        let distancias = Vectorization.Vector([]);
+
+        context.paraCadaElemento(function(i){
+            let elementoAtual_esteStringVector = context.lerIndice(i),
+                elementoAtual_outroStringVector = ( Vectorization.StringVector.isVectorizationStringVector(outroStringVector) == false ? Vectorization.StringVector(outroStringVector) : outroStringVector ).lerIndice(i);
+
+            if( elementoAtual_outroStringVector != undefined ){
+                let distanciaElementoIndiceAtual = Vectorization.Text(elementoAtual_esteStringVector)
+                                                  .distanciaHamming( Vectorization.Text(elementoAtual_outroStringVector) )
+                
+                distancias.adicionarElemento( distanciaElementoIndiceAtual );
+
+            }else{
+                distancias.adicionarElemento( 1 );
+            }
+        });
+
+        return distancias;
     }
 
     //Se existir uma tradução para a classe

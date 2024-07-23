@@ -37,7 +37,7 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
     classConfig = classeBaseEscalar.translateAttributes_andReturn(classConfig, classConfig['translations']() );
 
-    if( value.objectName != undefined && value.objectName == 'Scalar' ){
+    if( value.objectName != undefined && value.objectName == 'Text' ){
         return Vectorization.Text( value.raw(), {... classConfig} );
     }
 
