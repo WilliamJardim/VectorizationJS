@@ -120,7 +120,8 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
     * @returns {Boolean}
     */
     context.isIgual = function(outroTexto){
-        return Vectorization.Text.isText(outroTexto) && context.obterValor() === outroTexto.obterValor();
+        let outroTexto_Text = Vectorization.Text.isVectorizationText(outroTexto) == false ? Vectorization.Text(outroTexto) : outroTexto;
+        return Vectorization.Text.isText(outroTexto) && context.obterValor() === outroTexto_Text.obterValor();
     }
 
     /**
@@ -129,7 +130,7 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
     * @returns {Vectorization.Scalar}
     */
     context.distanciaHamming = function(outroTexto){
-        let outroTexto_Text = Vectorization.Text.isText(outroTexto) == false ? Vectorization.Text(outroTexto) : outroTexto;
+        let outroTexto_Text = Vectorization.Text.isVectorizationText(outroTexto) == false ? Vectorization.Text(outroTexto) : outroTexto;
         let caracteresOutroTexto = outroTexto_Text.toCharacterVector();
 
         let esteTexto_Text = context;
@@ -187,6 +188,11 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
 window.Vectorization.Text.isText = function(obj){
     if(obj == undefined){return false};
     return (obj.objectName != undefined && obj.objectName == 'Text') || typeof obj == 'string';
+}
+
+window.Vectorization.Text.isVectorizationText = function(obj){
+    if(obj == undefined){return false};
+    return (obj.objectName != undefined && obj.objectName == 'Text');
 }
 
 module.exports = window.Vectorization.Text;
