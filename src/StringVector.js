@@ -51,6 +51,28 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
     context.path = 'Vectorization.StringVector';
     context.configRecebidaUsuario = config;
 
+    context.letrasMaiusculas = function(){
+        let novoStringVector = Vectorization.StringVector([]);
+        context.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMaiusculas() );
+        });
+
+        return novoStringVector;
+    }
+    context.toUpperCase = context.letrasMaiusculas;
+
+
+    context.letrasMinusculas = function(){
+        let novoStringVector = Vectorization.StringVector([]);
+        context.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMinusculas() );
+        });
+
+        return novoStringVector;
+    }
+    context.toLowerCase = context.letrasMinusculas;
+
+    
     context.distanciaPalavras = function(outroStringVector){
         
     }
