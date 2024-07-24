@@ -70,6 +70,8 @@ window.Vectorization.Matrix._translations = function(){
         "identity": "identidade",
 
         "extractColumnValues": "extrairValoresColuna",
+        "extractColumnsValues": "extrairValoresColunas",
+        "extractColumnsValuesExcept": "extrairValoresColunasExceto",
 
         "extractLineValues": "extrairValoresLinha",
 

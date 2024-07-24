@@ -1737,6 +1737,82 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Vector(novoVetorASerRetornado);
     }
 
+    /**
+    * DIFERENTE DO context.extrairValoresColuna
+    * Esse método extrai os valores de uma ou mais colunas,
+    * NOTA: Isso vai retornar um Vectorization.Vector para cada coluna
+    * e não recortar colunas da Vectorization.Matrix, então o resultado não será um Vectorization.Matrix
+    * o resultado será um Vectorization.Vector, conteundo outros Vectorization.Vector(as colunas)
+    * @param {Vectorization.Vector || Array} listaColunas - um Vectorization.Vector de indices(numeros inteiros)
+    * @returns {Vectorization.Vector}
+    */
+    context.extrairValoresColunas = function( listaColunas='todasColunas' ){
+        let listaColunas_Vector = listaColunas != 'todasColunas' ?
+                                  Vectorization.Vector.isVectorizationVector(listaColunas) == false ? Vectorization.Vector(listaColunas) : listaColunas : 'todasColunas';
+        
+        let colunasExtraida = Vectorization.Vector([], {usarEscalares: false});
+
+        if( listaColunas == 'todasColunas' ){
+           //Para cada coluna
+           Vectorization.Vector({
+              valorPreencher: 1,
+              //Vai criar uma iteração em cada coluna
+              elementos: matrix1.columns
+
+           }).paraCadaElemento(function(j, numeroColuna){
+               let valoresExtraidosColunaAtual = context.extrairValoresColuna(numeroColuna);
+               colunasExtraida.adicionarElemento( valoresExtraidosColunaAtual );
+           });
+
+        }else{
+           //Para cada coluna a ser extraida
+           listaColunas_Vector.paraCadaElemento(function(j, numeroColuna){
+               let valoresExtraidosColunaAtual = context.extrairValoresColuna(numeroColuna);
+               colunasExtraida.adicionarElemento( valoresExtraidosColunaAtual );
+           });
+        }
+
+        return colunasExtraida;
+    }
+
+    /**
+    * DIFERENTE DO context.extrairValoresColuna
+    * SIMILAR ao context.extrairValoresColunas
+    * 
+    * Esse método extrai os valores de todas as colunas EXCETO UMA,
+    * NOTA: Isso vai retornar um Vectorization.Vector para cada coluna
+    * e não recortar colunas da Vectorization.Matrix, então o resultado não será um Vectorization.Matrix
+    * o resultado será um Vectorization.Vector, conteundo outros Vectorization.Vector(as colunas)
+    * @param {Vectorization.Vector || Array} listaColunas - um Vectorization.Vector de indices(numeros inteiros)
+    * @returns {Vectorization.Vector}
+    */
+    context.extrairValoresColunasExceto = function(numeroColunaIgnorar){
+        let colunasExtraida = Vectorization.Vector([], {usarEscalares: false});
+
+        //Para cada coluna
+        Vectorization.Vector({
+            valorPreencher: 1,
+            //Vai criar uma iteração em cada coluna
+            elementos: matrix1.columns
+
+        }).paraCadaElemento(function(j, numeroColuna){
+            if( j != numeroColunaIgnorar )
+            {
+                let valoresExtraidosColunaAtual = context.extrairValoresColuna(j);
+                colunasExtraida.adicionarElemento( valoresExtraidosColunaAtual );
+            
+            }else{
+                //Faz nada, IGNORA
+            }
+        });
+
+        return colunasExtraida;
+    }
+
+    context.oneHotCodify = function(numeroColuna){
+
+    }
+
     context._doDefaultBaseAfterCreate();
 
     //Se a opção advanced estiver ativa, ele roda um método adicional após criar a matrix
