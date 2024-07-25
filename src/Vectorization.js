@@ -15,12 +15,26 @@ var Vectorization_4Node = class{
         //Importando classe raiz
         this.Root = require('./Root');
 
+        this.Utilidades = require('./Utilidades');
+
         //Importando numeros escalares
         this.Scalar = require('./Scalar');
+        this.Scalar_translation = require('./Scalar-translation');
+
+        //Importando Text
+        this.Scalar = require('./Text');
+        this.Scalar_translation = require('./Text-translation');
 
         //Importando Vetores
         this.Vector = require('./Vector');
         this.Vector_translation = require('./Vector-translation');
+
+        //Importando Vetores de String
+        this.StringVector = require('./StringVector');
+        this.StringVector_translation = require('./StringVector-translation');
+
+        this.Random = require('./Random');
+        this.Random_translation = require('./Random-translation');
 
         //Importando Matrizes
         this.Matrix = require('./Matrix');

@@ -132,6 +132,20 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                 context.content[i][j] = context.initialColumnValue;
             }
         }
+
+        /**
+        * 25/07/2024 16:55 PM
+        *  BUG CORRIGIDO:
+        *    se o objeto for uma lista de objetos Vectorization.Vector, da certo
+        *    AGORA se o objeto for um Vectorization.Vector que contem outros Vectorization.Vector
+        *    dava erro na linha 251
+        */
+        //Se a matrix nao foi inicializada E SE FOR UM VETOR DO VECTORIZATION QUE CONTEM OUTROS VETORES DO VECTORIZATION
+        if( context.rows == undefined && Vectorization.Vector.isVectorizationVector(config) ){
+            context.content = config.raw();
+            context.rows = config.length;
+            context.columns = config.lerIndice(0).length;
+        }
     }
 
 
@@ -248,8 +262,16 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }
 
             context.conteudo = context.content;
-            context.rows = config['numeros'].length;
-            context.columns = config['numeros'][0].length;
+
+            if( config['numeros'] != undefined )
+            {
+                context.rows = config['numeros'].length;
+                context.columns = config['numeros'][0].length;
+
+            }else{
+                context.rows = context.content.length;
+                context.columns = context.content[0].length;
+            }
         }
     }
 
