@@ -105,6 +105,10 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.isIdentidade = classConfig['isIdentidade'] || false;
     context.isAdvancedMatrix = classConfig['advanced'] || true;
 
+    if( classConfig['advanced'] == false ){
+        context.isAdvancedMatrix = false;
+    }
+
     //Se passar diretamente o conteudo
     if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) ) ){
 
