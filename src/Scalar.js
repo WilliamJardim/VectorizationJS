@@ -283,4 +283,8 @@ window.Vectorization.Scalar.isScalar = function(obj){
     return (obj.objectName != undefined && obj.objectName == 'Scalar') || typeof obj == 'number';
 }
 
+window.Vectorization.Scalar.isVectorizationScalar = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Scalar');
+}
+
 module.exports = window.Vectorization.Scalar;

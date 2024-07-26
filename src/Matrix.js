@@ -1831,8 +1831,79 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return colunasExtraida;
     }
 
-    context.oneHotCodify = function(numeroColuna){
+    /**
+     * Faz o onehot em uma coluna especifica
+     * retorna um Vectorization.Vector, contendo outros Vectorization.Vector(coluna) contendo valores booleanos,
+     * para cada valor unico na coluna especifica ele vai percorrer cada valor existente na coluna especifica(numeroColuna), e verificar se o item atual da coluna da matrix é igual a esse valor unico atual
+     * se sim, então vai colocar 1, caso contrario vai colocar 0
+     * 
+     * NOTA: Isso só faz o onehot para uma unica coluna especifica
+     * e retorna um Vectorization.Vector para cada valor unico da coluna especifica a ser codificada
+     * 
+     * @param {Number} numeroColuna 
+     * @param {Vectorization.Vector} dadosColunaAtual 
+     * @returns {Vectorization.Vector}
+     */
+    context.aplicarCodificacaoONEHOT = function(numeroColuna, dadosColunaAtual){
+        const valoresUnicosColunaAtual = dadosColunaAtual.valoresUnicos();
 
+        //Cria as colunas que serão usadas
+        const novasColunas_COLUNA_ATUAL = Vectorization.Vector({
+            valorPreencher: Vectorization.Vector([], {usarEscalares: false}),
+            elementos: valoresUnicosColunaAtual.elementos
+        }, {
+            usarEscalares: false
+        });
+
+        //Percorre essa numeroColuna coluna da matrix
+        context.paraCadaLinha(function(ii){
+            let dadosLinha = context.getLinha(ii);
+            let dadosLinhaNACOLUNA = dadosLinha.lerIndice(numeroColuna);
+
+            for( let jj = 0 ; jj < valoresUnicosColunaAtual.elementos ; jj++ )
+            {
+                const valorUnico = valoresUnicosColunaAtual.lerIndice(jj);
+                const isIgual = dadosLinhaNACOLUNA.raw() == valorUnico;
+
+                if( isIgual == true ){
+                    novasColunas_COLUNA_ATUAL.lerIndice(jj)
+                                             .adicionarElemento(1);
+
+                }else{
+                    novasColunas_COLUNA_ATUAL.lerIndice(jj)
+                                             .adicionarElemento(0);
+                }
+            }
+        });
+
+        return novasColunas_COLUNA_ATUAL;
+    }
+
+    /**
+    * Faz o onehot nas colunas definidas
+    * @param {Number} numeroColunasQuero
+    * @returns {Vectorization.Vector}
+    */
+    context.oneHotColunas = function(numeroColunasQuero){
+        const colunas_Vetor = context.extrairValoresColunas(numeroColunasQuero);
+
+        /*
+        * Vai fazer a codificação de cada coluna passada em numeroColunasQuero, 
+        * E armazenar aqui no resultadoOperacao
+        */
+        const resultadoOperacao = Vectorization.Vector([], {usarEscalares: false});
+
+        //Para cada coluna que quero aplicar
+        colunas_Vetor.paraCadaElemento(function(i){
+            
+            //Obtenho os dados da coluna
+            const dadosColunaAtual = colunas_Vetor.lerIndice(i);
+            const dadosCodificadosColunaAtual = context.aplicarCodificacaoONEHOT( i , dadosColunaAtual );
+        
+            resultadoOperacao.adicionarElemento(dadosCodificadosColunaAtual);
+        });
+
+        return resultadoOperacao;
     }
 
     context._doDefaultBaseAfterCreate();

@@ -55,6 +55,13 @@ codigoCompleto += '''
  * 
  * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
 */
+if(typeof window === 'undefined'){
+    global.VECTORIZATION_BUILD = true;
+    global.VECTORIZATION_BUILD_TYPE = 'node';
+}else{
+    window.VECTORIZATION_BUILD = true;
+    window.VECTORIZATION_BUILD_TYPE = 'navegador';
+}
 ''';
 
 codigoCompleto += '\n/* COMPILADO: ' + str(agora.day)+'/'+str(agora.month)+'/'+str(agora.year) + ' - ' + str(agora.strftime("%H:%M:%S")) + str() + '*/';
@@ -72,6 +79,11 @@ def salvarArquivo(caminho, conteudo):
 salvarArquivo('../build/Vectorization-builded.js', codigoCompleto);
 print('Pronto!. Arquivo salvo em ../build/Vectorization-builded.js');
 
+codigoCompleto = codigoCompleto + '\nmodule.exports = new Vectorization_4Node();'
+salvarArquivo('../build/Vectorization-builded-4node.js', codigoCompleto);
+
+print('Pronto!. Arquivo salvo em ../build/Vectorization-builded_4node.js');
+
 arquivoTeste = '''
     <html>
         <head>
@@ -79,7 +91,7 @@ arquivoTeste = '''
         </head>
         <body> Press F11 </body>
 
-        <script src='Vectorization-builded.js'></script>
+        <script src='Vectorization-builded-4node.js'></script>
 
         <script>
 
@@ -102,3 +114,30 @@ arquivoTeste = '''
     </html>
 '''
 salvarArquivo('../build/browser-import-example.html', arquivoTeste)
+
+arquivoTesteNode = '''
+    /*
+    * How to import Vectorization in NodeJS
+    * Como importar o Vectorization no NodeJS
+    *
+    * require('../src/Vectorization/ClassName.js');
+    */
+
+    const Vectorization = require('Vectorization-builded');
+
+    //Matrix com vetor
+    var matrix1 = Vectorization.Matrix([
+        [3,8,6,50],
+        [1,2,2,100],
+        [4,5,5,5],
+        [1,2,2,2]
+    ]);
+
+    var vector = Vectorization.Vector([12, 5, 11, 8.5]);
+
+    var result = matrix1.produtoEscalarVetor(vector);
+
+    console.log('Matrix com Vector', result.values());
+''';
+
+salvarArquivo('../build/node-import-example.js', arquivoTesteNode)

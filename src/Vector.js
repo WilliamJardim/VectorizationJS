@@ -257,7 +257,16 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         {
             let valoresSemEstarEmEscalar = [];
             context.paraCadaElemento(function(i, objetoEscalar){
-                valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                if( objetoEscalar.obterValor == undefined && 
+                    typeof objetoEscalar == 'number' 
+                
+                ){
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+                }
             });
 
             return valoresSemEstarEmEscalar;
@@ -385,7 +394,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.indexOf = function(elemento, comecandoAPartirDoIndice){
-        return Vectorization.Vector(context).duplicar().content.indexOf(elemento, comecandoAPartirDoIndice);
+        return Vectorization.Vector(context).duplicar()
+        .raw().indexOf( 
+            Vectorization.Scalar.isVectorizationScalar(elemento) == true ? elemento.obterValor() : elemento, 
+            comecandoAPartirDoIndice);
     }
 
     context.sum = function(){
@@ -579,7 +591,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * Percorre cada elemento do vetor, aplicando uma função de callback, porém faz isso de forma contrária/revertida
     * @param {Function} callback(index, element, context)
     */
-    context.paraCadaElementoReverso = function(callback){
+    context.paraCadaElementoReverso = function(callback, executarNoContexto=null){
         let valorComecar = context.tamanho()-1;
         let valorVaiInterromper = 0;
         let vaiParar = false;
@@ -591,6 +603,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             }else{
                 //Brecar aqui
                 vaiParar = true;
+            }
+
+            if( executarNoContexto != null ){
+                callback = callback.bind(executarNoContexto);
             }
 
             ultimoEstadoRetornado = callback(

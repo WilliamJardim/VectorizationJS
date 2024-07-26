@@ -3,7 +3,7 @@
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization ï¿½ 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
 */
 
 /* COMPILADO: 25/7/2024 - 20:32:52*//* ARQUIVO VECTORIZATION: ../src/Vectorization.js*/
@@ -19,11 +19,6 @@ var Vectorization_4Node = class{
     constructor(){
         if( typeof window !== 'undefined' ){
             throw 'This class only works in Node';
-        }
-
-        //TESTE QUE PRETENDO TENTAR FAZER PRA CORRIGIR O PROBLEMA DO NODE
-        if( typeof VECTORIZATION_BUILD_TYPE !== 'undefined' && VECTORIZATION_BUILD_TYPE ){
-
         }
 
         //Importando classe raiz
@@ -5875,3 +5870,5 @@ for( let i = 0 ; i < todasConfiguracoesClassConfig.quantidadeDentro ; i++ )
 
 module.exports = window.Vectorization.Random._translations;
 /* FIM DO ARQUIVO VECTORIZATION: ../src/Random-translation.js*/
+
+module.exports = new Vectorization_4Node();
