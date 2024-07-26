@@ -39,6 +39,9 @@ var Vectorization_4Node = class{
         //Importando Matrizes
         this.Matrix = require('./Matrix');
         this.Matrix_translation = require('./Matrix-translation');
+        
+        this.StringMatrix = require('./StringMatrix');
+        this.StringMatrix_translation = require('./StringMatrix-translation');
     }
 }; 
 
