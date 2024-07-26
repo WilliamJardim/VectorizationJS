@@ -1882,7 +1882,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     /**
     * Faz o onehot nas colunas definidas
     * @param {Number} numeroColunasQuero
-    * @returns {Vectorization.Vector}
+    * @returns {Object} - objeto onde voce pode obter Vectorization.Vector(s) ou uma Vectorization.Matrix com os valores inclusos
     */
     context.oneHotColunas = function(numeroColunasQuero){
         const colunas_Vetor = context.extrairValoresColunas(numeroColunasQuero);
@@ -1892,6 +1892,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         * E armazenar aqui no resultadoOperacao
         */
         const resultadoOperacao = Vectorization.Vector([], {usarEscalares: false});
+        const resultadoMatrix = context.duplicar();
 
         //Para cada coluna que quero aplicar
         colunas_Vetor.paraCadaElemento(function(i){
@@ -1901,9 +1902,31 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             const dadosCodificadosColunaAtual = context.aplicarCodificacaoONEHOT( i , dadosColunaAtual );
         
             resultadoOperacao.adicionarElemento(dadosCodificadosColunaAtual);
+
+            //Vai jogando tudo isso dentro da Vectorization.Matrix copiada
+            dadosCodificadosColunaAtual.paraCadaElemento(function(jColuna, elementoColuna){
+                if( Vectorization.Vector.isVector( elementoColuna ) == true ){
+                    resultadoMatrix.adicionarColuna(elementoColuna);
+                }
+            });
         });
 
-        return resultadoOperacao;
+        return {
+            resultado_vector: resultadoOperacao,
+            matrix_incluida: resultadoMatrix,
+
+            raw: function(){
+                return resultadoOperacao.raw();
+            },
+
+            obterMatrix: function(){
+                return this.matrix_incluida;
+            },
+
+            obterVector: function(){
+                return this.resultado_vector;
+            }
+        };
     }
 
     context._doDefaultBaseAfterCreate();
