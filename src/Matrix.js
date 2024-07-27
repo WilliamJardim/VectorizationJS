@@ -54,6 +54,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.rows = config['rows'];
     context.columns = config['columns'];
     context.initialColumnValue = config['fillValue'] || 0;
+    context.flexivel = config['flexibilidade'] || classConfig['flexibilidade'] || null;
+    context.isFlexivelNasColunas = context.flexivel != undefined && context.flexivel != null ? true : false;
+
     context.content = [];
 
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
@@ -297,7 +300,20 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             const extraPropsOfLine = {... vectorClassConfig};
             extraPropsOfLine['index'] = i;
 
-            context.content[i] = Vectorization.Vector(context.content[i], extraPropsOfLine);
+            if( context.isFlexivelNasColunas == true ){
+                if( Vectorization.Vector.isVector(context.flexivel) ){
+                    extraPropsOfLine['flexibilidade'] = [... context.flexivel];
+
+                }else{
+                    extraPropsOfLine['flexibilidade'] = context.flexivel;
+                }
+
+                context.content[i] = Vectorization.BendableVector(context.content[i], extraPropsOfLine);
+
+            }else{
+                context.content[i] = Vectorization.Vector(context.content[i], extraPropsOfLine);
+            }
+
         }
         context.isAdvancedMatrix = true;
     }
