@@ -55,6 +55,63 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
     }
 
     /**
+    * @override
+    * Obtem um novo Vector exatamente igual a este Vector
+    * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 
+    * @returns {Vectorization.Vector}
+    */
+    context.duplicar = function(){
+        let novoVector = [];
+        
+        for( let i = 0 ; i < context.length ; i++ )
+        {
+            novoVector.push( context.readIndex(i) );
+        }
+
+        //Pra ser compativel com este Vectorization.BendableVector
+        let extraPropsOfLine = {};
+        if( context.flexibilidade ){
+            extraPropsOfLine['flexibilidade'] = context.flexibilidade;
+        }
+
+        return Vectorization.BendableVector(novoVector, extraPropsOfLine);
+    }
+
+    /**
+    * @override
+    * Vai percorrer cada elemento deste Vectorization.Vector, visando localizar elementos que aparecem mais de uma vez.
+    * E com isso, ele vai remover tais repetições de elementos, retornando um novo Vectorization.Vector que não contenha duplicidade. 
+    * @returns {Vectorization.BendableVector} 
+    */
+    context.valoresUnicos = function(){
+        const esteVetorCopiado = context.duplicar();
+        const jaFoi = {};
+        
+        //Pra ser compativel com este Vectorization.BendableVector
+        let extraPropsOfLine = {};
+        //if( context.flexibilidade ){
+        //    extraPropsOfLine['flexibilidade'] = context.flexibilidade;
+        //}
+
+        let novoVetor_sem_repeticoes = Vectorization.BendableVector([], extraPropsOfLine);
+
+        esteVetorCopiado.paraCadaElemento(function(i){
+            let elementoAtual = esteVetorCopiado.readIndex(i);
+
+            if( jaFoi[ elementoAtual ] == undefined )
+            {
+                novoVetor_sem_repeticoes.adicionarElemento(elementoAtual);
+                jaFoi[ elementoAtual ] = true;
+            }
+        });
+
+        return novoVetor_sem_repeticoes;
+    }
+
+    //Alias for duplicar
+    context.clonar = context.duplicar;
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde não importa qual o tipo de valor usado
     */
     context._vectorElementos2Flexibilidade = function(vectorClassConfig={}){

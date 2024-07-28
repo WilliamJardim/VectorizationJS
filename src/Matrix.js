@@ -528,7 +528,30 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         if( context.isAdvancedMatrix ){
-            return Vectorization.Vector( valoresColuna );
+            if( context.isFlexivelNasColunas == true ){
+                let extraPropsOfLine = {};
+
+                //Cada coluna pode ter o seu
+                if( Vectorization.Text.isText( valoresColuna[0] ) ){
+                    extraPropsOfLine['flexibilidade'] = Vectorization.Vector({
+                        usarEscalares: false,
+                        valorPreencher: 'Texto',
+                        elementos: valoresColuna.length
+                    });
+
+                }else if( Vectorization.Scalar.isScalar( valoresColuna[0] ) ){
+                    extraPropsOfLine['flexibilidade'] = Vectorization.Vector({
+                        usarEscalares: true,
+                        valorPreencher: 'Numero',
+                        elementos: valoresColuna.length
+                    });
+                }
+
+                return Vectorization.BendableVector( valoresColuna, extraPropsOfLine );
+
+            }else if (context.isFlexivelNasColunas == false ){
+                return Vectorization.Vector( valoresColuna );
+            }
 
         }else{
             return valoresColuna;
@@ -1791,7 +1814,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.extrairValoresColunas = function( listaColunas='todasColunas' ){
         let listaColunas_Vector = listaColunas != 'todasColunas' ?
                                   Vectorization.Vector.isVectorizationVector(listaColunas) == false ? Vectorization.Vector(listaColunas) : listaColunas : 'todasColunas';
-        
+    
         let colunasExtraida = Vectorization.Vector([], {usarEscalares: false});
 
         if( listaColunas == 'todasColunas' ){
@@ -1925,7 +1948,10 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
             //Vai jogando tudo isso dentro da Vectorization.Matrix copiada
             dadosCodificadosColunaAtual.paraCadaElemento(function(jColuna, elementoColuna){
-                if( Vectorization.Vector.isVector( elementoColuna ) == true ){
+                if( 
+                    Vectorization.Vector.isVector( elementoColuna ) == true || 
+                    Vectorization.BendableVector.isBendableVector( elementoColuna ) == true 
+                ){
                     resultadoMatrix.adicionarColuna(elementoColuna);
                 }
             });
