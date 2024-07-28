@@ -36,7 +36,7 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 
     //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
     if( Vectorization.StringVector.isVectorizationBendableVector(config) && config.objectName == 'BendableVector' ){
-        return Vectorization.BendableVector( config.values() );
+        return Vectorization.BendableVector( config.values(), classConfig );
     }
 
     //O StringVector será baseado no Vectorization.Vector

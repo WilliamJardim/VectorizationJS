@@ -277,7 +277,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
             }else{
                 context.rows = context.content.length;
-                context.columns = context.content[0].length;
+                
+                if( context.content[0] != undefined ){
+                    context.columns = context.content[0].length;
+                }else{
+                    context.columns = 0;
+                }
             }
         }
     }
@@ -328,7 +333,14 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         
         for( let i = 0 ; i < context.rows ; i++ )
         {
-            novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
+            if( context.isFlexivelNasColunas == false ){
+                novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
+
+            }else{
+                novaMatrix.push( Vectorization.BendableVector(context.getLinha(i), {
+                    flexibilidade: context.flexivel
+                }).clonar() );
+            }
         }
 
         return Vectorization.Matrix(novaMatrix);
