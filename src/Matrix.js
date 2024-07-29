@@ -42,6 +42,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     
     context.configRecebidaUsuario = config;
 
+    context.storedClassConfig = classConfig || {};
+
     //Aplica a tradução dos atributos, pra ser capaz de entender nomes de atributos em outros idiomas
     //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
     

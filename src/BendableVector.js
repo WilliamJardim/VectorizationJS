@@ -45,6 +45,8 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
     context.extendedFrom = 'Vector';
     context.path = 'Vectorization.BendableVector';
     context.configRecebidaUsuario = config;
+    
+    context.storedClassConfig = classConfig || {};
 
     context.flexibilidade = classConfig['flexibilidade'] || false;
 
@@ -52,6 +54,18 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         if( context.flexibilidade.length != context.content.length ){
             throw 'o array flexibilidade precisa conter a mesma quantidade de elementos deste Vectorization.Vector'
         }
+    }
+
+    context.toText = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.StringVector( context.raw(), novasConfiguracoes);
+    }
+
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        novasConfiguracoes['usarEscalares'] = true;
+
+        return Vectorization.Vector( context.raw(), novasConfiguracoes );
     }
 
     /**

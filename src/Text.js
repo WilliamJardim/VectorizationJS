@@ -48,6 +48,7 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
         !(value instanceof Object) &&
         (typeof value == 'string' || Vectorization.Utilidades.apenasNumeros(value)) == true
     ){
+
         context.value = String(value);
         context.configuracoesValue = {};
     
@@ -56,6 +57,12 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
 
         //Salva a config
         context.configuracoesValue = {... value};
+    }
+
+    if(context.value == undefined){
+        if( Vectorization.Scalar.isScalar(value) == true ){
+            context.value = String(value);   
+        }
     }
 
     context.objectName = 'Text';
