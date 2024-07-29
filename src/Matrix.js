@@ -323,6 +323,40 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         context.isAdvancedMatrix = true;
     }
 
+    context.adicionarVetorComoColuna = function(vectorAdicionar){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
+        if( context.isAdvancedMatrix ){
+            if( context.isFlexivelNasColunas == false ){
+                context.content.push( vectorAdicionar );
+
+            }else{
+                context.content.push( vectorAdicionar );
+            }
+
+        }else{
+            if( context.isFlexivelNasColunas == false ){
+                context.content.push( vectorAdicionar );
+
+            }else{
+                context.content.push( vectorAdicionar );
+            }
+        }
+
+        if( context.content != undefined ){
+            context.rows = context.content.length;
+        }
+
+        if( context.content != undefined && 
+            context.columns[0] != undefined
+        ){
+            context.columns = context.columns[0].length;
+        }
+    }
+
     /**
     * Obtem uma nova matriz exatamente igual a esta matrix.
     * Ou seja, faz um copia do propio objeto, identico, porém sem manter as referencias. 
@@ -330,20 +364,29 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     */
     context.duplicar = function(){
         let novaMatrix = [];
-        
+        let novaMatrix_Matrix = null; //Se for necessario
+
+        if( context.isFlexivelNasColunas == true ){
+            //Nesse caso foi necessario usar o novaMatrix_Matrix como Vectorization.Matrix
+            novaMatrix_Matrix = Vectorization.Matrix([], {
+                flexibilidade: context.flexivel
+            });
+        }
+
         for( let i = 0 ; i < context.rows ; i++ )
         {
             if( context.isFlexivelNasColunas == false ){
                 novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
 
             }else{
-                novaMatrix.push( Vectorization.BendableVector(context.getLinha(i), {
+                novaMatrix_Matrix.adicionarVetorComoColuna( Vectorization.BendableVector(context.getLinha(i), {
                     flexibilidade: context.flexivel
                 }).clonar() );
             }
         }
 
-        return Vectorization.Matrix(novaMatrix);
+        return context.isFlexivelNasColunas == false ? Vectorization.Matrix(novaMatrix) : 
+                                                       novaMatrix_Matrix;
     }
 
     //Alias for duplicar

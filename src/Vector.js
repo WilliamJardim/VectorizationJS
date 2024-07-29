@@ -2239,11 +2239,13 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 * Métodos estáticos
 */
 window.Vectorization.Vector.isVector = function(obj){
+    if( obj == undefined ){ return false };
     return ((obj.objectName != undefined && obj.objectName == 'Vector') || 
            Array.isArray(obj)) ? true : false;
 }
 
 window.Vectorization.Vector.isVectorizationVector = function(obj){
+    if( obj == undefined ){ return false };
     return (obj.objectName != undefined && obj.objectName == 'Vector')
 }
 
