@@ -279,6 +279,58 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     //Alias for context.toArray
     context.raw = context.toArray;
 
+    context.rawProfundo = function(){
+        if( context.usarEscalares != undefined && context.usarEscalares == true )
+        {
+            let valoresSemEstarEmEscalar = [];
+            context.paraCadaElemento(function(i, objetoEscalar){
+
+                if( objetoEscalar.obterValor == undefined && 
+                    typeof objetoEscalar == 'number' 
+                
+                ){
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+                }
+            });
+
+            return valoresSemEstarEmEscalar;
+
+        }else{
+            //if( context.content.some( (elementoAtual)=>{ return Vectorization.Vector.isVectorizationVector(elementoAtual) || Vectorization.BendableVector.isVectorizationBendableVector(elementoAtual) } ) 
+            if( (elementoAtual) => Vectorization.Scalar.isScalar(elementoAtual) == true || 
+                                   Vectorization.Text.isText(elementoAtual) == true )
+            {
+                let valoresSemEstarEmEscalar = [];
+                context.paraCadaElemento(function(i, objetoEscalar){
+
+                    if( Vectorization.Scalar.isScalar(objetoEscalar) || 
+                        Vectorization.Text.isText(objetoEscalar)
+                    
+                    ){
+                        if( objetoEscalar.obterValor != undefined )
+                        {
+                            valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                        }else{
+                            valoresSemEstarEmEscalar.push( objetoEscalar );
+                        }
+    
+                    }else{
+                        valoresSemEstarEmEscalar.push( objetoEscalar );
+                    }
+                });
+
+                return valoresSemEstarEmEscalar;
+                
+            }else{
+                return context.content;
+            }
+        }
+    }
+
     /**
     * Obtem um novo Vector exatamente igual a este Vector
     * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 

@@ -503,8 +503,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return context.content;
     }
 
+    context.rawProfundo = function(){
+        let rawValues = [];
+
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            rawValues[i] = context.content[i].rawProfundo();
+        }
+
+        return rawValues;
+    }
+
     context.rawValues = function(){
         let rawValues = [];
+
+        //Se for um Vectorization.Matrix com essa opcao especifica ativa, usa por padrao o profundo
+        if( context.isFlexivelNasColunas == true ){
+            return context.rawProfundo();
+        }
 
         for( let i = 0 ; i < context.rows ; i++ )
         {
