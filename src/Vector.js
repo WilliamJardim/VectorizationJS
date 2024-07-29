@@ -764,6 +764,26 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Vector( novoVetor.valores() );
     }
 
+    context.ignorarUndefined = function(){
+        return context.filtrar(function(iAtualFiltragem, elementoAtualFiltragem){
+            if( elementoAtualFiltragem != undefined && 
+                elementoAtualFiltragem != null &&
+                isNaN(elementoAtualFiltragem) == false
+            ){
+                return 'manter';
+            }
+        }, false);
+    }
+
+    context.ignorar = function(oElemento){
+        return context.filtrar(function(iAtualFiltragem, elementoAtualFiltragem){
+            if( elementoAtualFiltragem != oElemento ){
+                return 'manter';
+            }
+        }, false);
+    }
+    context.ignorarOs = context.ignorar;
+
     context.sobrescreverConteudo = function(novoConteudoDoVetor){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
         if( context._isBloqueado() == true ){
