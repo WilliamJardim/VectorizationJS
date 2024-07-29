@@ -68,6 +68,8 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
     context.objectName = 'Text';
     context.path = 'Vectorization.Text';
 
+    context.storedClassConfig = classConfig || {};
+
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
     context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
 
@@ -101,6 +103,11 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
 
     context.valueOf = function(){
         return String( context.value );
+    }
+
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.Scalar( context.valueOf(), novasConfiguracoes );
     }
 
     context.toString = function(){

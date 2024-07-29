@@ -45,6 +45,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.path = 'Vectorization.Vector';
     context.configRecebidaUsuario = config;
 
+    context.storedClassConfig = classConfig || {};
+
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
     //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
 
@@ -238,6 +240,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return context;
+    }
+
+    context.toText = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.StringVector( context.raw(), novasConfiguracoes);
     }
 
     context.values = function(){
