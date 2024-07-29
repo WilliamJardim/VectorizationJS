@@ -596,7 +596,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
                 }else if( Vectorization.Scalar.isScalar( valoresColuna[0] ) ){
                     extraPropsOfLine['flexibilidade'] = Vectorization.Vector({
-                        usarEscalares: true,
+                        usarEscalares: false,
                         valorPreencher: 'Numero',
                         elementos: valoresColuna.length
                     });
@@ -643,7 +643,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
            
         let valoresNovaColuna_Vector = isVetorVectorization == true ? valoresNovaColuna : Vectorization.Vector(valoresNovaColuna || []);
         let tamanhoVetorNovo = valoresNovaColuna_Vector.tamanho();
-        let quantidadeLinhasMatrix = context.getLinhas();
+        let quantidadeLinhasMatrix = context.getRows();
 
         if( typeof valoresNovaColuna_Vector == 'object' &&
             tamanhoVetorNovo == quantidadeLinhasMatrix
@@ -656,8 +656,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }).paraCadaElemento(function(iLinha){
                 let valoresDaLinhaObtidos = context.getLinha(iLinha);
 
-                switch( Vectorization.Vector.isVectorizationVector(valoresDaLinhaObtidos) )
-                {
+                switch( Vectorization.Vector.isVectorizationVector(valoresDaLinhaObtidos) || 
+                        Vectorization.BendableVector.isVectorizationBendableVector(valoresDaLinhaObtidos) 
+                ){
                     case true:
                         valoresDaLinhaObtidos.adicionarElemento( valoresNovaColuna[iLinha] );
                         break;

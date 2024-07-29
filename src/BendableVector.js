@@ -35,7 +35,7 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
     classConfig['usarEscalares'] = false;
 
     //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
-    if( Vectorization.StringVector.isVectorizationBendableVector(config) && config.objectName == 'BendableVector' ){
+    if( Vectorization.BendableVector.isVectorizationBendableVector(config) && config.objectName == 'BendableVector' ){
         return Vectorization.BendableVector( config.values(), classConfig );
     }
 
@@ -162,11 +162,11 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 /**
 * Métodos estáticos
 */
-window.Vectorization.StringVector.isBendableVector = function(obj){
+window.Vectorization.BendableVector.isBendableVector = function(obj){
     return ((obj.objectName != undefined && (obj.objectName == 'BendableVector' || obj.objectName == 'Vector')) || 
            Array.isArray(obj)) ? true : false;
 }
 
-window.Vectorization.StringVector.isVectorizationBendableVector = function(obj){
+window.Vectorization.BendableVector.isVectorizationBendableVector = function(obj){
     return (obj.objectName != undefined && obj.objectName == 'BendableVector' )
 }
