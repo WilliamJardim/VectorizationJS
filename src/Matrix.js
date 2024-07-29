@@ -586,6 +586,69 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Matrix(dadosRecortados);
     }
 
+    context.recortarLinhas = context.slice;
+    context.sliceLinhas = context.slice;
+
+    context.recortarColunas = function(colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
+        let dadosRecortados = [];
+
+        if( colunaFinal == 'nao_definida' ){
+            colunaFinal = context.columns + 1;
+        }
+
+        if( colunaInicial < 0 ){
+            throw 'A colunaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( colunaFinal > context.rows ){
+            throw 'A colunaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        for( let i = 0 ; i < context.rows ; i = i + intervaloLinhas )
+        {
+            dadosRecortados[ i ] = context.getLinha(i)
+                                          .slice( colunaInicial, colunaFinal, intervaloColunas );
+        }
+
+        return Vectorization.Matrix(dadosRecortados);
+    }
+
+    context.sliceColunas = context.recortarColunas;
+
+    context.recortarRegiao = function(linhaInicial, linhaFinal, colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
+        let dadosRecortados = [];
+
+        if( linhaInicial < 0 ){
+            throw 'A linhaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( linhaFinal > context.rows ){
+            throw 'A linhaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        if( colunaFinal == 'nao_definida' ){
+            colunaFinal = context.columns + 1;
+        }
+
+        if( colunaInicial < 0 ){
+            throw 'A colunaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( colunaFinal > context.rows ){
+            throw 'A colunaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        for( let i = linhaInicial ; i < linhaFinal ; i = i + intervaloLinhas )
+        {
+            dadosRecortados[ i ] = context.getLinha(i)
+                                          .slice( colunaInicial, colunaFinal, intervaloColunas );
+        }
+
+        return Vectorization.Matrix(dadosRecortados);
+    }
+
+    context.slice2 = context.recortarRegiao;
+
     /**
     * Permite extrair valores de uma coluna especifica
     * @param {Number} indiceColuna - o indice da coluna que queremos extrair os valores
