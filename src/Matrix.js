@@ -48,7 +48,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
     
     //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
-    if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) )) ){
+    if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) || Vectorization.BendableVector.isVectorizationBendableVector(config[0]) )) ){
         config = context.translateAttributes_andReturn(config, classConfig['translations']() );
     }
 
@@ -115,10 +115,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     //Se passar diretamente o conteudo
-    if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) ) ){
+    if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) || Vectorization.BendableVector.isVectorizationBendableVector(config[0]) ) ){
 
         //Se as linhas forem vetores do pacote Vectorization
-        if( Vectorization.Vector.isVectorizationVector( config[0] ) == true ){
+        if( Vectorization.Vector.isVectorizationVector( config[0] ) == true ||
+            Vectorization.BendableVector.isVectorizationBendableVector( config[0] ) == true
+        ){
             context.content = config;
             context.rows = config.length;
             context.columns = config[0].length;

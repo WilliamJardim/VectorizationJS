@@ -70,6 +70,53 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 
     /**
     * @override
+    * Permite fatiar(ou recortar) este vetor
+    * @param {linhaInicial} - inicio
+    * @param {linhaFinal} - final
+    * @param {intervalo} - intervalo
+    * @returns {Vectorization.Vector} - o vetor recortado
+    */
+    context.slice = function(elementoInicial, elementoFinal, intervalo=1){
+        let dadosRecortados = [];
+
+        if( elementoInicial < 0 ){
+            throw 'A elementoInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( elementoFinal > context.length ){
+            throw 'A elementoFinal precisa estar dentro da faixa de valores do Vector! valor muito alto!';
+        }
+
+        if( intervalo <= 0 ){
+            throw 'O intervalo precisa ser maior que zero!';
+        }
+
+        let quantosForam = 0;
+        for( let i = elementoInicial ; i < elementoFinal ; i = i + intervalo )
+        {
+            dadosRecortados.push( context.readIndex(i) );
+            quantosForam = quantosForam + 1;
+        }
+
+        let quantidadeFalta = Math.abs(dadosRecortados.length - context.flexibilidade.length);
+        let flexibilidadeAjustada = [... context.flexibilidade];
+
+        if( context.flexibilidade.length < quantidadeFalta ){
+            for( let i = 0 ; i < quantidadeFalta ; i++ ){
+                //Completa com um tipo de dado qualquer
+                flexibilidadeAjustada.push('texto');
+            }
+        }
+
+        let novoVetorCriado = Vectorization.BendableVector(dadosRecortados, {
+            flexibilidade: flexibilidadeAjustada
+        } );
+
+        return novoVetorCriado;
+    }
+
+    /**
+    * @override
     * Obtem um novo Vector exatamente igual a este Vector
     * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 
     * @returns {Vectorization.Vector}
@@ -177,10 +224,12 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 * Métodos estáticos
 */
 window.Vectorization.BendableVector.isBendableVector = function(obj){
+    if( obj == undefined ){ return false };
     return ((obj.objectName != undefined && (obj.objectName == 'BendableVector' || obj.objectName == 'Vector')) || 
            Array.isArray(obj)) ? true : false;
 }
 
 window.Vectorization.BendableVector.isVectorizationBendableVector = function(obj){
+    if( obj == undefined ){ return false };
     return (obj.objectName != undefined && obj.objectName == 'BendableVector' )
 }
