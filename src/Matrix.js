@@ -560,6 +560,15 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaLinha(function(i, elementoAtual){
+            tiposUsados.push( elementoAtual.obterTiposRapido(includeNamespace) );
+        });
+
+        return tiposUsados;
+    }
+
     /**
     * Permite fatiar(ou recortar) a matrix
     * @param {linhaInicial} - inicio

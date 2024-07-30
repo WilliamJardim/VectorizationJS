@@ -68,6 +68,20 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         return Vectorization.Vector( context.raw(), novasConfiguracoes );
     }
 
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaElemento(function(i, elementoAtual){
+            if( includeNamespace == true ){
+                tiposUsados.push( 'Vectorization.' + String(elementoAtual.objectName) );
+
+            }else{
+                tiposUsados.push( String(elementoAtual.objectName) );
+            }
+        });
+
+        return tiposUsados;
+    }
+
     /**
     * @override
     * Permite fatiar(ou recortar) este vetor

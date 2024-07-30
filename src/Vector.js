@@ -338,6 +338,20 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
     }
 
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaElemento(function(i, elementoAtual){
+            if( includeNamespace == true ){
+                tiposUsados.push( 'Vectorization.' + String(elementoAtual.objectName) );
+
+            }else{
+                tiposUsados.push( String(elementoAtual.objectName) );
+            }
+        });
+
+        return tiposUsados;
+    }
+
     /**
     * Obtem um novo Vector exatamente igual a este Vector
     * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 
