@@ -243,4 +243,30 @@ window.Vectorization.matrixIdentidade = function(ordem){
     return Vectorization.Matrix(matrix, extraProps);
 }
 
+window.Vectorization.identificarTipo = function(obj){
+    //Se for um objeto do Vectorization
+    if( obj instanceof Object && obj.objectName != undefined ){
+
+        if( Vectorization.Scalar.isScalar( obj ) ){
+            return 'Scalar';
+
+        }else if( Vectorization.Text.isText( obj ) ){
+            return 'Text';
+
+        }else{
+            return undefined;
+        }
+
+    }else{
+        if( typeof obj == 'number' ){
+            return 'Scalar';
+
+        }else if( typeof obj == 'string' ){
+            return 'Text';
+        }
+    }
+
+    return undefined;
+}
+
 module.exports = window.Vectorization.Root;

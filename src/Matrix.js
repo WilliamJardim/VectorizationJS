@@ -569,6 +569,25 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return tiposUsados;
     }
 
+    context.identificarTiposColuna = function(numeroColuna){
+        const resultado = Vectorization.Base({
+            tipos: Vectorization.Vector([], {usarEscalares: false})
+        });
+
+        context.percorrerColuna(numeroColuna, function(iColuna, valorColuna){
+            resultado.tipos.adicionarElemento( window.Vectorization.identificarTipo( valorColuna ) );
+        });
+
+        resultado.tiposUnicos = resultado.tipos.valoresUnicos();
+        resultado.raw = function(){
+            return resultado.tipos.raw();
+        }
+
+        return resultado;
+    }
+    context.getTiposColuna = context.identificarTiposColuna;
+    context.obterTiposColuna = context.identificarTiposColuna;
+
     /**
     * Permite fatiar(ou recortar) a matrix
     * @param {linhaInicial} - inicio
@@ -879,11 +898,17 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             let LinhaMatrix_Vector = context.getLinha(iLinha);
             let valorNoIndiceDeInteresse = LinhaMatrix_Vector.lerIndice(indiceColuna);
 
-            callbackPercorrer( valorNoIndiceDeInteresse, 
-                      iLinha, LinhaMatrix_Vector, context 
+            callbackPercorrer( 
+                      indiceColuna,
+                      valorNoIndiceDeInteresse, 
+                      iLinha, 
+                      LinhaMatrix_Vector, 
+                      context 
                     );
         });
     }
+
+    context.paraCadaColuna = context.percorrerColuna;
 
     /**
     * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
