@@ -80,6 +80,11 @@ window.Vectorization.Matrix._translations = function(){
 
         "planify": "planificar",
 
+        "oneHotColumns": "oneHotColunas",
+        "sliceLines": "slice",
+        "sliceColumns": "sliceColunas",
+        "sliceRegion": "recortarRegiao",
+
         //Portugues
         "obterTransposta": "transposta",
         "somarMatriz": "somarMatrix",

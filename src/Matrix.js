@@ -621,6 +621,14 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.recortarLinhas = context.slice;
     context.sliceLinhas = context.slice;
 
+    /**
+     * Similar ao context.slice, porém executado nas colunas
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
     context.recortarColunas = function(colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
         let dadosRecortados = [];
 
@@ -645,8 +653,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Matrix(dadosRecortados);
     }
 
+    /**
+     * Similar ao context.slice, porém executado nas colunas
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
     context.sliceColunas = context.recortarColunas;
 
+    /**
+     * Similar ao context.slice, porém executado nas linhas e também nas colunas
+     * @param {Number} linhaInicial 
+     * @param {Number} linhaFinal 
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
     context.recortarRegiao = function(linhaInicial, linhaFinal, colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
         let dadosRecortados = [];
 
@@ -679,6 +705,16 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Matrix(dadosRecortados);
     }
 
+    /**
+    * Similar ao context.slice, porém executado nas linhas e também nas colunas
+    * @param {Number} linhaInicial 
+    * @param {Number} linhaFinal 
+    * @param {Number} colunaInicial 
+    * @param {Number} colunaFinal 
+    * @param {Number} intervaloLinhas 
+    * @param {Number} intervaloColunas 
+    * @returns {Vectorization.Matrix}
+    */
     context.slice2 = context.recortarRegiao;
 
     /**
