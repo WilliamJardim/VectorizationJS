@@ -53,8 +53,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
 
     context.letrasMaiusculas = function(){
         let novoStringVector = Vectorization.StringVector([]);
-        context.paraCadaElemento(function(i){
-            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMaiusculas() );
+        let contextoMetodo = this instanceof Window ? context : this; 
+        
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( contextoMetodo.lerIndice(i).letrasMaiusculas() );
         });
 
         return novoStringVector;
@@ -64,8 +67,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
 
     context.letrasMinusculas = function(){
         let novoStringVector = Vectorization.StringVector([]);
-        context.paraCadaElemento(function(i){
-            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMinusculas() );
+        let contextoMetodo = this instanceof Window ? context : this; 
+
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( contextoMetodo.lerIndice(i).letrasMinusculas() );
         });
 
         return novoStringVector;
@@ -80,9 +86,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
      */
     context.distanciaPalavras = function(outroStringVector){
         let distancias = Vectorization.Vector([]);
+        let contextoMetodo = this instanceof Window ? context : this; 
 
-        context.paraCadaElemento(function(i){
-            let elementoAtual_esteStringVector = context.lerIndice(i),
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            let elementoAtual_esteStringVector = contextoMetodo.lerIndice(i),
                 elementoAtual_outroStringVector = ( Vectorization.StringVector.isVectorizationStringVector(outroStringVector) == false ? Vectorization.StringVector(outroStringVector) : outroStringVector ).lerIndice(i);
 
             if( elementoAtual_outroStringVector != undefined ){

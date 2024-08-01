@@ -84,6 +84,11 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         context.isTudoTexto = null;
     }
 
+    //Se for tudo texto
+    if( context.isTudoTexto == true ){
+        context.herdarFuncoes( Vectorization.StringVector );
+    }
+
     context.toText = function(){
         let novasConfiguracoes = {... context.storedClassConfig};
         return Vectorization.StringVector( context.raw(), novasConfiguracoes);

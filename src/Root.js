@@ -52,6 +52,23 @@ window.Vectorization.Base = function(config){
         }
     }
 
+    context.copyArgsSeNaoExistir = function(config, aplicarBind=true){
+        //Copia os argumentos
+        let configKeys = Object.keys(config);
+
+        for( let i = 0 ; i < configKeys.length ; i++){
+
+            if( context[ configKeys[i] ] == undefined )
+            {
+                context[ configKeys[i] ] = config[ configKeys[i] ];
+                if(aplicarBind == true && context[ configKeys[i] ].bind != undefined){
+                    context[ configKeys[i] ].bind(context);
+                }
+            }
+
+        }
+    }
+
     context._doDefaultBaseAfterCreate = function(){
         context.createGettersFromOriginalProperties();
         context.createSettersFromOriginalProperties();
@@ -204,6 +221,14 @@ window.Vectorization.Base = function(config){
                   configuracoesUsadas: todasConfiguracoesClassConfig,
                   quantidadeDentro: keysConfiguracoesClassConfig.length
                };
+    }
+
+    context.herdarFuncoes = function(referenciaObjeto){
+        const templateObjetoCriado = referenciaObjeto();
+        const contextObjetoCriado = templateObjetoCriado;
+        
+        //Aplica dentro deste objeto do Vectorization
+        context.copyArgsSeNaoExistir(contextObjetoCriado); 
     }
 
     return context;
