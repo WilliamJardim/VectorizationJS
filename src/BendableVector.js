@@ -53,6 +53,11 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
     //Mais opções de flexibilidade
     if( context.flexibilidade != undefined )
     {
+        //Se for apenas um texto, com o nome do tipo, ele trata isso aqui
+        if( typeof context.flexibilidade == 'string' ){
+            context.flexibilidade = [ context.flexibilidade ];
+        }
+
         //Se o usuario passar um array contendo apenas um elemento, ele vai usar ele como tipo para todos os elementos deste Vectorization.BendableVector
         if( context.flexibilidade instanceof Array && context.flexibilidade.length == 1 && context.content.length > 1 )
         {
@@ -70,6 +75,13 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         if( context.flexibilidade.length != context.content.length ){
             throw 'o array flexibilidade precisa conter a mesma quantidade de elementos deste Vectorization.Vector'
         }
+    }
+
+    if( context.flexibilidade ){
+        //Verifica se todos são do tipo Vectorization.Text
+        context.isTudoTexto = Vectorization.StringVector(context.flexibilidade).todosIguaisA('Text');
+    }else{
+        context.isTudoTexto = null;
     }
 
     context.toText = function(){
@@ -211,7 +223,7 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
             const extraPropsOfLine = {... vectorClassConfig};
 
             //context.content[i] = 'vamos identificar abaixo';
-            switch( context.flexibilidade[i] ){
+            switch( Vectorization.isAlgumValorVectorization( context.flexibilidade[i] ) ? context.flexibilidade[i].raw() : context.flexibilidade[i] ){
                 case 'Escalar':
                 case 'Scalar':
                 case 'Number':

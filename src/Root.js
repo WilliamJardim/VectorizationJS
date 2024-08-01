@@ -269,4 +269,10 @@ window.Vectorization.identificarTipo = function(obj){
     return undefined;
 }
 
+window.Vectorization.isAlgumValorVectorization = function(obj){
+    return window.Vectorization.identificarTipo(obj) != undefined && 
+           obj instanceof Object && 
+           obj.objectName != undefined;
+}
+
 module.exports = window.Vectorization.Root;
