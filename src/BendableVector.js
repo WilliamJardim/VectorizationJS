@@ -50,6 +50,22 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 
     context.flexibilidade = classConfig['flexibilidade'] || false;
 
+    //Mais opções de flexibilidade
+    if( context.flexibilidade != undefined )
+    {
+        //Se o usuario passar um array contendo apenas um elemento, ele vai usar ele como tipo para todos os elementos deste Vectorization.BendableVector
+        if( context.flexibilidade instanceof Array && context.flexibilidade.length == 1 && context.content.length > 1 )
+        {
+            
+            for( let i = 0 ; i < context.content.length-1 ; i++ )
+            {
+                //Completa com o tipo que veio
+                context.flexibilidade.push(context.flexibilidade[0]);
+            }
+
+        }
+    }
+
     if( context.flexibilidade ){
         if( context.flexibilidade.length != context.content.length ){
             throw 'o array flexibilidade precisa conter a mesma quantidade de elementos deste Vectorization.Vector'
