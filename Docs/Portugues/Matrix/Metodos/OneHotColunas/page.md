@@ -40,7 +40,7 @@ console.log( matrizCodificada );
 
 ``` 
 
-# Resultado dessa divisão
+# Resultado dessa codificação
 ```javascript
 [
   [ 'peixe',   1,   1, 0, 0 ]
@@ -55,6 +55,9 @@ console.log( matrizCodificada );
 ]
 
 ```
+
+Note que o método **oneHotColunas** adicionou 3 novas colunas na **Vectorization.Matrix**.
+Pra ficar mais facil entender, você pode imaginar que essas 3 colunas representam "3 perguntas" que o algoritmo vai fazendo para os dados de cada linha. Perguntas assim: "Essa amostra, ela é um peixe?", depois "Essa amostra, ela é um cavalo?" e por fim, a terceira e última pergunta: "Essa amostra, ela é um gato?", todas são do tipo verdadeiro ou falso, e são representados em binário como 0 ou 1. A ideia das perguntas foi uma análogia, mais ajuda a visualizar o que está sendo feito por baixo dos panos. Não importa quantos valores possíveis existam na coluna. Ele sempre vai seguir essa mesma abordagem.
 
 Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
 * [Código fonte](https://github.com/WilliamJardim/Vectorization/blob/main/src/Matrix.js)
