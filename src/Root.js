@@ -300,4 +300,10 @@ window.Vectorization.isAlgumValorVectorization = function(obj){
            obj.objectName != undefined;
 }
 
+window.Vectorization.isAlgumVetorVectorization = function(obj){
+    return window.Vectorization.Vector.isVectorizationVector(obj) ||
+           window.Vectorization.StringVector.isVectorizationStringVector(obj) ||
+           window.Vectorization.BendableVector.isVectorizationBendableVector(obj);
+}
+
 module.exports = window.Vectorization.Root;

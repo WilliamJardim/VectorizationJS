@@ -79,7 +79,8 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
 
     if( context.flexibilidade ){
         //Verifica se todos são do tipo Vectorization.Text
-        context.isTudoTexto = Vectorization.StringVector(context.flexibilidade).todosIguaisA('Text');
+        context.isTudoTexto = Vectorization.StringVector( Vectorization.isAlgumVetorVectorization(context.flexibilidade) ? [... context.flexibilidade.raw()] : [... context.flexibilidade] ).todosIguaisA('Text');
+        
     }else{
         context.isTudoTexto = null;
     }

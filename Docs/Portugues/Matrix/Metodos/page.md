@@ -15,6 +15,7 @@ Nesta página você pode encontrar informações sobre os métodos disponíveis 
  - [Subtração elemento a elemento](Subtracao/page.md)
  - [Divisão elemento a elemento](Divisao/page.md)
  - [Potenciação elemento a elemento](Potenciacao/page.md)
+ - [One Hot Colunas](OneHotColunas/page.md)
 
 # Navegação
 * [Voltar para página anterior](../page.md)
