@@ -57,6 +57,30 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.columns = config['columns'];
     context.initialColumnValue = config['fillValue'] || 0;
     context.flexivel = config['flexibilidade'] || classConfig['flexibilidade'] || null;
+
+    //Mais opções de flexibilidade
+    if( context.flexivel != undefined && 
+        config.length > 0 && 
+        config[0] != undefined 
+    ){
+        //Se for apenas um texto, com o nome do tipo, ele trata isso aqui
+        if( typeof context.flexivel == 'string' ){
+            context.flexivel = [ context.flexivel ];
+        }
+
+        //Se o usuario passar um array contendo apenas um elemento, ele vai usar ele como tipo para todos os elementos deste Vectorization.BendableVector
+        if( context.flexivel instanceof Array && context.flexivel.length == 1 && config[0].length > 1 )
+        {
+            
+            for( let i = 0 ; i < config[0].length-1 ; i++ )
+            {
+                //Completa com o tipo que veio
+                context.flexivel.push(context.flexivel[0]);
+            }
+
+        }
+    }
+
     context.isFlexivelNasColunas = context.flexivel != undefined && context.flexivel != null ? true : false;
 
     context.content = [];
