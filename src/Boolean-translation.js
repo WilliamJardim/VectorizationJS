@@ -27,7 +27,8 @@ window.Vectorization.Boolean._translations = function(){
     };
 
     const translatedAttributes = {
-        
+        'valor': 'value',
+        'conteudo': 'value'
     };
 
     return {

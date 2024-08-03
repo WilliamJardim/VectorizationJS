@@ -81,8 +81,18 @@ window.Vectorization.Boolean = function( value=NaN, classConfig={} ){
             throw 'Esse Vectorization.Boolean não suporta valores menores do que 0!';
         }
 
-        context.value = Number(value.value);
+        if( typeof value.value == 'string' ){
+            context.value = value.value;
+        }else{
+            context.value = Number(value.value);
+        }
+    }
 
+    if( context.value == 'sim' || context.value == 'verdade' || context.value == 'afirmativo' || context.value == 'verdadeiro' ){
+        context.value = Number(true);
+
+    }else if( context.value == 'nao' || context.value == 'falso' || context.value == 'negativo' ){
+        context.value = Number(false);
     }
 
     context.objectName = 'Boolean';
