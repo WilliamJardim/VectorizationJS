@@ -102,6 +102,11 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         return Vectorization.Vector( context.raw(), novasConfiguracoes );
     }
 
+    /**
+    * @override
+    * @param {Boolean} includeNamespace 
+    * @returns {Array}
+    */
     context.obterTiposRapido = function(includeNamespace=false){
         let tiposUsados = [];
         context.paraCadaElemento(function(i, elementoAtual){
@@ -114,6 +119,45 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
         });
 
         return tiposUsados;
+    }
+
+    /**
+    * @override 
+    */
+    context.rawProfundo = function(){
+        
+        if( (elementoAtual) => Vectorization.Scalar.isScalar(elementoAtual) == true || 
+                               Vectorization.Text.isText(elementoAtual) == true ||
+                               Vectorization.Boolean.isBoolean(elementoAtual) == true 
+                            
+        ){
+            let valoresSemEstarEmEscalar = [];
+            context.paraCadaElemento(function(i, objetoEscalar){
+
+                if( Vectorization.Scalar.isScalar(objetoEscalar) || 
+                    Vectorization.Text.isText(objetoEscalar) ||
+                    Vectorization.Boolean.isBoolean(objetoEscalar) 
+
+                ){
+                    if( objetoEscalar.obterValor != undefined )
+                    {
+                        valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                    }else{
+                        valoresSemEstarEmEscalar.push( objetoEscalar );
+                    }
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+                }
+            });
+
+            return valoresSemEstarEmEscalar;
+
+        }else{
+            return context.content;
+        }
+
     }
 
     /**
