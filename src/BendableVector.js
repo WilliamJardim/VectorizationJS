@@ -247,6 +247,14 @@ window.Vectorization.BendableVector = function( config=[], classConfig={} ){
                     context.content[i] = Vectorization.Text(context.content[i], extraPropsOfLine);
                     break;
 
+                case 'booleano':
+                case 'Booleano':
+                case 'Boolean':
+                case 'boolean':
+                case 'Logico':
+                    context.content[i] = Vectorization.Boolean(context.content[i], extraPropsOfLine);
+                    break;
+
                 default:
                     throw 'Tipo não aceito';
             }
