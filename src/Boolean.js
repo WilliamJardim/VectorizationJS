@@ -88,6 +88,10 @@ window.Vectorization.Boolean = function( value=NaN, classConfig={} ){
         }
     }
 
+    if( typeof context.value == 'string' ){
+        context.value = String(context.value).toLowerCase();
+    }
+
     if( context.value == 'sim' || context.value == 'verdade' || context.value == 'afirmativo' || context.value == 'verdadeiro' ){
         context.value = Number(true);
 

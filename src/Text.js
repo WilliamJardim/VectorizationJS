@@ -55,8 +55,20 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
     //Se for um objeto com configurações
     }else if(value instanceof Object){
 
+        //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+        value = classeBaseEscalar.translateAttributes_andReturn(value, classConfig['translations']() );
+
         //Salva a config
         context.configuracoesValue = {... value};
+
+        if( value.value != undefined ){
+            if( typeof value.value == 'string' ){
+                context.value = value.value;
+                
+            }else{
+                context.value = String(value.value);
+            }
+        }
     }
 
     if(context.value == undefined){

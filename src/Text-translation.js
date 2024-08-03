@@ -27,7 +27,8 @@ window.Vectorization.Text._translations = function(){
     };
 
     const translatedAttributes = {
-        
+        'valor': 'value',
+        'conteudo': 'value'
     };
 
     return {

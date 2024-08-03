@@ -55,6 +55,9 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     //Se for um objeto com configurações
     }else if(value instanceof Object){
 
+        //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+        value = classeBaseEscalar.translateAttributes_andReturn(value, classConfig['translations']() );
+
         //Salva a config
         context.configuracoesValue = {... value};
 
@@ -99,6 +102,17 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
             }else{
                 throw 'Para criar um Scalar aleatório voce precisar passar a faixa de valores!';
+            }
+
+        }else{
+            //Se nao for aleatorio
+            if( value.value != undefined ){
+                if( typeof value.value == 'string' ){
+                    context.value = value.value;
+                    
+                }else{
+                    context.value = Number(value.value);
+                }
             }
         }
     }
