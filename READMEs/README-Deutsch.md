@@ -40,12 +40,6 @@ Die in dieser Bibliothek implementierten Konzepte wurden von verschiedenen Quell
 ## Implementierung
 Die Implementierungen wurden unabhängig auf der Grundlage des Verständnisses mathematischer Konzepte durchgeführt.
 
-# Lizenz
-**WilliamJardim/Vectorization © 2024 by William Alves Jardim ist lizenziert unter einer Creative Commons Namensnennung-Nicht-kommerziell-Weitergabe unter gleichen Bedingungen 4.0 International Lizenz. Um eine Kopie dieser Lizenz zu sehen, besuchen Sie https://creativecommons.org/licenses/by-nc-sa/4.0/**
-
 # Autor und Kontaktinformationen:
  - Name: William Alves Jardim
  - Email: williamalvesjardim@gmail.com
-
-### Zusätzliche Bedingungen
-Diese Arbeit ist nur für Bildungs- und nicht-kommerzielle Zwecke bestimmt. Um die Erlaubnis für die kommerzielle Nutzung dieser Arbeit zu erhalten oder wenn Sie Fragen dazu haben, was kommerzielle Nutzung darstellt, wenden Sie sich bitte an den Autor unter [williamalvesjardim@gmail.com].

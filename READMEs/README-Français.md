@@ -40,12 +40,6 @@ Les concepts implémentés dans cette bibliothèque ont été inspirés par dive
 ## Implémentation
 Les implémentations ont été réalisées de manière indépendante, basées sur la compréhension des concepts mathématiques.
 
-# Licence
-**WilliamJardim/Vectorization © 2024 par William Alves Jardim est sous licence Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Pour voir une copie de cette licence, visitez https://creativecommons.org/licenses/by-nc-sa/4.0/**
-
 # Auteur et informations de contact :
  - Nom : William Alves Jardim
  - Email : williamalvesjardim@gmail.com
-
-### Termes supplémentaires
-Ce travail est uniquement à des fins éducatives et non commerciales. Pour obtenir la permission d'utiliser ce travail à des fins commerciales, ou si vous avez des questions sur ce qui constitue une utilisation commerciale, veuillez contacter l'auteur à [williamalvesjardim@gmail.com].

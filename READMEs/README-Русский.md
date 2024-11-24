@@ -40,12 +40,6 @@ https://github.com/WilliamJardim/Vectorization/tree/main/examples
 ## Реализация
 Реализации были выполнены независимо, основываясь на понимании математических концепций.
 
-# Лицензия
-**WilliamJardim/Vectorization © 2024 by William Alves Jardim лицензировано по лицензии Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Чтобы просмотреть копию этой лицензии, посетите https://creativecommons.org/licenses/by-nc-sa/4.0/**
-
 # Автор и контактная информация:
  - Имя: Уильям Алвес Жардин
  - Email: williamalvesjardim@gmail.com
-
-### Дополнительные условия
-Эта работа предназначена только для образовательных и некоммерческих целей. Для получения разрешения на коммерческое использование этой работы или если у вас есть вопросы о том, что считается коммерческим использованием, пожалуйста, свяжитесь с автором по адресу [williamalvesjardim@gmail.com].

@@ -40,12 +40,6 @@ I concetti implementati in questa libreria sono stati ispirati da varie fonti, t
 ## Implementazione
 Le implementazioni sono state fatte in modo indipendente, basate sulla comprensione dei concetti matematici.
 
-# Licenza
-**WilliamJardim/Vectorization © 2024 by William Alves Jardim è concesso in licenza sotto Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Per visualizzare una copia di questa licenza, visita https://creativecommons.org/licenses/by-nc-sa/4.0/**
-
 # Autore e informazioni di contatto:
  - Nome: William Alves Jardim
  - Email: williamalvesjardim@gmail.com
-
-### Termini aggiuntivi
-Questo lavoro è solo per scopi educativi e non commerciali. Per ottenere il permesso per l'uso commerciale di questo lavoro, o se hai domande su cosa costituisce uso commerciale, contatta l'autore all'indirizzo [williamalvesjardim@gmail.com].

@@ -40,12 +40,6 @@ Los conceptos implementados en esta biblioteca fueron inspirados por diversas fu
 ## Implementación
 Las implementaciones se hicieron de forma independiente, basadas en la comprensión de los conceptos matemáticos.
 
-# Licencia
-**WilliamJardim/Vectorization © 2024 by William Alves Jardim está licenciado bajo Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional. Para ver una copia de esta licencia, visite https://creativecommons.org/licenses/by-nc-sa/4.0/**
-
 # Autor e información de contacto:
  - Nombre: William Alves Jardim
  - Email: williamalvesjardim@gmail.com
-
-### Términos adicionales
-Este trabajo es solo para fines educativos y no comerciales. Para obtener permiso para uso comercial de esta obra, o si tiene preguntas sobre qué constituye uso comercial, póngase en contacto con el autor en [williamalvesjardim@gmail.com].
