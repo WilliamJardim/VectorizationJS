@@ -76,11 +76,17 @@ def salvarArquivo(caminho, conteudo):
         arq.write(conteudo);
         arq.close();
 
+codigoCompleto = codigoCompleto + '\nwindow.isbrowser = true;\n';
+
 salvarArquivo('../build/Vectorization-builded.js', codigoCompleto);
 print('Pronto!. Arquivo salvo em ../build/Vectorization-builded.js');
 
-codigoCompleto = codigoCompleto + '\nmodule.exports = new Vectorization_4Node();'
-salvarArquivo('../build/Vectorization-builded-4node.js', codigoCompleto);
+codigoCompletoNN = codigoCompleto;
+
+codigoCompletoNN = codigoCompletoNN + '\nwindow.isbrowser = false;\n';
+
+codigoCompletoNN = codigoCompletoNN + '\nmodule.exports = new Vectorization_4Node();'; 
+salvarArquivo('../build/Vectorization-builded-4node.js', codigoCompletoNN);
 
 print('Pronto!. Arquivo salvo em ../build/Vectorization-builded_4node.js');
 
@@ -91,7 +97,7 @@ arquivoTeste = '''
         </head>
         <body> Press F11 </body>
 
-        <script src='Vectorization-builded-4node.js'></script>
+        <script src='Vectorization-builded.js'></script>
 
         <script>
 
@@ -123,7 +129,7 @@ arquivoTesteNode = '''
     * require('../src/Vectorization/ClassName.js');
     */
 
-    const Vectorization = require('Vectorization-builded');
+    const Vectorization = require('./Vectorization-builded-4node');
 
     //Matrix com vetor
     var matrix1 = Vectorization.Matrix([

@@ -3,62 +3,17 @@
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization � 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: WilliamJardim/Vectorization � 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
 */
+if(typeof window === 'undefined'){
+    global.VECTORIZATION_BUILD = true;
+    global.VECTORIZATION_BUILD_TYPE = 'node';
+}else{
+    window.VECTORIZATION_BUILD = true;
+    window.VECTORIZATION_BUILD_TYPE = 'navegador';
+}
 
-/* COMPILADO: 25/7/2024 - 20:32:52*//* ARQUIVO VECTORIZATION: ../src/Vectorization.js*/
-/*
- * File Name: Vectorization.js
- * Author Name: William Alves Jardim
- * Author Email: williamalvesjardim@gmail.com
- * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
-*/
-
-var Vectorization_4Node = class{
-    constructor(){
-        if( typeof window !== 'undefined' ){
-            throw 'This class only works in Node';
-        }
-
-        //TESTE QUE PRETENDO TENTAR FAZER PRA CORRIGIR O PROBLEMA DO NODE
-        if( typeof VECTORIZATION_BUILD_TYPE !== 'undefined' && VECTORIZATION_BUILD_TYPE ){
-
-        }
-
-        //Importando classe raiz
-        this.Root = require('./Root');
-
-        this.Utilidades = require('./Utilidades');
-
-        //Importando numeros escalares
-        this.Scalar = require('./Scalar');
-        this.Scalar_translation = require('./Scalar-translation');
-
-        //Importando Text
-        this.Scalar = require('./Text');
-        this.Scalar_translation = require('./Text-translation');
-
-        //Importando Vetores
-        this.Vector = require('./Vector');
-        this.Vector_translation = require('./Vector-translation');
-
-        //Importando Vetores de String
-        this.StringVector = require('./StringVector');
-        this.StringVector_translation = require('./StringVector-translation');
-
-        this.Random = require('./Random');
-        this.Random_translation = require('./Random-translation');
-
-        //Importando Matrizes
-        this.Matrix = require('./Matrix');
-        this.Matrix_translation = require('./Matrix-translation');
-    }
-}; 
-
-module.exports = new Vectorization_4Node();
-/* FIM DO ARQUIVO VECTORIZATION: ../src/Vectorization.js*/
-/* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 24/11/2024 - 14:08:18*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -76,6 +31,8 @@ if( typeof window === 'undefined' ){
     if (typeof module === 'undefined') {
         globalThis.module = {};
     }
+
+    globalThis.require = function(){};
 }
 
 if(!window.Vectorization){ window.Vectorization = {} };
@@ -110,6 +67,23 @@ window.Vectorization.Base = function(config){
         let configKeys = Object.keys(config);
         for( let i = 0 ; i < configKeys.length ; i++){
             context[ configKeys[i] ] = config[ configKeys[i] ];
+        }
+    }
+
+    context.copyArgsSeNaoExistir = function(config, aplicarBind=true){
+        //Copia os argumentos
+        let configKeys = Object.keys(config);
+
+        for( let i = 0 ; i < configKeys.length ; i++){
+
+            if( context[ configKeys[i] ] == undefined )
+            {
+                context[ configKeys[i] ] = config[ configKeys[i] ];
+                if(aplicarBind == true && context[ configKeys[i] ].bind != undefined){
+                    context[ configKeys[i] ].bind(context);
+                }
+            }
+
         }
     }
 
@@ -267,6 +241,14 @@ window.Vectorization.Base = function(config){
                };
     }
 
+    context.herdarFuncoes = function(referenciaObjeto){
+        const templateObjetoCriado = referenciaObjeto();
+        const contextObjetoCriado = templateObjetoCriado;
+        
+        //Aplica dentro deste objeto do Vectorization
+        context.copyArgsSeNaoExistir(contextObjetoCriado); 
+    }
+
     return context;
 }
 
@@ -302,6 +284,44 @@ window.Vectorization.matrixIdentidade = function(ordem){
     }
 
     return Vectorization.Matrix(matrix, extraProps);
+}
+
+window.Vectorization.identificarTipo = function(obj){
+    //Se for um objeto do Vectorization
+    if( obj instanceof Object && obj.objectName != undefined ){
+
+        if( Vectorization.Scalar.isScalar( obj ) ){
+            return 'Scalar';
+
+        }else if( Vectorization.Text.isText( obj ) ){
+            return 'Text';
+
+        }else{
+            return undefined;
+        }
+
+    }else{
+        if( typeof obj == 'number' ){
+            return 'Scalar';
+
+        }else if( typeof obj == 'string' ){
+            return 'Text';
+        }
+    }
+
+    return undefined;
+}
+
+window.Vectorization.isAlgumValorVectorization = function(obj){
+    return window.Vectorization.identificarTipo(obj) != undefined && 
+           obj instanceof Object && 
+           obj.objectName != undefined;
+}
+
+window.Vectorization.isAlgumVetorVectorization = function(obj){
+    return window.Vectorization.Vector.isVectorizationVector(obj) ||
+           window.Vectorization.StringVector.isVectorizationStringVector(obj) ||
+           window.Vectorization.BendableVector.isVectorizationBendableVector(obj);
 }
 
 module.exports = window.Vectorization.Root;
@@ -405,6 +425,9 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
     //Se for um objeto com configurações
     }else if(value instanceof Object){
 
+        //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+        value = classeBaseEscalar.translateAttributes_andReturn(value, classConfig['translations']() );
+
         //Salva a config
         context.configuracoesValue = {... value};
 
@@ -450,12 +473,24 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
             }else{
                 throw 'Para criar um Scalar aleatório voce precisar passar a faixa de valores!';
             }
+
+        }else{
+            //Se nao for aleatorio
+            if( value.value != undefined ){
+                if( typeof value.value == 'string' ){
+                    context.value = value.value;
+                    
+                }else{
+                    context.value = Number(value.value);
+                }
+            }
         }
     }
 
     context.objectName = 'Scalar';
     context.path = 'Vectorization.Scalar';
 
+    context.storedClassConfig = classConfig || {};
 
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
     context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
@@ -554,6 +589,11 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         return Number.parseFloat( context.value );
     }
 
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.Text( context.valueOf(), novasConfiguracoes );
+    }
+
     context.toString = function(){
         return String(context.value);
     }
@@ -631,6 +671,10 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 */
 window.Vectorization.Scalar.isScalar = function(obj){
     return (obj.objectName != undefined && obj.objectName == 'Scalar') || typeof obj == 'number';
+}
+
+window.Vectorization.Scalar.isVectorizationScalar = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Scalar');
 }
 
 module.exports = window.Vectorization.Scalar;
@@ -729,18 +773,39 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
         !(value instanceof Object) &&
         (typeof value == 'string' || Vectorization.Utilidades.apenasNumeros(value)) == true
     ){
+
         context.value = String(value);
         context.configuracoesValue = {};
     
     //Se for um objeto com configurações
     }else if(value instanceof Object){
 
+        //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+        value = classeBaseEscalar.translateAttributes_andReturn(value, classConfig['translations']() );
+
         //Salva a config
         context.configuracoesValue = {... value};
+
+        if( value.value != undefined ){
+            if( typeof value.value == 'string' ){
+                context.value = value.value;
+                
+            }else{
+                context.value = String(value.value);
+            }
+        }
+    }
+
+    if(context.value == undefined){
+        if( Vectorization.Scalar.isScalar(value) == true ){
+            context.value = String(value);   
+        }
     }
 
     context.objectName = 'Text';
     context.path = 'Vectorization.Text';
+
+    context.storedClassConfig = classConfig || {};
 
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
     context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
@@ -775,6 +840,11 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
 
     context.valueOf = function(){
         return String( context.value );
+    }
+
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.Scalar( context.valueOf(), novasConfiguracoes );
     }
 
     context.toString = function(){
@@ -922,7 +992,8 @@ window.Vectorization.Text._translations = function(){
     };
 
     const translatedAttributes = {
-        
+        'valor': 'value',
+        'conteudo': 'value'
     };
 
     return {
@@ -933,6 +1004,269 @@ window.Vectorization.Text._translations = function(){
 
 module.exports = window.Vectorization.Text._translations;
 /* FIM DO ARQUIVO VECTORIZATION: ../src/Text-translation.js*/
+/* ARQUIVO VECTORIZATION: ../src/Boolean.js*/
+/*
+ * File Name: Boolean.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+
+    if( window.Vectorization.Random == undefined ){
+        require('./Root'); 
+        require('./Random'); 
+    }
+
+    if( window.Vectorization.Utilidades == undefined ){
+        require('./Utilidades'); 
+    }
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.Boolean = function( value=NaN, classConfig={} ){
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.Boolean._translations || null;
+
+    let classeBaseEscalar = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseEscalar.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+
+    //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
+    if( value.objectName != undefined && value.objectName == 'Boolean' ){
+        return Vectorization.Boolean( value.raw(), {... classConfig} );
+    }
+
+    //let context = {... classConfig};
+    let context = window.Vectorization.Base({... classConfig});
+
+    if( classConfig.value ){
+        value = classConfig.value;
+    }
+
+    if( value != undefined && 
+        !(value instanceof Object) &&
+        (typeof value == 'number' || typeof value == 'false' || typeof value == 'true' || Vectorization.Utilidades.apenasNumeros(value)) == true
+    ){
+        if( value > 1 ){
+            throw 'Esse Vectorization.Boolean não suporta valores maiores do que 1!';
+        }
+
+        if( value < 0 ){
+            throw 'Esse Vectorization.Boolean não suporta valores menores do que 0!';
+        }
+
+        context.value = Number(value);
+        context.configuracoesValue = {};
+    
+    //Se for um objeto com configurações
+    }else if(value instanceof Object){
+
+        //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+        value = classeBaseEscalar.translateAttributes_andReturn(value, classConfig['translations']() );
+
+        //Salva a config
+        context.configuracoesValue = {... value};
+
+        if( value.value > 1 ){
+            throw 'Esse Vectorization.Boolean não suporta valores maiores do que 1!';
+        }
+
+        if( value.value < 0 ){
+            throw 'Esse Vectorization.Boolean não suporta valores menores do que 0!';
+        }
+
+        if( typeof value.value == 'string' ){
+            context.value = value.value;
+        }else{
+            context.value = Number(value.value);
+        }
+    }
+
+    if( typeof context.value == 'string' ){
+        context.value = String(context.value).toLowerCase();
+    }
+
+    if( context.value == 'sim' || context.value == 'verdade' || context.value == 'afirmativo' || context.value == 'verdadeiro' ){
+        context.value = Number(true);
+
+    }else if( context.value == 'nao' || context.value == 'falso' || context.value == 'negativo' ){
+        context.value = Number(false);
+    }
+
+    context.objectName = 'Boolean';
+    context.path = 'Vectorization.Boolean';
+
+    context.storedClassConfig = classConfig || {};
+
+    context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
+    context.permitirBloquear = (classConfig['permitirBloquear'] != undefined) ? (classConfig['permitirBloquear']) : true;
+
+    context._isBloqueado = function(){
+        if( context.bloqueado != undefined && context.bloqueado == true ){
+            return true;
+        }
+        return false;
+    }
+
+    context.bloquearModificacoes = function(){
+        if( context.permitirBloquear == true ){
+            context.bloqueado = true;
+
+        }else{
+            throw 'Ação não permitida para este Vectorization.Boolean!';
+        }
+    }
+
+    context.desbloquearModificacoes = function(){
+        if( context.permitirDesbloquear == true ){
+            context.bloqueado = false;
+        }else{
+            throw 'Ação não permitida para este Vectorization.Boolean!';
+        }
+    }
+
+    context.obterValor = function(){
+        return context.value;
+    }
+
+    context.valueOf = function(){
+        return Number.parseFloat( context.value );
+    }
+
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.Text( context.valueOf(), novasConfiguracoes );
+    }
+
+    context.toString = function(){
+        return String(context.value);
+    }
+
+    context.raw = function(){
+        return context.value + 0;
+    }
+
+    context.toggle = function(){
+        if( context.value == Number(true) ){
+            context.value = Number(false);
+            
+        }else{
+            context.value = Number(true);
+        }
+    }
+
+    context.isTrue = function(){
+        return context.value == Number(true);
+    }
+
+    context.isFalse = function(){
+        return context.value == Number(false);
+    }
+
+    //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
+    context.bloqueado = (classConfig['bloqueado'] != undefined) ? (classConfig['bloqueado']) : false;
+
+    context.isAtributoProtegidoPeloVectorization = function(nomeAtributo){
+        let listaAtributosProtegidos = [
+            'permitirBloquear'
+        ];
+
+        let confereSePodeMexe = listaAtributosProtegidos.indexOf(nomeAtributo) != -1;
+        return confereSePodeMexe == true ? true : false;
+    }
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.applyTranslations( context._translations() );
+    }
+
+    //return context;
+    return new Proxy(context, {
+        
+        set: function(target, prop, value) {
+          //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Scalar
+          if( target._isBloqueado() == true ){
+             throw 'Este Vectorization.Boolean está bloqueado para novas gravações!';
+          }
+
+          //Outros casos barrar
+          if( prop == 'bloqueado' || prop == 'permitirDesbloquear' || context.isAtributoProtegidoPeloVectorization(prop) ){
+             throw 'Você não pode modificar esta atributo do Vectorization.Boolean!';
+          }
+
+          return Reflect.set(target, prop, value);
+        }
+    });
+}
+
+/**
+* Métodos estáticos
+*/
+window.Vectorization.Boolean.isBoolean = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Boolean') || typeof obj == 'number';
+}
+
+window.Vectorization.Boolean.isVectorizationBoolean = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'Boolean');
+}
+
+module.exports = window.Vectorization.Boolean;
+/* FIM DO ARQUIVO VECTORIZATION: ../src/Boolean.js*/
+/* ARQUIVO VECTORIZATION: ../src/Boolean-translation.js*/
+/*
+ * File Name: Boolean-translation.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * Description: Provide translations for class methods
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.Boolean._translations = function(){
+    const translatedMethods = {
+        
+    };
+
+    const translatedAttributes = {
+        'valor': 'value',
+        'conteudo': 'value'
+    };
+
+    return {
+        translatedMethods: translatedMethods,
+        translatedAttributes: translatedAttributes
+    };
+}
+
+module.exports = window.Vectorization.Boolean._translations;
+/* FIM DO ARQUIVO VECTORIZATION: ../src/Boolean-translation.js*/
 /* ARQUIVO VECTORIZATION: ../src/Vector.js*/
 /*
  * File Name: Vector.js
@@ -980,6 +1314,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.objectName = 'Vector';
     context.path = 'Vectorization.Vector';
     context.configRecebidaUsuario = config;
+
+    context.storedClassConfig = classConfig || {};
 
     //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
     //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
@@ -1176,6 +1512,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return context;
     }
 
+    context.toText = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.StringVector( context.raw(), novasConfiguracoes);
+    }
+
     context.values = function(){
         if( context.usarEscalares == true ){
             return context.raw();
@@ -1193,7 +1534,16 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         {
             let valoresSemEstarEmEscalar = [];
             context.paraCadaElemento(function(i, objetoEscalar){
-                valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                if( objetoEscalar.obterValor == undefined && 
+                    typeof objetoEscalar == 'number' 
+                
+                ){
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+                }
             });
 
             return valoresSemEstarEmEscalar;
@@ -1205,6 +1555,72 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
     //Alias for context.toArray
     context.raw = context.toArray;
+
+    context.rawProfundo = function(){
+        if( context.usarEscalares != undefined && context.usarEscalares == true )
+        {
+            let valoresSemEstarEmEscalar = [];
+            context.paraCadaElemento(function(i, objetoEscalar){
+
+                if( objetoEscalar.obterValor == undefined && 
+                    typeof objetoEscalar == 'number' 
+                
+                ){
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+                }
+            });
+
+            return valoresSemEstarEmEscalar;
+
+        }else{
+            //if( context.content.some( (elementoAtual)=>{ return Vectorization.Vector.isVectorizationVector(elementoAtual) || Vectorization.BendableVector.isVectorizationBendableVector(elementoAtual) } ) 
+            if( (elementoAtual) => Vectorization.Scalar.isScalar(elementoAtual) == true || 
+                                   Vectorization.Text.isText(elementoAtual) == true )
+            {
+                let valoresSemEstarEmEscalar = [];
+                context.paraCadaElemento(function(i, objetoEscalar){
+
+                    if( Vectorization.Scalar.isScalar(objetoEscalar) || 
+                        Vectorization.Text.isText(objetoEscalar)
+                    
+                    ){
+                        if( objetoEscalar.obterValor != undefined )
+                        {
+                            valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                        }else{
+                            valoresSemEstarEmEscalar.push( objetoEscalar );
+                        }
+    
+                    }else{
+                        valoresSemEstarEmEscalar.push( objetoEscalar );
+                    }
+                });
+
+                return valoresSemEstarEmEscalar;
+                
+            }else{
+                return context.content;
+            }
+        }
+    }
+
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaElemento(function(i, elementoAtual){
+            if( includeNamespace == true ){
+                tiposUsados.push( 'Vectorization.' + String(elementoAtual.objectName) );
+
+            }else{
+                tiposUsados.push( String(elementoAtual.objectName) );
+            }
+        });
+
+        return tiposUsados;
+    }
 
     /**
     * Obtem um novo Vector exatamente igual a este Vector
@@ -1321,7 +1737,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     context.indexOf = function(elemento, comecandoAPartirDoIndice){
-        return Vectorization.Vector(context).duplicar().content.indexOf(elemento, comecandoAPartirDoIndice);
+        return Vectorization.Vector(context).duplicar()
+        .raw().indexOf( 
+            Vectorization.Scalar.isVectorizationScalar(elemento) == true ? elemento.obterValor() : elemento, 
+            comecandoAPartirDoIndice);
     }
 
     context.sum = function(){
@@ -1515,7 +1934,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * Percorre cada elemento do vetor, aplicando uma função de callback, porém faz isso de forma contrária/revertida
     * @param {Function} callback(index, element, context)
     */
-    context.paraCadaElementoReverso = function(callback){
+    context.paraCadaElementoReverso = function(callback, executarNoContexto=null){
         let valorComecar = context.tamanho()-1;
         let valorVaiInterromper = 0;
         let vaiParar = false;
@@ -1527,6 +1946,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             }else{
                 //Brecar aqui
                 vaiParar = true;
+            }
+
+            if( executarNoContexto != null ){
+                callback = callback.bind(executarNoContexto);
             }
 
             ultimoEstadoRetornado = callback(
@@ -1631,6 +2054,26 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
         return Vectorization.Vector( novoVetor.valores() );
     }
+
+    context.ignorarUndefined = function(){
+        return context.filtrar(function(iAtualFiltragem, elementoAtualFiltragem){
+            if( elementoAtualFiltragem != undefined && 
+                elementoAtualFiltragem != null &&
+                isNaN(elementoAtualFiltragem) == false
+            ){
+                return 'manter';
+            }
+        }, false);
+    }
+
+    context.ignorar = function(oElemento){
+        return context.filtrar(function(iAtualFiltragem, elementoAtualFiltragem){
+            if( elementoAtualFiltragem != oElemento ){
+                return 'manter';
+            }
+        }, false);
+    }
+    context.ignorarOs = context.ignorar;
 
     context.sobrescreverConteudo = function(novoConteudoDoVetor){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
@@ -3159,11 +3602,13 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 * Métodos estáticos
 */
 window.Vectorization.Vector.isVector = function(obj){
+    if( obj == undefined ){ return false };
     return ((obj.objectName != undefined && obj.objectName == 'Vector') || 
            Array.isArray(obj)) ? true : false;
 }
 
 window.Vectorization.Vector.isVectorizationVector = function(obj){
+    if( obj == undefined ){ return false };
     return (obj.objectName != undefined && obj.objectName == 'Vector')
 }
 
@@ -3351,8 +3796,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
 
     context.letrasMaiusculas = function(){
         let novoStringVector = Vectorization.StringVector([]);
-        context.paraCadaElemento(function(i){
-            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMaiusculas() );
+        let contextoMetodo = this instanceof Window ? context : this; 
+        
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( contextoMetodo.lerIndice(i).letrasMaiusculas() );
         });
 
         return novoStringVector;
@@ -3362,8 +3810,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
 
     context.letrasMinusculas = function(){
         let novoStringVector = Vectorization.StringVector([]);
-        context.paraCadaElemento(function(i){
-            novoStringVector.adicionarElemento( context.lerIndice(i).letrasMinusculas() );
+        let contextoMetodo = this instanceof Window ? context : this; 
+
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            novoStringVector.adicionarElemento( contextoMetodo.lerIndice(i).letrasMinusculas() );
         });
 
         return novoStringVector;
@@ -3378,9 +3829,11 @@ window.Vectorization.StringVector = function( config=[], classConfig={} ){
      */
     context.distanciaPalavras = function(outroStringVector){
         let distancias = Vectorization.Vector([]);
+        let contextoMetodo = this instanceof Window ? context : this; 
 
-        context.paraCadaElemento(function(i){
-            let elementoAtual_esteStringVector = context.lerIndice(i),
+        //Usei o this acima pois isso permite herdar este código em outro objeto
+        contextoMetodo.paraCadaElemento(function(i){
+            let elementoAtual_esteStringVector = contextoMetodo.lerIndice(i),
                 elementoAtual_outroStringVector = ( Vectorization.StringVector.isVectorizationStringVector(outroStringVector) == false ? Vectorization.StringVector(outroStringVector) : outroStringVector ).lerIndice(i);
 
             if( elementoAtual_outroStringVector != undefined ){
@@ -3506,6 +3959,384 @@ window.Vectorization.StringVector._translations = function(){
 
 module.exports = window.Vectorization.StringVector._translations;
 /* FIM DO ARQUIVO VECTORIZATION: ../src/StringVector-translation.js*/
+/* ARQUIVO VECTORIZATION: ../src/BendableVector.js*/
+/*
+ * File Name: BendableVector.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global;
+    require('./Root'); 
+    require('./Scalar');
+    require('./Vector');
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.BendableVector = function( config=[], classConfig={} ){
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.BendableVector._translations || null;
+
+    let classeBaseVector = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseVector.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+    
+    //Este Vectorization.BendableVector NÂO usa números, em vez disso, vamos especificar o que queremos
+    classConfig['usarEscalares'] = false;
+
+    //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
+    if( Vectorization.BendableVector.isVectorizationBendableVector(config) && config.objectName == 'BendableVector' ){
+        return Vectorization.BendableVector( config.values(), classConfig );
+    }
+
+    //O StringVector será baseado no Vectorization.Vector
+    let context = window.Vectorization.Vector(config, classConfig);
+    context.objectName = 'BendableVector';
+    context.extendedFrom = 'Vector';
+    context.path = 'Vectorization.BendableVector';
+    context.configRecebidaUsuario = config;
+    
+    context.storedClassConfig = classConfig || {};
+
+    context.flexibilidade = classConfig['flexibilidade'] || false;
+
+    //Mais opções de flexibilidade
+    if( context.flexibilidade != undefined )
+    {
+        //Se for apenas um texto, com o nome do tipo, ele trata isso aqui
+        if( typeof context.flexibilidade == 'string' ){
+            context.flexibilidade = [ context.flexibilidade ];
+        }
+
+        //Se o usuario passar um array contendo apenas um elemento, ele vai usar ele como tipo para todos os elementos deste Vectorization.BendableVector
+        if( context.flexibilidade instanceof Array && context.flexibilidade.length == 1 && context.content.length > 1 )
+        {
+            
+            for( let i = 0 ; i < context.content.length-1 ; i++ )
+            {
+                //Completa com o tipo que veio
+                context.flexibilidade.push(context.flexibilidade[0]);
+            }
+
+        }
+    }
+
+    if( context.flexibilidade ){
+        if( context.flexibilidade.length != context.content.length ){
+            throw 'o array flexibilidade precisa conter a mesma quantidade de elementos deste Vectorization.Vector'
+        }
+    }
+
+    if( context.flexibilidade ){
+        //Verifica se todos são do tipo Vectorization.Text
+        context.isTudoTexto = Vectorization.StringVector( Vectorization.isAlgumVetorVectorization(context.flexibilidade) ? [... context.flexibilidade.raw()] : [... context.flexibilidade] ).todosIguaisA('Text');
+        
+    }else{
+        context.isTudoTexto = null;
+    }
+
+    //Se for tudo texto
+    if( context.isTudoTexto == true ){
+        context.herdarFuncoes( Vectorization.StringVector );
+    }
+
+    context.toText = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        return Vectorization.StringVector( context.raw(), novasConfiguracoes);
+    }
+
+    context.toScalar = function(){
+        let novasConfiguracoes = {... context.storedClassConfig};
+        novasConfiguracoes['usarEscalares'] = true;
+
+        return Vectorization.Vector( context.raw(), novasConfiguracoes );
+    }
+
+    /**
+    * @override
+    * @param {Boolean} includeNamespace 
+    * @returns {Array}
+    */
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaElemento(function(i, elementoAtual){
+            if( includeNamespace == true ){
+                tiposUsados.push( 'Vectorization.' + String(elementoAtual.objectName) );
+
+            }else{
+                tiposUsados.push( String(elementoAtual.objectName) );
+            }
+        });
+
+        return tiposUsados;
+    }
+
+    /**
+    * @override 
+    */
+    context.rawProfundo = function(){
+        
+        if( (elementoAtual) => Vectorization.Scalar.isScalar(elementoAtual) == true || 
+                               Vectorization.Text.isText(elementoAtual) == true ||
+                               Vectorization.Boolean.isBoolean(elementoAtual) == true 
+                            
+        ){
+            let valoresSemEstarEmEscalar = [];
+            context.paraCadaElemento(function(i, objetoEscalar){
+
+                if( Vectorization.Scalar.isScalar(objetoEscalar) || 
+                    Vectorization.Text.isText(objetoEscalar) ||
+                    Vectorization.Boolean.isBoolean(objetoEscalar) 
+
+                ){
+                    if( objetoEscalar.obterValor != undefined )
+                    {
+                        valoresSemEstarEmEscalar.push( objetoEscalar.obterValor() );
+
+                    }else{
+                        valoresSemEstarEmEscalar.push( objetoEscalar );
+                    }
+
+                }else{
+                    valoresSemEstarEmEscalar.push( objetoEscalar );
+                }
+            });
+
+            return valoresSemEstarEmEscalar;
+
+        }else{
+            return context.content;
+        }
+
+    }
+
+    /**
+    * @override
+    * Permite fatiar(ou recortar) este vetor
+    * @param {linhaInicial} - inicio
+    * @param {linhaFinal} - final
+    * @param {intervalo} - intervalo
+    * @returns {Vectorization.Vector} - o vetor recortado
+    */
+    context.slice = function(elementoInicial, elementoFinal, intervalo=1){
+        let dadosRecortados = [];
+
+        if( elementoInicial < 0 ){
+            throw 'A elementoInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( elementoFinal > context.length ){
+            throw 'A elementoFinal precisa estar dentro da faixa de valores do Vector! valor muito alto!';
+        }
+
+        if( intervalo <= 0 ){
+            throw 'O intervalo precisa ser maior que zero!';
+        }
+
+        let quantosForam = 0;
+        for( let i = elementoInicial ; i < elementoFinal ; i = i + intervalo )
+        {
+            dadosRecortados.push( context.readIndex(i) );
+            quantosForam = quantosForam + 1;
+        }
+
+        let quantidadeFalta = Math.abs(dadosRecortados.length - context.flexibilidade.length);
+        let flexibilidadeAjustada = [... context.flexibilidade];
+
+        if( context.flexibilidade.length < quantidadeFalta ){
+            for( let i = 0 ; i < quantidadeFalta ; i++ ){
+                //Completa com um tipo de dado qualquer
+                flexibilidadeAjustada.push('texto');
+            }
+        }
+
+        let novoVetorCriado = Vectorization.BendableVector(dadosRecortados, {
+            flexibilidade: flexibilidadeAjustada
+        } );
+
+        return novoVetorCriado;
+    }
+
+    /**
+    * @override
+    * Obtem um novo Vector exatamente igual a este Vector
+    * Ou seja, faz uma copia do propio objeto, identido, porém sem manter as referencias. 
+    * @returns {Vectorization.Vector}
+    */
+    context.duplicar = function(){
+        let novoVector = [];
+        
+        for( let i = 0 ; i < context.length ; i++ )
+        {
+            novoVector.push( context.readIndex(i) );
+        }
+
+        //Pra ser compativel com este Vectorization.BendableVector
+        let extraPropsOfLine = {};
+        if( context.flexibilidade ){
+            extraPropsOfLine['flexibilidade'] = context.flexibilidade;
+        }
+
+        return Vectorization.BendableVector(novoVector, extraPropsOfLine);
+    }
+
+    /**
+    * @override
+    * Vai percorrer cada elemento deste Vectorization.Vector, visando localizar elementos que aparecem mais de uma vez.
+    * E com isso, ele vai remover tais repetições de elementos, retornando um novo Vectorization.Vector que não contenha duplicidade. 
+    * @returns {Vectorization.BendableVector} 
+    */
+    context.valoresUnicos = function(){
+        const esteVetorCopiado = context.duplicar();
+        const jaFoi = {};
+        
+        //Pra ser compativel com este Vectorization.BendableVector
+        let extraPropsOfLine = {};
+        //if( context.flexibilidade ){
+        //    extraPropsOfLine['flexibilidade'] = context.flexibilidade;
+        //}
+
+        let novoVetor_sem_repeticoes = Vectorization.BendableVector([], extraPropsOfLine);
+
+        esteVetorCopiado.paraCadaElemento(function(i){
+            let elementoAtual = esteVetorCopiado.readIndex(i);
+
+            if( jaFoi[ elementoAtual ] == undefined )
+            {
+                novoVetor_sem_repeticoes.adicionarElemento(elementoAtual);
+                jaFoi[ elementoAtual ] = true;
+            }
+        });
+
+        return novoVetor_sem_repeticoes;
+    }
+
+    //Alias for duplicar
+    context.clonar = context.duplicar;
+
+    /**
+    * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde não importa qual o tipo de valor usado
+    */
+    context._vectorElementos2Flexibilidade = function(vectorClassConfig={}){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            const extraPropsOfLine = {... vectorClassConfig};
+
+            //context.content[i] = 'vamos identificar abaixo';
+            switch( Vectorization.isAlgumValorVectorization( context.flexibilidade[i] ) ? context.flexibilidade[i].raw() : context.flexibilidade[i] ){
+                case 'Escalar':
+                case 'Scalar':
+                case 'Number':
+                case 'Numero':
+                case 'numero':
+                case 'escalar':
+                    context.content[i] = Vectorization.Scalar(context.content[i], extraPropsOfLine);
+                    break;
+
+                case 'texto':
+                case 'Texto':
+                case 'Text':
+                case 'String':
+                case 'Letras':
+                    context.content[i] = Vectorization.Text(context.content[i], extraPropsOfLine);
+                    break;
+
+                case 'booleano':
+                case 'Booleano':
+                case 'Boolean':
+                case 'boolean':
+                case 'Logico':
+                    context.content[i] = Vectorization.Boolean(context.content[i], extraPropsOfLine);
+                    break;
+
+                default:
+                    throw 'Tipo não aceito';
+            }
+        }
+    }
+
+    context._vectorElementos2Flexibilidade();
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.applyTranslations( context._translations() );
+    }
+
+    //Se tiver uma função a ser aplicada por cima de tudo
+    if( config['funcaoAplicar'] != undefined || classConfig['funcaoAplicar'] != undefined ){
+        context.aplicarFuncao( config['funcaoAplicar'] || classConfig['funcaoAplicar'] );
+    }
+
+    return context;
+};
+
+/**
+* Métodos estáticos
+*/
+window.Vectorization.BendableVector.isBendableVector = function(obj){
+    if( obj == undefined ){ return false };
+    return ((obj.objectName != undefined && (obj.objectName == 'BendableVector' || obj.objectName == 'Vector')) || 
+           Array.isArray(obj)) ? true : false;
+}
+
+window.Vectorization.BendableVector.isVectorizationBendableVector = function(obj){
+    if( obj == undefined ){ return false };
+    return (obj.objectName != undefined && obj.objectName == 'BendableVector' )
+}
+/* FIM DO ARQUIVO VECTORIZATION: ../src/BendableVector.js*/
+/* ARQUIVO VECTORIZATION: ../src/BendableVector-translation.js*/
+/*
+ * File Name: BendableVector-translation.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * Description: Provide translations for class methods
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.BendableVector._translations = function(){
+    const translatedMethods = {
+        
+    };
+
+    const translatedAttributes = {
+        
+    };
+
+    return {
+        translatedMethods: translatedMethods,
+        translatedAttributes: translatedAttributes
+    };
+}
+
+module.exports = window.Vectorization.BendableVector._translations;
+/* FIM DO ARQUIVO VECTORIZATION: ../src/BendableVector-translation.js*/
 /* ARQUIVO VECTORIZATION: ../src/Matrix.js*/
 /*
  * File Name: Matrix.js
@@ -3551,11 +4382,13 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     
     context.configRecebidaUsuario = config;
 
+    context.storedClassConfig = classConfig || {};
+
     //Aplica a tradução dos atributos, pra ser capaz de entender nomes de atributos em outros idiomas
     //classConfig = context.translateAttributes_andReturn(classConfig, classConfig['translations']() );
     
     //Aplica a tradução dos atributos também no config, EXCETO SE config FOR UM ARRAY
-    if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) )) ){
+    if( config instanceof Object && !(config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) || Vectorization.BendableVector.isVectorizationBendableVector(config[0]) )) ){
         config = context.translateAttributes_andReturn(config, classConfig['translations']() );
     }
 
@@ -3563,6 +4396,33 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.rows = config['rows'];
     context.columns = config['columns'];
     context.initialColumnValue = config['fillValue'] || 0;
+    context.flexivel = config['flexibilidade'] || classConfig['flexibilidade'] || null;
+
+    //Mais opções de flexibilidade
+    if( context.flexivel != undefined && 
+        config.length > 0 && 
+        config[0] != undefined 
+    ){
+        //Se for apenas um texto, com o nome do tipo, ele trata isso aqui
+        if( typeof context.flexivel == 'string' ){
+            context.flexivel = [ context.flexivel ];
+        }
+
+        //Se o usuario passar um array contendo apenas um elemento, ele vai usar ele como tipo para todos os elementos deste Vectorization.BendableVector
+        if( context.flexivel instanceof Array && context.flexivel.length == 1 && config[0].length > 1 )
+        {
+            
+            for( let i = 0 ; i < config[0].length-1 ; i++ )
+            {
+                //Completa com o tipo que veio
+                context.flexivel.push(context.flexivel[0]);
+            }
+
+        }
+    }
+
+    context.isFlexivelNasColunas = context.flexivel != undefined && context.flexivel != null ? true : false;
+
     context.content = [];
 
     context.permitirDesbloquear = (classConfig['permitirDesbloquear'] != undefined) ? (classConfig['permitirDesbloquear']) : true;
@@ -3614,11 +4474,17 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.isIdentidade = classConfig['isIdentidade'] || false;
     context.isAdvancedMatrix = classConfig['advanced'] || true;
 
+    if( classConfig['advanced'] == false ){
+        context.isAdvancedMatrix = false;
+    }
+
     //Se passar diretamente o conteudo
-    if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) ) ){
+    if( config instanceof Array && (config[0] instanceof Array || Vectorization.Vector.isVector(config[0]) || Vectorization.BendableVector.isVectorizationBendableVector(config[0]) ) ){
 
         //Se as linhas forem vetores do pacote Vectorization
-        if( Vectorization.Vector.isVectorizationVector( config[0] ) == true ){
+        if( Vectorization.Vector.isVectorizationVector( config[0] ) == true ||
+            Vectorization.BendableVector.isVectorizationBendableVector( config[0] ) == true
+        ){
             context.content = config;
             context.rows = config.length;
             context.columns = config[0].length;
@@ -3779,7 +4645,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
             }else{
                 context.rows = context.content.length;
-                context.columns = context.content[0].length;
+                
+                if( context.content[0] != undefined ){
+                    context.columns = context.content[0].length;
+                }else{
+                    context.columns = 0;
+                }
             }
         }
     }
@@ -3802,9 +4673,56 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             const extraPropsOfLine = {... vectorClassConfig};
             extraPropsOfLine['index'] = i;
 
-            context.content[i] = Vectorization.Vector(context.content[i], extraPropsOfLine);
+            if( context.isFlexivelNasColunas == true ){
+                if( Vectorization.Vector.isVector(context.flexivel) ){
+                    extraPropsOfLine['flexibilidade'] = [... context.flexivel];
+
+                }else{
+                    extraPropsOfLine['flexibilidade'] = context.flexivel;
+                }
+
+                context.content[i] = Vectorization.BendableVector(context.content[i], extraPropsOfLine);
+
+            }else{
+                context.content[i] = Vectorization.Vector(context.content[i], extraPropsOfLine);
+            }
+
         }
         context.isAdvancedMatrix = true;
+    }
+
+    context.adicionarVetorComoColuna = function(vectorAdicionar){
+        //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
+        if( context._isBloqueado() == true ){
+            throw 'Este Vectorization.Matrix está bloqueado para novas gravações!';
+        }
+
+        if( context.isAdvancedMatrix ){
+            if( context.isFlexivelNasColunas == false ){
+                context.content.push( vectorAdicionar );
+
+            }else{
+                context.content.push( vectorAdicionar );
+            }
+
+        }else{
+            if( context.isFlexivelNasColunas == false ){
+                context.content.push( vectorAdicionar );
+
+            }else{
+                context.content.push( vectorAdicionar );
+            }
+        }
+
+        if( context.content != undefined ){
+            context.rows = context.content.length;
+        }
+
+        if( context.content != undefined && 
+            context.columns[0] != undefined
+        ){
+            context.columns = context.columns[0].length;
+        }
     }
 
     /**
@@ -3814,13 +4732,29 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     */
     context.duplicar = function(){
         let novaMatrix = [];
-        
-        for( let i = 0 ; i < context.rows ; i++ )
-        {
-            novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
+        let novaMatrix_Matrix = null; //Se for necessario
+
+        if( context.isFlexivelNasColunas == true ){
+            //Nesse caso foi necessario usar o novaMatrix_Matrix como Vectorization.Matrix
+            novaMatrix_Matrix = Vectorization.Matrix([], {
+                flexibilidade: context.flexivel
+            });
         }
 
-        return Vectorization.Matrix(novaMatrix);
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            if( context.isFlexivelNasColunas == false ){
+                novaMatrix.push( Vectorization.Vector(context.getLinha(i)).clonar() );
+
+            }else{
+                novaMatrix_Matrix.adicionarVetorComoColuna( Vectorization.BendableVector(context.getLinha(i), {
+                    flexibilidade: context.flexivel
+                }).clonar() );
+            }
+        }
+
+        return context.isFlexivelNasColunas == false ? Vectorization.Matrix(novaMatrix) : 
+                                                       novaMatrix_Matrix;
     }
 
     //Alias for duplicar
@@ -3937,8 +4871,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return context.content;
     }
 
+    context.rawProfundo = function(){
+        let rawValues = [];
+
+        for( let i = 0 ; i < context.rows ; i++ )
+        {
+            rawValues[i] = context.content[i].rawProfundo();
+        }
+
+        return rawValues;
+    }
+
     context.rawValues = function(){
         let rawValues = [];
+
+        //Se for um Vectorization.Matrix com essa opcao especifica ativa, usa por padrao o profundo
+        if( context.isFlexivelNasColunas == true ){
+            return context.rawProfundo();
+        }
 
         for( let i = 0 ; i < context.rows ; i++ )
         {
@@ -3974,6 +4924,34 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    context.obterTiposRapido = function(includeNamespace=false){
+        let tiposUsados = [];
+        context.paraCadaLinha(function(i, elementoAtual){
+            tiposUsados.push( elementoAtual.obterTiposRapido(includeNamespace) );
+        });
+
+        return tiposUsados;
+    }
+
+    context.identificarTiposColuna = function(numeroColuna){
+        const resultado = Vectorization.Base({
+            tipos: Vectorization.Vector([], {usarEscalares: false})
+        });
+
+        context.percorrerColuna(numeroColuna, function(iColuna, valorColuna){
+            resultado.tipos.adicionarElemento( window.Vectorization.identificarTipo( valorColuna ) );
+        });
+
+        resultado.tiposUnicos = resultado.tipos.valoresUnicos();
+        resultado.raw = function(){
+            return resultado.tipos.raw();
+        }
+
+        return resultado;
+    }
+    context.getTiposColuna = context.identificarTiposColuna;
+    context.obterTiposColuna = context.identificarTiposColuna;
+
     /**
     * Permite fatiar(ou recortar) a matrix
     * @param {linhaInicial} - inicio
@@ -4004,6 +4982,105 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return Vectorization.Matrix(dadosRecortados);
     }
 
+    context.recortarLinhas = context.slice;
+    context.sliceLinhas = context.slice;
+
+    /**
+     * Similar ao context.slice, porém executado nas colunas
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
+    context.recortarColunas = function(colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
+        let dadosRecortados = [];
+
+        if( colunaFinal == 'nao_definida' ){
+            colunaFinal = context.columns + 1;
+        }
+
+        if( colunaInicial < 0 ){
+            throw 'A colunaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( colunaFinal > context.rows ){
+            throw 'A colunaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        for( let i = 0 ; i < context.rows ; i = i + intervaloLinhas )
+        {
+            dadosRecortados[ i ] = context.getLinha(i)
+                                          .slice( colunaInicial, colunaFinal, intervaloColunas );
+        }
+
+        return Vectorization.Matrix(dadosRecortados);
+    }
+
+    /**
+     * Similar ao context.slice, porém executado nas colunas
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
+    context.sliceColunas = context.recortarColunas;
+
+    /**
+     * Similar ao context.slice, porém executado nas linhas e também nas colunas
+     * @param {Number} linhaInicial 
+     * @param {Number} linhaFinal 
+     * @param {Number} colunaInicial 
+     * @param {Number} colunaFinal 
+     * @param {Number} intervaloLinhas 
+     * @param {Number} intervaloColunas 
+     * @returns {Vectorization.Matrix}
+     */
+    context.recortarRegiao = function(linhaInicial, linhaFinal, colunaInicial, colunaFinal='nao_definida', intervaloLinhas=1, intervaloColunas=1){
+        let dadosRecortados = [];
+
+        if( linhaInicial < 0 ){
+            throw 'A linhaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( linhaFinal > context.rows ){
+            throw 'A linhaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        if( colunaFinal == 'nao_definida' ){
+            colunaFinal = context.columns + 1;
+        }
+
+        if( colunaInicial < 0 ){
+            throw 'A colunaInicial precisa ser maior ou igual a zero!';
+        }
+
+        if( colunaFinal > context.rows ){
+            throw 'A colunaFinal precisa estar entre as linhas da matriz! valor muito alto!';
+        }
+
+        for( let i = linhaInicial ; i < linhaFinal ; i = i + intervaloLinhas )
+        {
+            dadosRecortados[ i ] = context.getLinha(i)
+                                          .slice( colunaInicial, colunaFinal, intervaloColunas );
+        }
+
+        return Vectorization.Matrix(dadosRecortados);
+    }
+
+    /**
+    * Similar ao context.slice, porém executado nas linhas e também nas colunas
+    * @param {Number} linhaInicial 
+    * @param {Number} linhaFinal 
+    * @param {Number} colunaInicial 
+    * @param {Number} colunaFinal 
+    * @param {Number} intervaloLinhas 
+    * @param {Number} intervaloColunas 
+    * @returns {Vectorization.Matrix}
+    */
+    context.slice2 = context.recortarRegiao;
+
     /**
     * Permite extrair valores de uma coluna especifica
     * @param {Number} indiceColuna - o indice da coluna que queremos extrair os valores
@@ -4017,7 +5094,30 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         if( context.isAdvancedMatrix ){
-            return Vectorization.Vector( valoresColuna );
+            if( context.isFlexivelNasColunas == true ){
+                let extraPropsOfLine = {};
+
+                //Cada coluna pode ter o seu
+                if( Vectorization.Text.isText( valoresColuna[0] ) ){
+                    extraPropsOfLine['flexibilidade'] = Vectorization.Vector({
+                        usarEscalares: false,
+                        valorPreencher: 'Texto',
+                        elementos: valoresColuna.length
+                    });
+
+                }else if( Vectorization.Scalar.isScalar( valoresColuna[0] ) ){
+                    extraPropsOfLine['flexibilidade'] = Vectorization.Vector({
+                        usarEscalares: false,
+                        valorPreencher: 'Numero',
+                        elementos: valoresColuna.length
+                    });
+                }
+
+                return Vectorization.BendableVector( valoresColuna, extraPropsOfLine );
+
+            }else if (context.isFlexivelNasColunas == false ){
+                return Vectorization.Vector( valoresColuna );
+            }
 
         }else{
             return valoresColuna;
@@ -4054,7 +5154,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
            
         let valoresNovaColuna_Vector = isVetorVectorization == true ? valoresNovaColuna : Vectorization.Vector(valoresNovaColuna || []);
         let tamanhoVetorNovo = valoresNovaColuna_Vector.tamanho();
-        let quantidadeLinhasMatrix = context.getLinhas();
+        let quantidadeLinhasMatrix = context.getRows();
 
         if( typeof valoresNovaColuna_Vector == 'object' &&
             tamanhoVetorNovo == quantidadeLinhasMatrix
@@ -4067,8 +5167,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             }).paraCadaElemento(function(iLinha){
                 let valoresDaLinhaObtidos = context.getLinha(iLinha);
 
-                switch( Vectorization.Vector.isVectorizationVector(valoresDaLinhaObtidos) )
-                {
+                switch( Vectorization.Vector.isVectorizationVector(valoresDaLinhaObtidos) || 
+                        Vectorization.BendableVector.isVectorizationBendableVector(valoresDaLinhaObtidos) 
+                ){
                     case true:
                         valoresDaLinhaObtidos.adicionarElemento( valoresNovaColuna[iLinha] );
                         break;
@@ -4197,11 +5298,17 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             let LinhaMatrix_Vector = context.getLinha(iLinha);
             let valorNoIndiceDeInteresse = LinhaMatrix_Vector.lerIndice(indiceColuna);
 
-            callbackPercorrer( valorNoIndiceDeInteresse, 
-                      iLinha, LinhaMatrix_Vector, context 
+            callbackPercorrer( 
+                      indiceColuna,
+                      valorNoIndiceDeInteresse, 
+                      iLinha, 
+                      LinhaMatrix_Vector, 
+                      context 
                     );
         });
     }
+
+    context.paraCadaColuna = context.percorrerColuna;
 
     /**
     * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
@@ -5280,7 +6387,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     context.extrairValoresColunas = function( listaColunas='todasColunas' ){
         let listaColunas_Vector = listaColunas != 'todasColunas' ?
                                   Vectorization.Vector.isVectorizationVector(listaColunas) == false ? Vectorization.Vector(listaColunas) : listaColunas : 'todasColunas';
-        
+    
         let colunasExtraida = Vectorization.Vector([], {usarEscalares: false});
 
         if( listaColunas == 'todasColunas' ){
@@ -5340,8 +6447,105 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return colunasExtraida;
     }
 
-    context.oneHotCodify = function(numeroColuna){
+    /**
+     * Faz o onehot em uma coluna especifica
+     * retorna um Vectorization.Vector, contendo outros Vectorization.Vector(coluna) contendo valores booleanos,
+     * para cada valor unico na coluna especifica ele vai percorrer cada valor existente na coluna especifica(numeroColuna), e verificar se o item atual da coluna da matrix é igual a esse valor unico atual
+     * se sim, então vai colocar 1, caso contrario vai colocar 0
+     * 
+     * NOTA: Isso só faz o onehot para uma unica coluna especifica
+     * e retorna um Vectorization.Vector para cada valor unico da coluna especifica a ser codificada
+     * 
+     * @param {Number} numeroColuna 
+     * @param {Vectorization.Vector} dadosColunaAtual 
+     * @returns {Vectorization.Vector}
+     */
+    context.aplicarCodificacaoONEHOT = function(numeroColuna, dadosColunaAtual){
+        const valoresUnicosColunaAtual = dadosColunaAtual.valoresUnicos();
 
+        //Cria as colunas que serão usadas
+        const novasColunas_COLUNA_ATUAL = Vectorization.Vector({
+            valorPreencher: Vectorization.Vector([], {usarEscalares: false}),
+            elementos: valoresUnicosColunaAtual.elementos
+        }, {
+            usarEscalares: false
+        });
+
+        //Percorre essa numeroColuna coluna da matrix
+        context.paraCadaLinha(function(ii){
+            let dadosLinha = context.getLinha(ii);
+            let dadosLinhaNACOLUNA = dadosLinha.lerIndice(numeroColuna);
+
+            for( let jj = 0 ; jj < valoresUnicosColunaAtual.elementos ; jj++ )
+            {
+                const valorUnico = valoresUnicosColunaAtual.lerIndice(jj);
+                const isIgual = dadosLinhaNACOLUNA.raw() == valorUnico;
+
+                if( isIgual == true ){
+                    novasColunas_COLUNA_ATUAL.lerIndice(jj)
+                                             .adicionarElemento(1);
+
+                }else{
+                    novasColunas_COLUNA_ATUAL.lerIndice(jj)
+                                             .adicionarElemento(0);
+                }
+            }
+        });
+
+        return novasColunas_COLUNA_ATUAL;
+    }
+
+    /**
+    * Faz o onehot nas colunas definidas
+    * @param {Number} numeroColunasQuero
+    * @returns {Object} - objeto onde voce pode obter Vectorization.Vector(s) ou uma Vectorization.Matrix com os valores inclusos
+    */
+    context.oneHotColunas = function(numeroColunasQuero){
+        const colunas_Vetor = context.extrairValoresColunas(numeroColunasQuero);
+
+        /*
+        * Vai fazer a codificação de cada coluna passada em numeroColunasQuero, 
+        * E armazenar aqui no resultadoOperacao
+        */
+        const resultadoOperacao = Vectorization.Vector([], {usarEscalares: false});
+        const resultadoMatrix = context.duplicar();
+
+        //Para cada coluna que quero aplicar
+        colunas_Vetor.paraCadaElemento(function(i){
+            
+            //Obtenho os dados da coluna
+            const dadosColunaAtual = colunas_Vetor.lerIndice(i);
+            const dadosCodificadosColunaAtual = context.aplicarCodificacaoONEHOT( i , dadosColunaAtual );
+        
+            resultadoOperacao.adicionarElemento(dadosCodificadosColunaAtual);
+
+            //Vai jogando tudo isso dentro da Vectorization.Matrix copiada
+            dadosCodificadosColunaAtual.paraCadaElemento(function(jColuna, elementoColuna){
+                if( 
+                    Vectorization.Vector.isVector( elementoColuna ) == true || 
+                    Vectorization.BendableVector.isBendableVector( elementoColuna ) == true 
+                ){
+                    resultadoMatrix.adicionarColuna(elementoColuna);
+                }
+            });
+        });
+
+        return {
+            resultado_vector: resultadoOperacao,
+            matrix_incluida: resultadoMatrix,
+
+            raw: function(){
+                return resultadoOperacao.raw();
+            },
+
+            obterMatrix: function(){
+                return this.matrix_incluida;
+            },
+
+            obterVector: function(){
+                return this.resultado_vector;
+            }
+        };
     }
 
     context._doDefaultBaseAfterCreate();
@@ -5512,6 +6716,11 @@ window.Vectorization.Matrix._translations = function(){
 
         "planify": "planificar",
 
+        "oneHotColumns": "oneHotColunas",
+        "sliceLines": "slice",
+        "sliceColumns": "sliceColunas",
+        "sliceRegion": "recortarRegiao",
+
         //Portugues
         "obterTransposta": "transposta",
         "somarMatriz": "somarMatrix",
@@ -5555,6 +6764,127 @@ window.Vectorization.Matrix._translations = function(){
 
 module.exports = window.Vectorization.Matrix._translations;
 /* FIM DO ARQUIVO VECTORIZATION: ../src/Matrix-translation.js*/
+/* ARQUIVO VECTORIZATION: ../src/StringMatrix.js*/
+/*
+ * File Name: StringMatrix.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global;
+    require('./Root'); 
+    require('./Scalar');
+    require('./Vector');
+    require('./StringVector');
+    require('./Matrix');
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.StringMatrix = function( config=[], classConfig={} ){
+    //Define a tradução
+    classConfig['translations'] = window.Vectorization.StringMatrix._translations || null;
+    classConfig['advanced'] = false;
+    classConfig['usarTexto'] = true;
+
+    let classeBaseVector = window.Vectorization.Base({... classConfig});
+
+    //Aplica a tradução dos métodos, pra ser capaz de entender nomes de atributos em outros idiomas
+    classConfig = classeBaseVector.translateAttributes_andReturn(classConfig, classConfig['translations']() );
+    
+    //Se o usuario tentar criar um vetor a partir de outro vetor, ele recria o propio vetor passado, mantendo a estrutura como ainda sendo um Vector
+    if( Vectorization.StringMatrix.isStringMatrix(config) && config.objectName == 'StringMatrix' ){
+        return Vectorization.StringMatrix( config.values() );
+    }
+
+    //O StringMatrix será baseado no Vectorization.Matrix
+    let context = window.Vectorization.Matrix(config, classConfig);
+    context.objectName = 'StringMatrix';
+    context.extendedFrom = 'Matrix';
+    context.path = 'Vectorization.StringMatrix';
+    context.configRecebidaUsuario = config;
+
+    /**
+    * @override
+    * Método que converte a matrix para uma matrix avançada, onde cada linha é um Vector 
+    */
+    context._matrix2Advanced = function(vectorClassConfig={}){
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            const extraPropsOfLine = {... vectorClassConfig};
+            extraPropsOfLine['index'] = i;
+            extraPropsOfLine['usarTexto'] = true;
+
+            context.content[i] = Vectorization.StringVector(context.content[i], extraPropsOfLine);
+        }
+        context.isAdvancedMatrix = true;
+    }
+
+    context._matrix2Advanced();
+
+    //Se existir uma tradução para a classe
+    if(context._translations && typeof context._translations === 'function'){
+        context.applyTranslations( context._translations() );
+    }
+
+    return context;
+}
+
+window.Vectorization.StringMatrix.isStringMatrix = function(obj){
+    return (obj.objectName != undefined && obj.objectName == 'StringMatrix' )
+}
+/* FIM DO ARQUIVO VECTORIZATION: ../src/StringMatrix.js*/
+/* ARQUIVO VECTORIZATION: ../src/StringMatrix-translation.js*/
+/*
+ * File Name: StringMatrix-translation.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * Description: Provide translations for class methods
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+//Compatibilidade com NodeJS
+if( typeof window === 'undefined' ){
+    global.window = global; 
+    
+//Se for navegador
+}else{
+    if (typeof module === 'undefined') {
+        globalThis.module = {};
+    }
+}
+
+if(!window.Vectorization){ window.Vectorization = {} };
+
+window.Vectorization.StringMatrix._translations = function(){
+    const translatedMethods = {
+       
+    };
+
+    const translatedAttributes = {
+       
+    };
+
+    return {
+        translatedMethods: translatedMethods,
+        translatedAttributes: translatedAttributes
+    };
+}
+
+module.exports = window.Vectorization.StringMatrix._translations;
+/* FIM DO ARQUIVO VECTORIZATION: ../src/StringMatrix-translation.js*/
 /* ARQUIVO VECTORIZATION: ../src/Random.js*/
 /*
  * File Name: Random.js
@@ -5875,3 +7205,59 @@ for( let i = 0 ; i < todasConfiguracoesClassConfig.quantidadeDentro ; i++ )
 
 module.exports = window.Vectorization.Random._translations;
 /* FIM DO ARQUIVO VECTORIZATION: ../src/Random-translation.js*/
+/* ARQUIVO VECTORIZATION: ../src/Vectorization.js*/
+/*
+ * File Name: Vectorization.js
+ * Author Name: William Alves Jardim
+ * Author Email: williamalvesjardim@gmail.com
+ * 
+ * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+*/
+
+var Vectorization_4Node = class{
+    constructor(){
+        if( typeof window !== 'undefined' && window.isbrowser == true ){
+            throw 'This class only works in Node';
+        }
+
+        //Se for node
+        if( window.isbrowser == false )
+        {
+            //Importando classe raiz
+            this.Root = require('./Root');
+
+            this.Utilidades = require('./Utilidades');
+
+            //Importando numeros escalares
+            this.Scalar = require('./Scalar');
+            this.Scalar_translation = require('./Scalar-translation');
+
+            //Importando Text
+            this.Scalar = require('./Text');
+            this.Scalar_translation = require('./Text-translation');
+
+            //Importando Vetores
+            this.Vector = require('./Vector');
+            this.Vector_translation = require('./Vector-translation');
+
+            //Importando Vetores de String
+            this.StringVector = require('./StringVector');
+            this.StringVector_translation = require('./StringVector-translation');
+
+            this.Random = require('./Random');
+            this.Random_translation = require('./Random-translation');
+
+            //Importando Matrizes
+            this.Matrix = require('./Matrix');
+            this.Matrix_translation = require('./Matrix-translation');
+            
+            this.StringMatrix = require('./StringMatrix');
+            this.StringMatrix_translation = require('./StringMatrix-translation');
+        }
+    }
+}; 
+
+module.exports = new Vectorization_4Node();
+/* FIM DO ARQUIVO VECTORIZATION: ../src/Vectorization.js*/
+
+window.isbrowser = true;

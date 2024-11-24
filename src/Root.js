@@ -15,6 +15,8 @@ if( typeof window === 'undefined' ){
     if (typeof module === 'undefined') {
         globalThis.module = {};
     }
+
+    globalThis.require = function(){};
 }
 
 if(!window.Vectorization){ window.Vectorization = {} };
