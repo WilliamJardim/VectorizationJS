@@ -78,6 +78,8 @@ def salvarArquivo(caminho, conteudo):
 
 codigoCompleto = codigoCompleto + '\nwindow.isbrowser = true;\n';
 
+codigoCompleto = codigoCompleto + '\nwindow.iscompilation = true';
+
 salvarArquivo('../build/Vectorization-builded.js', codigoCompleto);
 print('Pronto!. Arquivo salvo em ../build/Vectorization-builded.js');
 

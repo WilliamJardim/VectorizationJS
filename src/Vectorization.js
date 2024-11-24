@@ -13,7 +13,7 @@ var Vectorization_4Node = class{
         }
 
         //Se for node
-        if( window.isbrowser == false )
+        if( window.isbrowser == false && window.iscompilation == false )
         {
             //Importando classe raiz
             this.Root = require('./Root');
@@ -46,6 +46,8 @@ var Vectorization_4Node = class{
             this.StringMatrix = require('./StringMatrix');
             this.StringMatrix_translation = require('./StringMatrix-translation');
         }
+
+        return window.Vectorization;
     }
 }; 
 
