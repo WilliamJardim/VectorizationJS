@@ -842,7 +842,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             });
 
             //Atualiza a quantidade das colunas
-            context.columns = matrix1.calcTamanhos().lerIndice(1);
+            context.columns = context.calcTamanhos().lerIndice(1);
             context.colunas = context.columns;
 
         }else{
