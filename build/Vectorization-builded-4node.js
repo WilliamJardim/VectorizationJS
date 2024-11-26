@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 25/11/2024 - 22:14:48*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 25/11/2024 - 22:24:24*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6766,6 +6766,9 @@ window.Vectorization.Matrix._translations = function(){
         "sliceLines": "slice",
         "sliceColumns": "sliceColunas",
         "sliceRegion": "recortarRegiao",
+
+        "removeColumns": "removerColunas",
+        "removeColumn": "removerColuna",
 
         //Portugues
         "obterTransposta": "transposta",
