@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 25/11/2024 - 21:45:24*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 25/11/2024 - 22:14:48*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -5211,7 +5211,30 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         return Vectorization.Matrix(matrixNova);
-    }       
+    }     
+    
+    //Remove varias coluna nesta Vectorization.Matrix e retorna uma nova Vectorization.Matrix
+    context.removerColunas = function( VectorIndiceColuna=[] ){
+        let matrixNova = [];
+        //Para cada linha
+        for( let i = 0 ; i < context.linhas ; i++ )
+        {
+            const LinhaVector = context.getLinha(i);
+            const NovaVector  = Vectorization.Vector([]);
+
+            //Para cada elemento no LinhaVector
+            LinhaVector.forEach(function( indiceElemento, valorElemento, contextoLinhaVector ){
+                //Se o indice não for o indice que estamos ignorando
+                if( VectorIndiceColuna.includes(indiceElemento) == false ){
+                    NovaVector.push( valorElemento );
+                }
+            });
+
+            matrixNova.push(NovaVector.raw());
+        }
+
+        return Vectorization.Matrix(matrixNova);
+    }  
 
     context.zerarColuna = function(indiceColuna, valorDefinirNoLugar=0){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
