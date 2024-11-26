@@ -850,6 +850,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    //Remove uma coluna nesta Vectorization.Matrix e retorna uma nova Vectorization.Matrix
+    context.removerColuna = function( indiceColuna ){
+        let matrixNova = [];
+        for( let i = 0 ; i < context.linhas ; i++ )
+        {
+            const LinhaVector = context.getLinha(i);
+            const NovaVector  = Vectorization.Vector([]);
+
+            //Para cada elemento no LinhaVector
+            LinhaVector.forEach(function( indiceElemento, valorElemento, contextoLinhaVector ){
+                //Se o indice não for o indice que estamos ignorando
+                if( indiceElemento != indiceColuna ){
+                    NovaVector.push( valorElemento );
+                }
+            });
+        }
+
+        return Vectorization.Matrix(matrixNova);
+    }     
+
     context.zerarColuna = function(indiceColuna, valorDefinirNoLugar=0){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
         if( context._isBloqueado() == true ){

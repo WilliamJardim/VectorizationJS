@@ -13,13 +13,13 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 24/11/2024 - 14:21:37*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 25/11/2024 - 21:39:39*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -332,7 +332,7 @@ module.exports = window.Vectorization.Root;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -373,7 +373,7 @@ window.Vectorization.Utilidades.apenasNumeros = function(stringObj){
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -687,7 +687,7 @@ module.exports = window.Vectorization.Scalar;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -728,7 +728,7 @@ module.exports = window.Vectorization.Scalar._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -970,7 +970,7 @@ module.exports = window.Vectorization.Text;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -1010,7 +1010,7 @@ module.exports = window.Vectorization.Text._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -1233,7 +1233,7 @@ module.exports = window.Vectorization.Boolean;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -1273,7 +1273,7 @@ module.exports = window.Vectorization.Boolean._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -3622,7 +3622,7 @@ module.exports = window.Vectorization.Vector;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -3746,7 +3746,7 @@ module.exports = window.Vectorization.Vector._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -3926,7 +3926,7 @@ window.Vectorization.StringVector.isVectorizationStringVector = function(obj){
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -3965,7 +3965,7 @@ module.exports = window.Vectorization.StringVector._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -4297,14 +4297,14 @@ window.Vectorization.BendableVector.isVectorizationBendableVector = function(obj
 }
 /* FIM DO ARQUIVO VECTORIZATION: ../src/BendableVector.js*/
 /* ARQUIVO VECTORIZATION: ../src/BendableVector-translation.js*/
-/*
+/**
  * File Name: BendableVector-translation.js
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -4343,7 +4343,7 @@ module.exports = window.Vectorization.BendableVector._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -5182,13 +5182,33 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             });
 
             //Atualiza a quantidade das colunas
-            context.columns = matrix1.calcTamanhos().lerIndice(1);
+            context.columns = context.calcTamanhos().lerIndice(1);
             context.colunas = context.columns;
 
         }else{
             throw 'Não da pra adicionar uma nova coluna se a quantidade de elementos não bater com a quantidade de linhas!. Não permitido.';
         }
     }
+
+    //Remove uma coluna nesta Vectorization.Matrix e retorna uma nova Vectorization.Matrix
+    context.removerColuna = function( indiceColuna ){
+        let matrixNova = [];
+        for( let i = 0 ; i < context.linhas ; i++ )
+        {
+            const LinhaVector = context.getLinha(i);
+            const NovaVector  = Vectorization.Vector([]);
+
+            //Para cada elemento no LinhaVector
+            LinhaVector.forEach(function( indiceElemento, valorElemento, contextoLinhaVector ){
+                //Se o indice não for o indice que estamos ignorando
+                if( indiceElemento != indiceColuna ){
+                    NovaVector.push( valorElemento );
+                }
+            });
+        }
+
+        return Vectorization.Matrix(matrixNova);
+    }     
 
     context.zerarColuna = function(indiceColuna, valorDefinirNoLugar=0){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Matrix
@@ -6641,7 +6661,7 @@ module.exports = window.Vectorization.Matrix;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -6770,7 +6790,7 @@ module.exports = window.Vectorization.Matrix._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -6852,7 +6872,7 @@ window.Vectorization.StringMatrix.isStringMatrix = function(obj){
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -6891,7 +6911,7 @@ module.exports = window.Vectorization.StringMatrix._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -7143,7 +7163,7 @@ module.exports = window.Vectorization.Random;
  * 
  * Description: Provide translations for class methods
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 //Compatibilidade com NodeJS
@@ -7211,7 +7231,7 @@ module.exports = window.Vectorization.Random._translations;
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 
 var Vectorization_4Node = class{
