@@ -1,5 +1,5 @@
-# Vectorization
-![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
+# VectorizationJS
+![Logo do projeto](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/logo512x512.png)
 
 # Seleccionar idioma
 * [Português](README-Portugues.md)
@@ -14,8 +14,8 @@
 Una biblioteca simple para operaciones vectoriales y matriciales en JavaScript.
 
 ## Imágenes de ejemplo
-![Ejemplo 1 - Producto escalar entre vectores](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
-![Ejemplo 2 - Producto escalar de una matriz con un vector](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
+![Ejemplo 1 - Producto escalar entre vectores](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo1.png)
+![Ejemplo 2 - Producto escalar de una matriz con un vector](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo2.png)
 
 ## Documentación
 * [Leer documentación](../Docs/docs-main.md)
@@ -24,10 +24,10 @@ Una biblioteca simple para operaciones vectoriales y matriciales en JavaScript.
 - `src/*`: Son todos los archivos del proyecto.
 
 ## Código fuente
-https://github.com/WilliamJardim/Vectorization/tree/main/src
+https://github.com/WilliamJardim/VectorizationJS/tree/main/src
 
 ## Ejemplos
-https://github.com/WilliamJardim/Vectorization/tree/main/examples
+https://github.com/WilliamJardim/VectorizationJS/tree/main/examples
 
 ## Comparación de los resultados
 **NOTA:** El archivo `compararResultados.py` no forma parte del proyecto. Está presente solo para comparar los resultados y no está relacionado con el proyecto.

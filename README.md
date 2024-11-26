@@ -1,7 +1,7 @@
-# Vectorization
+# VectorizationJS
 ![Logo do projeto](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
 
-Welcome to my project Vectorization!
+Welcome to my project VectorizationJS!
 
 # Select a language
 * [Português](READMEs/README-Portugues.md)
@@ -16,8 +16,8 @@ Welcome to my project Vectorization!
 A simple library for vector and matrix operations in JavaScript.
 
 ## Example Images
-![Exemplo 1 - Dot product between two vectors](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
-![Exemplo 2 - Dot product between a matrix and vector](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
+![Exemplo 1 - Dot product between two vectors](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo1.png)
+![Exemplo 2 - Dot product between a matrix and vector](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo2.png)
 
 ## Documentation
 * [Read Documentation](Docs/docs-main.md)
@@ -26,10 +26,10 @@ A simple library for vector and matrix operations in JavaScript.
 - `src/*`: These are all the project files.
 
 ## Source code
-https://github.com/WilliamJardim/Vectorization/tree/main/src
+https://github.com/WilliamJardim/VectorizationJS/tree/main/src
 
 ## Examples
-https://github.com/WilliamJardim/Vectorization/tree/main/examples
+https://github.com/WilliamJardim/VectorizationJS/tree/main/examples
 
 ## Comparison of Results
 **NOTE:** The "compararResultados.py" file is not part of the project. It is only present to compare results and is not related to the project.

@@ -1,5 +1,5 @@
-# Vectorization
-![Project logo](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
+# VectorizationJS
+![Project logo](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/logo512x512.png)
 
 # Выберите ваш язык
 * [Português](README-Portugues.md)
@@ -14,8 +14,8 @@
 # Простая библиотека для операций с векторами и матрицами на JavaScript.
 
 ## Примерные изображения
-![Пример 1 - Скалярное произведение между двумя векторами](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
-![Пример 2 - Скалярное произведение между матрицей и вектором](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
+![Пример 1 - Скалярное произведение между двумя векторами](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo1.png)
+![Пример 2 - Скалярное произведение между матрицей и вектором](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo2.png)
 
 ## Документация
 * [Читать документацию](../Docs/docs-main.md)
@@ -24,10 +24,10 @@
 - `src/*`: Все файлы проекта.
 
 ## Источник
-https://github.com/WilliamJardim/Vectorization/tree/main/src
+https://github.com/WilliamJardim/VectorizationJS/tree/main/src
 
 ## Примеры
-https://github.com/WilliamJardim/Vectorization/tree/main/examples
+https://github.com/WilliamJardim/VectorizationJS/tree/main/examples
 
 ## Сравнение результатов
 **ЗАМЕТКА:** Файл "compararResultados.py" не является частью проекта. Он присутствует только для сравнения результатов и не связан с проектом.

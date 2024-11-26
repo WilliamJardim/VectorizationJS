@@ -1,5 +1,5 @@
-# Vectorization
-![Project logo](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
+# VectorizationJS
+![Project logo](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/logo512x512.png)
 
 # 언어 선택
 * [Português](README-Portugues.md)
@@ -14,8 +14,8 @@
 JavaScript로 벡터 및 행렬 연산을 위한 간단한 라이브러리입니다.
 
 ## 예제 이미지
-![예제 1 - 두 벡터 간의 내적](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
-![예제 2 - 행렬과 벡터 간의 내적](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
+![예제 1 - 두 벡터 간의 내적](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo1.png)
+![예제 2 - 행렬과 벡터 간의 내적](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo2.png)
 
 ## 문서
 * [문서](../Docs/docs-main.md)
@@ -24,10 +24,10 @@ JavaScript로 벡터 및 행렬 연산을 위한 간단한 라이브러리입니
 - `src/*`: 모든 프로젝트 파일입니다.
 
 ## 소스 코드
-https://github.com/WilliamJardim/Vectorization/tree/main/src
+https://github.com/WilliamJardim/VectorizationJS/tree/main/src
 
 ## 예
-https://github.com/WilliamJardim/Vectorization/tree/main/examples
+https://github.com/WilliamJardim/VectorizationJS/tree/main/examples
 
 ## 결과 비교
 **참고:** "compararResultados.py" 파일은 프로젝트의 일부가 아닙니다. 결과를 비교하기 위해서만 존재하며 프로젝트와 관련이 없습니다.

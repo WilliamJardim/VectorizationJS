@@ -1,5 +1,5 @@
-# Vectorization
-![Project logo](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/logo512x512.png)
+# VectorizationJS
+![Project logo](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/logo512x512.png)
 
 # Sprache auswählen
 * [Português](README-Portugues.md)
@@ -14,8 +14,8 @@
 Eine einfache Bibliothek für Vektor- und Matrixoperationen in JavaScript.
 
 ## Beispielbilder
-![Beispiel 1 - Skalarprodukt zwischen zwei Vektoren](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo1.png)
-![Beispiel 2 - Skalarprodukt zwischen einer Matrix und einem Vektor](https://github.com/WilliamJardim/Vectorization/blob/main/imagens/exemplos/exemplo2.png)
+![Beispiel 1 - Skalarprodukt zwischen zwei Vektoren](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo1.png)
+![Beispiel 2 - Skalarprodukt zwischen einer Matrix und einem Vektor](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/exemplos/exemplo2.png)
 
 ## Dokumentieren
 * [Dokument](../Docs/docs-main.md)
@@ -24,10 +24,10 @@ Eine einfache Bibliothek für Vektor- und Matrixoperationen in JavaScript.
 - `src/*`: Dies sind alle Projektdateien.
 
 ## Quellcode
-https://github.com/WilliamJardim/Vectorization/tree/main/src
+https://github.com/WilliamJardim/VectorizationJS/tree/main/src
 
 ## Beispiele
-https://github.com/WilliamJardim/Vectorization/tree/main/examples
+https://github.com/WilliamJardim/VectorizationJS/tree/main/examples
 
 ## Vergleich der Ergebnisse
 **HINWEIS:** Die Datei "compararResultados.py" ist nicht Teil des Projekts. Sie ist nur zum Vergleichen der Ergebnisse vorhanden und nicht mit dem Projekt verbunden.
