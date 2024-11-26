@@ -85,6 +85,9 @@ window.Vectorization.Matrix._translations = function(){
         "sliceColumns": "sliceColunas",
         "sliceRegion": "recortarRegiao",
 
+        "removeColumns": "removerColunas",
+        "removeColumn": "removerColuna",
+
         //Portugues
         "obterTransposta": "transposta",
         "somarMatriz": "somarMatrix",
