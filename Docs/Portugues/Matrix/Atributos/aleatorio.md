@@ -5,13 +5,13 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **VectorizationJS.Matrix**, que permite dizer que a Matrix vai conter apenas números aleatórios em seu contéudo.
+Atributo presente na classe **Vectorization.Matrix**, que permite dizer que a Matrix vai conter apenas números aleatórios em seu contéudo.
 
 # Criando uma **Vectorzation.Matrix** com números aleatórios:
 Também é possivel criar um **Vectorzation.Matrix** que possui números aleatórios.
 
 ```javascript
-var matrix_aleatoria = VectorizationJS.Matrix({ 
+var matrix_aleatoria = Vectorization.Matrix({ 
     aleatorio: true, 
     linhas: 5, 
     colunas: 2, 
@@ -39,7 +39,7 @@ console.log( matrix_aleatoria.raw() );
 
 Também é possivel passar o parametro **arredondar**, que permite arredondar os números gerados para cima, ou para baixo, etc. **[Veja arredondar](arredondar.md)**
 
-Para gerar o número aleatório, o VectorizationJS usa a classe interna **VectorizationJS.Random**.
+Para gerar o número aleatório, o VectorizationJS usa a classe interna **Vectorization.Random**.
 
 Voce pode visualizar o código fonte completo da classe Matrix aqui:
 * [Código fonte](https://github.com/WilliamJardim/VectorizationJS/blob/main/src/Matrix.js)

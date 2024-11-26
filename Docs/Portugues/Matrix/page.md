@@ -12,22 +12,22 @@ Nesta página você pode encontrar informações sobre a classe Matrix
  - Localizado em: **src/Matrix.js**
  - Namespace: **VectorizationJS**
  - Nome da classe: **Matrix**
- - Path: **VectorizationJS.Matrix**
+ - Path: **Vectorization.Matrix**
 
 # Descrição geral
 Uma matriz é uma estrutura matemática que possui linhas e colunas. Essa estrutura permite organizar os elementos desta forma. Matrizes são semelhantes a uma tabela, que também possui linhas e colunas. Tantos as linhas quanto as colunas possuem indices, que podem ser usados para acessar seus elementos. Dentro de uma matriz podemos ter quantas linhas e colunas quisermos.
 
 # Linhas
-A matriz por si só ja é um vetor. E, as linhas também são vetores, **Veja [VectorizationJS.Vector](../Vector/page.md)**. Na verdade, cada linha é um vetor. Isso por que a matriz é na realidade um vetor de vetores, ou seja, em outras palavras, matrizes são vetores dentro de vetores. Numa matriz podemos ter quantas linhas quisermos.
+A matriz por si só ja é um vetor. E, as linhas também são vetores, **Veja [Vectorization.Vector](../Vector/page.md)**. Na verdade, cada linha é um vetor. Isso por que a matriz é na realidade um vetor de vetores, ou seja, em outras palavras, matrizes são vetores dentro de vetores. Numa matriz podemos ter quantas linhas quisermos.
 
 # Colunas
-Cada coluna é um número. Ou seja, as colunas são valores numéricos, que na matemática também são chamados de escalares. **Veja [VectorizationJS.Scalar](../Scalar/page.md)**. Cada linha possui colunas, e podemos ter quantas colunas quisermos.
+Cada coluna é um número. Ou seja, as colunas são valores numéricos, que na matemática também são chamados de escalares. **Veja [Vectorization.Scalar](../Scalar/page.md)**. Cada linha possui colunas, e podemos ter quantas colunas quisermos.
 
 # Exemplos de criação de matrizes no VectorizationJS
 ```javascript
 
 //Matrix com vetor
-var matrix1 = VectorizationJS.Matrix([
+var matrix1 = Vectorization.Matrix([
     [ 3, 8, 6,  50 ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5,   5 ],
@@ -40,7 +40,7 @@ var matrix1 = VectorizationJS.Matrix([
 
 ```javascript
 
-var matrix2 = VectorizationJS.Matrix([
+var matrix2 = Vectorization.Matrix([
     [ -5, 2, 3, 2  ],
     [ 1, 25, 1, 50 ],
     [ 2, 5,  3, 5  ],
@@ -54,7 +54,7 @@ Também é possivel criar matrizes atravez de um objeto json, com paramêtros a 
 # Criando matrizes usando objetos com paramêtros
 ```javascript
 
-var matrix3 = VectorizationJS.Matrix({ 
+var matrix3 = Vectorization.Matrix({ 
     valorPreencher: 10, 
     linhas: 4, 
     colunas: 2 
@@ -66,7 +66,7 @@ var matrix3 = VectorizationJS.Matrix({
 Também é possivel criar um **Vectorzation.Matrix** que possui números aleatórios.
 
 ```javascript
-var matrix_aleatoria = VectorizationJS.Matrix({ 
+var matrix_aleatoria = Vectorization.Matrix({ 
     aleatorio: true, 
     linhas: 5, 
     colunas: 2, 
@@ -94,10 +94,10 @@ console.log( matrix_aleatoria.raw() );
 
 Também é possivel passar o parametro **arredondar**, que permite arredondar os números gerados para cima, ou para baixo, etc.
 
-Para gerar os números aleatórios, o VectorizationJS usa a classe interna **VectorizationJS.Random**.
+Para gerar os números aleatórios, o VectorizationJS usa a classe interna **Vectorization.Random**.
 
 # Métodos e atributos
-O objeto **VectorizationJS.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
+O objeto **Vectorization.Matrix** possui varios métodos e atributos(propriedades). Você pode se aprofundar nelas clicando nos links abaixo:
 - [Métodos](Metodos/page.md)
 - [Atributos](Atributos/page.md)
 

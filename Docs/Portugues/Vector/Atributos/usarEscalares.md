@@ -5,13 +5,13 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **VectorizationJS.Vector**, que permite "forçar" todos os elementos presentes dentro da mesma a serem objetos do tipo **VectorizationJS.Scalar**
-**. [Veja VectorizationJS.Scalar](../../Scalar/page.md)**
+Atributo presente na classe **Vectorization.Vector**, que permite "forçar" todos os elementos presentes dentro da mesma a serem objetos do tipo **Vectorization.Scalar**
+**. [Veja Vectorization.Scalar](../../Scalar/page.md)**
 
 # Exemplo
 ```javascript
 
-var vetor_qualquer = VectorizationJS.Vector({ 
+var vetor_qualquer = Vectorization.Vector({ 
     numeros: [4, 10, 8, 10],
     usarEscalares: true
 });

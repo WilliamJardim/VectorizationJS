@@ -5,17 +5,17 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 ## Para cada elemento:
-Nesta página você pode encontrar informações sobre o método **Para cada elemento** do objeto **VectorizationJS.Vector**.
+Nesta página você pode encontrar informações sobre o método **Para cada elemento** do objeto **Vectorization.Vector**.
 
 # Informações gerais
-No **VectorizationJS.Vector**, o método **Para cada elemento** serve para criar um laço de repetição, que permite executar um mesmo código(função) quantas vezes forem necessárias dentro do contexto do **VectorizationJS.Vector**, e de seus elementos. 
+No **Vectorization.Vector**, o método **Para cada elemento** serve para criar um laço de repetição, que permite executar um mesmo código(função) quantas vezes forem necessárias dentro do contexto do **Vectorization.Vector**, e de seus elementos. 
 
-O laço criado pelo método **Para cada elemento** vai percorrer cada elemento do **VectorizationJS.Vector** em questão, deis do primeiro até o último.
+O laço criado pelo método **Para cada elemento** vai percorrer cada elemento do **Vectorization.Vector** em questão, deis do primeiro até o último.
 
 # Exemplo de uso deste comando
 ```javascript
 
-let meu_vetor = VectorizationJS.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
+let meu_vetor = Vectorization.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
 
 meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVetor){
     console.log(`${propioElemento} - Este é o item de indice ${indiceElemento}`);
@@ -25,8 +25,8 @@ meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVeto
 
 # Outro exemplo usando matemática
 ```javascript
-let meu_vetor = VectorizationJS.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
-let vetor_vazio = VectorizationJS.Vector([]);
+let meu_vetor = Vectorization.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
+let vetor_vazio = Vectorization.Vector([]);
 
 meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVetor){
     //Adicionando os elementos deste vetor ao vetor_vazio, porém elevados ao quadrado
@@ -48,8 +48,8 @@ Por exemplo: Suponha que você por algum motivo queira interromper este loop qua
 
 # Exemplo interrompendo o loop
 ```javascript
-let meu_vetor = VectorizationJS.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
-let vetor_vazio = VectorizationJS.Vector([]);
+let meu_vetor = Vectorization.Vector([20,1,-5,1,1,0,50,80,90,50,10,22,25,1,6,100]);
+let vetor_vazio = Vectorization.Vector([]);
 
 meu_vetor.paraCadaElemento(function(indiceElemento, propioElemento, contextoVetor){
     //Adicionando os elementos deste vetor ao vetor_vazio, porém elevados ao quadrado
@@ -81,7 +81,7 @@ Note que o loop só fez 11 elementos ao quadrado. Mais parou quando um elemento 
 **NOTA: A funçao usada precisa estar preparada para receber os seguintes parêmtros:**
  - indiceElemento: o indice
  - propioElemento: o número
- - contextoVetor: o contexto do VectorizationJS.Vector
+ - contextoVetor: o contexto do Vectorization.Vector
 
 Existem um outro tipo de laço de repetição, além do **Para cada elemento**.
 E também, outros métodos que são semelhantes ao **Para cada elemento**.
@@ -93,7 +93,7 @@ Você poderá encontrar uma lista desses métodos abaixo:
   - **[Veja mapearValores](../MapearValores/page.md)**
   - **[Veja filtrarValores](../FiltrarValores/page.md)**
 
-Você poderá ver o código fonte dessas operações dentro da classe **VectorizationJS.Vector**
+Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Vector**
 * [Código fonte](https://github.com/WilliamJardim/VectorizationJS/blob/main/src/Vector.js)
 
 # Navegação

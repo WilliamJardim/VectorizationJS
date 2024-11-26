@@ -5,10 +5,10 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 ## Multiplicação elemento a elemento:
-Nesta página você pode encontrar informações sobre o método **Multiplicação elemento a elemento** do objeto **VectorizationJS.Matrix**. 
+Nesta página você pode encontrar informações sobre o método **Multiplicação elemento a elemento** do objeto **Vectorization.Matrix**. 
 
 ## Informações gerais
-Diferente do produto escalar, na multiplicação elemento a elemento, nós literalmente multiplicamos cada elemento, ou seja, cada número, um por um, em suas posições correspondentes. Existem variações dessa técnica matemática. Por exemplo, ao multiplicar elemento a elemento uma matriz pela outra temos um passo a passo a ser seguido. Porém, ao multiplicar uma matriz com um vetor, temos outro passo a passo diferente. Vamos ver alguns deles. Lembrando que o método **Multiplicação elemento a elemento** do objeto **VectorizationJS.Matrix** é diferente do método **Produto Escalar**, **Veja [VectorizationJS.Matrix/Produto Escalar](../ProdutoEscalar/page.md)**.
+Diferente do produto escalar, na multiplicação elemento a elemento, nós literalmente multiplicamos cada elemento, ou seja, cada número, um por um, em suas posições correspondentes. Existem variações dessa técnica matemática. Por exemplo, ao multiplicar elemento a elemento uma matriz pela outra temos um passo a passo a ser seguido. Porém, ao multiplicar uma matriz com um vetor, temos outro passo a passo diferente. Vamos ver alguns deles. Lembrando que o método **Multiplicação elemento a elemento** do objeto **Vectorization.Matrix** é diferente do método **Produto Escalar**, **Veja [Vectorization.Matrix/Produto Escalar](../ProdutoEscalar/page.md)**.
 
 ## Multiplicação de matriz com outra matriz
 Na **Multiplicação elemento a elemento**, de uma **Matriz** com outra **Matriz**, nós vamos basicamente multiplicar cada elemento da primeira matriz com a segunda matriz, nas suas respectivas posições correspondentes, ou seja, para calcular o primeiro elemento da matriz de resultado, vamos multiplicar o primeiro elemento da primeira linha da primeira matriz **com** o primeiro elemento da primeira linha da segunda matriz, ou seja, aqui as posições seriam linha 1, na coluna 1. **NOTA: Neste tipo de multiplicação, a quantidade de linhas e a quantidade de colunas de ambas as matrizes precisam ser exatamente iguais.**. E o resultado deve obrigatóriamente ser uma matriz, com exatamente a mesma quantidade de linhas e colunas.
@@ -16,14 +16,14 @@ Na **Multiplicação elemento a elemento**, de uma **Matriz** com outra **Matriz
 # Multiplicação de matriz com outra matriz no VectorizationJS
 ```javascript
 
-var matrix1 = VectorizationJS.Matrix([
+var matrix1 = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var matrix2 = VectorizationJS.Matrix([
+var matrix2 = Vectorization.Matrix([
     [ -5,  2,  3, 2  ],
     [  1,  25, 1, 50 ],
     [  2,  5,  3, 5  ],
@@ -59,14 +59,14 @@ Na **Multiplicação elemento a elemento**, de uma **Matriz** com um **Vetor**, 
 # Multiplicação de matriz com um vetor no VectorizationJS
 ```javascript
 
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var vetor = VectorizationJS.Vector( [ 12, 5, 11, 8.5 ] );
+var vetor = Vectorization.Vector( [ 12, 5, 11, 8.5 ] );
 
 var resultado = matrix.multiplicarVetor(vetor);
 
@@ -96,7 +96,7 @@ Também podemos multiplicar uma matriz por um número. E o processo se torna mai
 # Multiplicação de matriz com um número no VectorizationJS
 ```javascript
 
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
@@ -121,7 +121,7 @@ console.log( resultado.raw() )
 ]
 ```
 
-Você poderá ver o código fonte dessas operações dentro da classe **VectorizationJS.Matrix**
+Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
 * [Código fonte](https://github.com/WilliamJardim/VectorizationJS/blob/main/src/Matrix.js)
 
 # Navegação

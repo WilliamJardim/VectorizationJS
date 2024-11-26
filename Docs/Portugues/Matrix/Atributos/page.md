@@ -7,7 +7,7 @@ Aqui você poderá encontrar informações a respeito desta biblioteca, e dos m�
 # Atributos da classe Matrix
 Nesta página você pode encontrar informações sobre os atributos(propriedades) da classe Matrix.
 
-**Atributos disponveis para VectorizationJS.Matrix**:
+**Atributos disponveis para Vectorization.Matrix**:
  - [linhas](linhas.md)
  - [colunas](colunas.md)
  - [tamanhos](tamanhos.md)

@@ -1,7 +1,7 @@
 # Documentação oficial do VectorizationJS
 ![Logo do projeto](https://github.com/WilliamJardim/VectorizationJS/blob/main/imagens/logo512x512.png)
 
-Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS.
+Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # Scalar
@@ -12,31 +12,31 @@ Nesta página você pode encontrar informações sobre a classe Scalar
  - Localizado em: **src/Scalar.js**
  - Namespace: **VectorizationJS**
  - Nome da classe: **Scalar**
- - Path: **VectorizationJS.Scalar**
+ - Path: **Vectorization.Scalar**
 
 # Descrição geral
-Na matemática, escalares são basicamente números. Simplismente isso. Por exemplo, os números 2, 3, -5, 0, 10, 50, 1000, etc, todos eles são chamados de escalares. Em algebra linear e em vetores, cada elemento do vetor é um escalar **(Veja [VectorizationJS.Vector](../Vector/page.md))**. Esse termo é muito usado em algebra linear, e em matrizes **(Veja  [VectorizationJS.Matrix](../Matrix/page.md))**, vetores, tensores, etc. Todos eles fazem uso do conceito de escalares.
+Na matemática, escalares são basicamente números. Simplismente isso. Por exemplo, os números 2, 3, -5, 0, 10, 50, 1000, etc, todos eles são chamados de escalares. Em algebra linear e em vetores, cada elemento do vetor é um escalar **(Veja [Vectorization.Vector](../Vector/page.md))**. Esse termo é muito usado em algebra linear, e em matrizes **(Veja  [Vectorization.Matrix](../Matrix/page.md))**, vetores, tensores, etc. Todos eles fazem uso do conceito de escalares.
 
 # Escalares no VectorizationJS
 No VectorizationJS, existe uma classe que serve especificamente para representar números(escalares). 
 
 ```javascript
-var meu_numero_10 = VectorizationJS.Scalar(10);
+var meu_numero_10 = Vectorization.Scalar(10);
 
-var meu_numero_2 = VectorizationJS.Scalar(2);
+var meu_numero_2 = Vectorization.Scalar(2);
 
-var meu_numero_3 = VectorizationJS.Scalar(3);
+var meu_numero_3 = Vectorization.Scalar(3);
 ```
 
-A única diferença de um **VectorizationJS.Scalar** para um número normal, é que a classe escalar possui alguns métodos e atributos. Ou seja, ela serve para representar números, e faz isso de uma forma personalizada. O objeto **VectorizationJS.Scalar** é usado internamente pelo VectorizationJS, em situações especificas, como por exemplo, quando fazemos certas operações como produto escalar em vetores, o resultado vai ser um objeto do tipo **VectorizationJS.Scalar**, ou seja um escalar.
+A única diferença de um **Vectorization.Scalar** para um número normal, é que a classe escalar possui alguns métodos e atributos. Ou seja, ela serve para representar números, e faz isso de uma forma personalizada. O objeto **Vectorization.Scalar** é usado internamente pelo VectorizationJS, em situações especificas, como por exemplo, quando fazemos certas operações como produto escalar em vetores, o resultado vai ser um objeto do tipo **Vectorization.Scalar**, ou seja um escalar.
 
 # Criando escalares aleatórios
-Também é possivel criar um **VectorizationJS.Scalar** contendo um número aleatório.
+Também é possivel criar um **Vectorization.Scalar** contendo um número aleatório.
 Veja um exemplo disso abaixo:
 
 ```javascript
 
-var meu_numero_aleatorio = VectorizationJS.Scalar({ 
+var meu_numero_aleatorio = Vectorization.Scalar({ 
     aleatorio: true, 
     minimo: 0, 
     maximo: 5, 
@@ -47,10 +47,10 @@ var meu_numero_aleatorio = VectorizationJS.Scalar({
 
 Também é possivel passar o parametro **arredondar**, que permite arredondar o número gerado para cima, ou para baixo, etc.
 
-Para gerar o número aleatório, o VectorizationJS usa a classe interna **VectorizationJS.Random**.
+Para gerar o número aleatório, o VectorizationJS usa a classe interna **Vectorization.Random**.
 
 # Métodos e atributos
-O objeto **VectorizationJS.Scalar** possui alguns poucos métodos e atributos(propriedades). Você pode se aprofundar neles clicando nos links abaixo:
+O objeto **Vectorization.Scalar** possui alguns poucos métodos e atributos(propriedades). Você pode se aprofundar neles clicando nos links abaixo:
 - [Métodos](Metodos/page.md)
 - [Atributos](Atributos/page.md)
 

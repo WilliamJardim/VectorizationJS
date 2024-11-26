@@ -5,12 +5,12 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # valorPreencher
-Atributo presente na classe **VectorizationJS.Vector**, que permite definir um valor para ser preenchido na hora de criar o vetor. Este atributo só irá funcionar caso você esteja usando a inicialização usando um objeto com paramêtros.
+Atributo presente na classe **Vectorization.Vector**, que permite definir um valor para ser preenchido na hora de criar o vetor. Este atributo só irá funcionar caso você esteja usando a inicialização usando um objeto com paramêtros.
 
 # Exemplo 
 ```javascript
 
-var vetor = VectorizationJS.Vector({ 
+var vetor = Vectorization.Vector({ 
     valorPreencher: 5, 
     elementos: 10 
 });

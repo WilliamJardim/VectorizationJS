@@ -5,12 +5,12 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **VectorizationJS.Matrix**, que permite "bloquear" todos os elementos presentes dentro da mesma, para impedir e barrar toda e qualquer possível manipulação dentro do objeto **VectorizationJS.Matrix**, possuindo um comportamento semelhante a uma constante, por não ser possível haver manipulações, conforme descrito.
+Atributo presente na classe **Vectorization.Matrix**, que permite "bloquear" todos os elementos presentes dentro da mesma, para impedir e barrar toda e qualquer possível manipulação dentro do objeto **Vectorization.Matrix**, possuindo um comportamento semelhante a uma constante, por não ser possível haver manipulações, conforme descrito.
 
 # Exemplo
 ```javascript
 
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [-5,   2,  3,  2 ],
     [ 1,  25,  1, 50 ],
     [ 2,  5,   3,  5 ],

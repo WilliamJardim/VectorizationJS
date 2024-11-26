@@ -5,7 +5,7 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # Produto escalar:
-Nesta página você pode encontrar informações sobre o método **Produto Escalar** do objeto **VectorizationJS.Matrix**.
+Nesta página você pode encontrar informações sobre o método **Produto Escalar** do objeto **Vectorization.Matrix**.
 
 # Informações gerais
 Produto escalar é o nome de uma operação matemática que serve basicamente para realizar a multiplicação de matrizes, e também de vetores. Existem variações dessa operação, que vão depender muito de quais são os termos envolvidos na operação. Por exemplo, o procedimento para realizar o produto escalar entre uma matriz e um vetor vai ser diferente do procedimento para realizar o produto escalar entre duas matrizes, e também, vai ser diferente caso seja um vetor com outro vetor. Ou seja, existem casos diferentes, que são realizados de maneira diferente. **NOTA: Produto escalar é diferente de multiplicação elemento a elemento, Veja [Multiplicação](../Multiplicacao/page.md)**.
@@ -17,14 +17,14 @@ Quando estamos querendo fazer o produto escalar de uma **Matriz** com outra **Ma
 ```javascript
 
 //Matrix com matrix
-var matrix1 = VectorizationJS.Matrix([
+var matrix1 = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var matrix2 = VectorizationJS.Matrix([
+var matrix2 = Vectorization.Matrix([
     [ -5, 2, 3,  2 ],
     [ 1, 25, 1, 50 ],
     [ 2, 5,  3,  5 ],
@@ -62,14 +62,14 @@ Quando estamos querendo fazer o produto escalar de uma **Matriz** com um **Vetor
 # Exemplo de uso desse caso
 ```javascript
 //Matrix com vetor
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var vetor = VectorizationJS.Vector( [ 12, 5, 11, 8.5 ] );
+var vetor = Vectorization.Vector( [ 12, 5, 11, 8.5 ] );
 
 var resultado = matrix.produtoEscalarVector(vetor);
 
@@ -89,7 +89,7 @@ Da mesma forma, para se obter o segundo item do vetor de resultado, fazemos assi
 É possível identificar esses elementos no vetor de resultado acima. Assim você consegue comprovar os cálculos.
 
 
-Você poderá ver o código fonte dessas operações dentro da classe **VectorizationJS.Matrix**
+Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
 * [Código fonte](https://github.com/WilliamJardim/VectorizationJS/blob/main/src/Matrix.js)
 
 ## Outros casos possíveis de produto escalar 

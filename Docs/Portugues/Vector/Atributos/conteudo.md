@@ -5,12 +5,12 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # conteudo
-Atributo presente na classe **VectorizationJS.Vector**, que permite acessar todo o contéudo do vetor. Todo o contéudo do vetor fica armazenado dentro 'context.conteudo' internamente dentro da classe. De modo que 'context.conteudo' é um Array padrão do JavaScript.
+Atributo presente na classe **Vectorization.Vector**, que permite acessar todo o contéudo do vetor. Todo o contéudo do vetor fica armazenado dentro 'context.conteudo' internamente dentro da classe. De modo que 'context.conteudo' é um Array padrão do JavaScript.
 
 # Exemplo 
 ```javascript
 
-var vetor = VectorizationJS.Vector( [ 12, 5, 11, 8.5 ] );
+var vetor = Vectorization.Vector( [ 12, 5, 11, 8.5 ] );
 
 console.log( vetor.conteudo )
 

@@ -5,7 +5,7 @@ Seja bem vindo!. Está é a documentação da biblioteca VectorizationJS
 Aqui você poderá encontrar informações a respeito desta biblioteca, e dos métodos e atributos que a acompanham.
 
 # Potenciação elemento a elemento
-Nesta página você pode encontrar informações sobre o método **Potenciação elemento a elemento** do objeto **VectorizationJS.Matrix**. 
+Nesta página você pode encontrar informações sobre o método **Potenciação elemento a elemento** do objeto **Vectorization.Matrix**. 
 
 ## Informações gerais
 Na matemática, podemos elevar uma matriz com outra matriz. Essa é a potenciação elemento a elemento, ou seja, cada item da primeira matriz vai ser elevado a os seus respectivos correspondentes da segunda matriz. Ou seja, vamos casar com os índices. Basicamente o processo envolvido, ou seja, a lógica, o passo a passo para realizar uma potenciação de uma matriz com outra, é praticamente o mesmo da multiplicação de matrizes. O passo a passo que vamos seguir é o mesmo da **Multiplicação elemento a elemento**, com uma única diferença: ao invés de multiplicar cada elemento da primeira matriz com os correspondentes da segunda matrix, vamos elevar. Ou seja, em outras palavras, se você seguir o passo a passo descrito em **Multiplicação elemento a elemento** **Veja [Multiplicação elemento a elemento](../Multiplicacao/page.md)** e ao invés de aplicar a operação de multiplicação voce aplicar uma potenciação, você estará executando corretamente a potenciação de matrizes.
@@ -15,14 +15,14 @@ Nesse processo também possui variações, pois assim como na **Multiplicação 
 ## Elevando duas matrizes no VectorizationJS
 ```javascript
 
-var matrix1 = VectorizationJS.Matrix([
+var matrix1 = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var matrix2 = VectorizationJS.Matrix([
+var matrix2 = Vectorization.Matrix([
     [ -5,  2,  3, 2  ],
     [  1,  25, 1, 50 ],
     [  2,  5,  3, 5  ],
@@ -60,14 +60,14 @@ Na **Potenciação elemento a elemento**, de uma **Matriz** com um **Vetor**, n�
 # Elevando uma matriz com um vetor no VectorizationJS
 ```javascript
 
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
     [ 1, 2, 2, 2   ]
 ]);
 
-var vetor = VectorizationJS.Vector( [ 12, 5, 11, 8.5 ] );
+var vetor = Vectorization.Vector( [ 12, 5, 11, 8.5 ] );
 
 var resultado = matrix.elevarVetor(vetor);
 
@@ -99,7 +99,7 @@ Também podemos elevar uma matriz por um número. E o processo se torna mais sim
 # Elevando uma matriz com um número no VectorizationJS
 ```javascript
 
-var matrix = VectorizationJS.Matrix([
+var matrix = Vectorization.Matrix([
     [ 3, 8, 6, 50  ],
     [ 1, 2, 2, 100 ],
     [ 4, 5, 5, 5   ],
@@ -126,7 +126,7 @@ console.log( resultado.raw() )
 
 ```
 
-Você poderá ver o código fonte dessas operações dentro da classe **VectorizationJS.Matrix**
+Você poderá ver o código fonte dessas operações dentro da classe **Vectorization.Matrix**
 * [Código fonte](https://github.com/WilliamJardim/VectorizationJS/blob/main/src/Matrix.js)
 
 # Navegação
