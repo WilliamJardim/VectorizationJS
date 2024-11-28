@@ -128,6 +128,19 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    /**
+    * Atualiza a quantidade de linhas e colunas
+    */
+    context.atualizarQuantidadeColunasLinhas = function(){
+        //Atualiza a quantidade das colunas
+        context.columns = context.calcTamanhos().lerIndice(1);
+        context.colunas = context.columns;
+
+        //Atualiza a quantidade de linhas
+        context.rows    = context.content.length; 
+        context.linhas  = context.rows;
+    }
+
     //Alguns atributos uteis
     context.isTransposta = classConfig['isTransposta'] || false;
     context.isOposta = classConfig['isOposta'] || false;
@@ -582,6 +595,9 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }else{
             context.content.push(element);
         }
+
+        //Atualiza a quantidade de linhas e colunas
+        context.atualizarQuantidadeColunasLinhas();
     }
 
     context.obterTiposRapido = function(includeNamespace=false){
