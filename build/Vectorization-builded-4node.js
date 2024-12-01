@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 28/11/2024 - 15:40:57*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 30/11/2024 - 22:05:36*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -5152,6 +5152,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                .definirElementoNoIndice(indiceAdicionar, vetorDaLinha);
     }
 
+    /**
+    * 
+    * @param {Number} indice - O indice da linha
+    * @param {Number} indiceAdicionar - O indice da coluna
+    * @param {Array} vetorDaLinha 
+    */
     context.definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
         context._definirValorLinha(indice, indiceAdicionar, vetorDaLinha);
     }
