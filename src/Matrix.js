@@ -812,6 +812,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                .definirElementoNoIndice(indiceAdicionar, vetorDaLinha);
     }
 
+    /**
+    * 
+    * @param {Number} indice - O indice da linha
+    * @param {Number} indiceAdicionar - O indice da coluna
+    * @param {Array} vetorDaLinha 
+    */
     context.definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
         context._definirValorLinha(indice, indiceAdicionar, vetorDaLinha);
     }
