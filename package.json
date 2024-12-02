@@ -20,7 +20,7 @@
     "linear-algebra"
   ],
   "author": "William Alves Jardim",
-  "license": "CC-BY-NC-SA-4.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/WilliamJardim/Vectorization/issues"
   },
