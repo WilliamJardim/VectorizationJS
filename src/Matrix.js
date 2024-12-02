@@ -345,6 +345,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         {
             const extraPropsOfLine = {... vectorClassConfig};
             extraPropsOfLine['index'] = i;
+            extraPropsOfLine['_pai']  = context; 
 
             if( context.isFlexivelNasColunas == true ){
                 if( Vectorization.Vector.isVector(context.flexivel) ){
