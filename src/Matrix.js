@@ -576,6 +576,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return context.rawValues();
     }
 
+    /**
+    * Verifica se algum elemento está presente nesta Vectorization.Matrix
+    * @param {Object} valor 
+    * @returns {Boolean}
+    */
+    context.have = function( valor ){
+        let tem = false;
+
+        for( let i = 0 ; i < context.rows ; i++ ){
+            if( (context.getLinha( i ).have || context.getLinha( i ).includes)( valor ) ){
+                tem = true;
+                break;
+            }
+        }
+
+        return tem;
+    }
+
     context.mostrarTabela = function(){
         console.table( context.rawValues() );
     }

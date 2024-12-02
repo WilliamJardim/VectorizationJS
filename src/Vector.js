@@ -61,6 +61,15 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.permitirDesbloquear = (config['permitirDesbloquear'] != undefined || classConfig['permitirDesbloquear'] != undefined) ? (config['permitirDesbloquear'] || classConfig['permitirDesbloquear']) : true;
     context.permitirBloquear = (config['permitirBloquear'] != undefined || classConfig['permitirBloquear'] != undefined) ? (config['permitirBloquear'] || classConfig['permitirBloquear']) : true;
 
+    /**
+    * Verifica se algum elemento está presente nesta Vectorization.Matrix
+    * @param {Object} valor 
+    * @returns {Boolean}
+    */
+    context.have = function( valor ){
+        return context.rawProfundo().includes( valor );
+    }
+
     context._isBloqueado = function(){
         if( context.bloqueado != undefined && context.bloqueado == true ){
             return true;

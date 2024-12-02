@@ -53,6 +53,40 @@ window.Vectorization.Base = function(config){
     context.getFather = context.getPai;
 
     /**
+    * Verifica se o valor deste objeto está presente em um Vectorization.Vector ou Vectorization.Matrix
+    */
+    context.in = function( objetoVerificar ){
+        //Se este objeto for um Vector ou Matrix
+        if( Vectorization.Matrix.isVectorizationMatrix( context ) == true ||
+            Vectorization.Vector.isVectorizationVector( context ) == true 
+        ){
+            throw 'Ainda não implementado para verificar se Vetores e Matrizes estão presentes em outros Vetores e Matrizes!';
+            
+            //Se 'objetoVerificar' for um Vector ou Matrix
+            if( Vectorization.Matrix.isVectorizationMatrix( objetoVerificar ) ||
+                Vectorization.Vector.isVectorizationVector( objetoVerificar )
+            ){
+                
+            }else{
+
+            }
+
+        //Se o este objeto for um Scalar ou Text
+        }else{
+            if( context.getTipo && 
+                (context.getTipo() == 'Scalar' || context.getTipo() == 'Text')
+            ){
+                //Se 'objetoVerificar' for um Vector ou Matrix
+                if( Vectorization.Matrix.isVectorizationMatrix( objetoVerificar ) == true ||
+                    Vectorization.Vector.isVectorizationVector( objetoVerificar ) == true
+                ){
+                    return objetoVerificar.have( context.obterValor() );
+                }
+            }
+        }
+    }
+
+    /**
     * Retorna o tipo do objeto
     * @returns {String}
     */
