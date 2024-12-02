@@ -3,7 +3,7 @@
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
- * LICENSE: WilliamJardim/Vectorization © 2024 by William Alves Jardim is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/**
+ * LICENSE: MIT
 */
 if(typeof window === 'undefined'){
     global.VECTORIZATION_BUILD = true;
@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 2/12/2024 - 10:45:08*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 2/12/2024 - 10:46:42*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
