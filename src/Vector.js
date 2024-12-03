@@ -825,7 +825,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
-    * Remove amostras duplicadas deste Vectorization.Vector com base em colunas específicas.
+    * Remove valores duplicados deste Vectorization.Vector com base em colunas específicas.
     */
     context.distinct = function(){
         const valoresJaVistos = {};

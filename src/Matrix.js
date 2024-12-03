@@ -1057,6 +1057,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
     context.paraCadaColuna = context.percorrerColuna;
 
+    /** 
+    * Remove amostras duplicadas deste Vectorization.Vector com base em colunas específicas.
+    */
+    context.distinct = function(){
+        const valoresJaVistos = {};
+        const valoresUnicos = Vectorization.Matrix([]);
+
+        context.forEach(function(indice, linhaVector){
+            const identificador = linhaVector.raw()
+                                             .join('|');
+
+            if( valoresJaVistos[identificador] == undefined ){
+                valoresJaVistos[identificador] = true;
+                valoresUnicos.push( linhaVector );
+            }
+        });
+
+        return valoresUnicos;
+    }
+
     /**
     * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
     * SIMILAR AO context.percorrerColuna, porém ele vai implementar algo mais parecido com o Vectorization.Vector.mapearValores
