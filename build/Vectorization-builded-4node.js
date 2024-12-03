@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 2/12/2024 - 11:01:09*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 14:07:49*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -67,6 +67,40 @@ window.Vectorization.Base = function(config){
     * Se existir 
     */
     context.getFather = context.getPai;
+
+    /**
+    * Verifica se o valor deste objeto está presente em um Vectorization.Vector ou Vectorization.Matrix
+    */
+    context.in = function( objetoVerificar ){
+        //Se este objeto for um Vector ou Matrix
+        if( Vectorization.Matrix.isVectorizationMatrix( context ) == true ||
+            Vectorization.Vector.isVectorizationVector( context ) == true 
+        ){
+            throw 'Ainda não implementado para verificar se Vetores e Matrizes estão presentes em outros Vetores e Matrizes!';
+            
+            //Se 'objetoVerificar' for um Vector ou Matrix
+            if( Vectorization.Matrix.isVectorizationMatrix( objetoVerificar ) ||
+                Vectorization.Vector.isVectorizationVector( objetoVerificar )
+            ){
+                
+            }else{
+
+            }
+
+        //Se o este objeto for um Scalar ou Text
+        }else{
+            if( context.getTipo && 
+                (context.getTipo() == 'Scalar' || context.getTipo() == 'Text')
+            ){
+                //Se 'objetoVerificar' for um Vector ou Matrix
+                if( Vectorization.Matrix.isVectorizationMatrix( objetoVerificar ) == true ||
+                    Vectorization.Vector.isVectorizationVector( objetoVerificar ) == true
+                ){
+                    return objetoVerificar.have( context.obterValor() );
+                }
+            }
+        }
+    }
 
     /**
     * Retorna o tipo do objeto
@@ -1354,6 +1388,15 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.permitirDesbloquear = (config['permitirDesbloquear'] != undefined || classConfig['permitirDesbloquear'] != undefined) ? (config['permitirDesbloquear'] || classConfig['permitirDesbloquear']) : true;
     context.permitirBloquear = (config['permitirBloquear'] != undefined || classConfig['permitirBloquear'] != undefined) ? (config['permitirBloquear'] || classConfig['permitirBloquear']) : true;
 
+    /**
+    * Verifica se algum elemento está presente nesta Vectorization.Matrix
+    * @param {Object} valor 
+    * @returns {Boolean}
+    */
+    context.have = function( valor ){
+        return context.rawProfundo().includes( valor );
+    }
+
     context._isBloqueado = function(){
         if( context.bloqueado != undefined && context.bloqueado == true ){
             return true;
@@ -2106,6 +2149,25 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
         context.content = Vectorization.Vector.isVectorizationVector( novoConteudoDoVetor ) ? novoConteudoDoVetor.valores() : novoConteudoDoVetor;
         context.conteudo = context.content;
+    }
+
+    /**
+    * Remove valores duplicados deste Vectorization.Vector com base em colunas específicas.
+    */
+    context.distinct = function(){
+        const valoresJaVistos = {};
+        const valoresUnicos = Vectorization.Vector([]);
+
+        context.forEach(function(indice, valor){
+            const identificador = String(valor);
+
+            if( valoresJaVistos[identificador] == undefined ){
+                valoresJaVistos[identificador] = true;
+                valoresUnicos.push( valor );
+            }
+        });
+
+        return valoresUnicos;
     }
 
     /**
@@ -4939,6 +5001,24 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return context.rawValues();
     }
 
+    /**
+    * Verifica se algum elemento está presente nesta Vectorization.Matrix
+    * @param {Object} valor 
+    * @returns {Boolean}
+    */
+    context.have = function( valor ){
+        let tem = false;
+
+        for( let i = 0 ; i < context.rows ; i++ ){
+            if( (context.getLinha( i ).have || context.getLinha( i ).includes)( valor ) ){
+                tem = true;
+                break;
+            }
+        }
+
+        return tem;
+    }
+
     context.mostrarTabela = function(){
         console.table( context.rawValues() );
     }
@@ -5401,6 +5481,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     context.paraCadaColuna = context.percorrerColuna;
+
+    /** 
+    * Remove amostras duplicadas deste Vectorization.Vector com base em colunas específicas.
+    */
+    context.distinct = function(){
+        const valoresJaVistos = {};
+        const valoresUnicos = Vectorization.Matrix([]);
+
+        context.forEach(function(indice, linhaVector){
+            const identificador = linhaVector.raw()
+                                             .join('|');
+
+            if( valoresJaVistos[identificador] == undefined ){
+                valoresJaVistos[identificador] = true;
+                valoresUnicos.push( linhaVector );
+            }
+        });
+
+        return valoresUnicos;
+    }
 
     /**
     * Vai tornar possivel que voce ande por todos os elementos que estão presentes dentro da coluna especifica que vc passar como parametro.
