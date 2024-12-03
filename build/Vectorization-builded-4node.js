@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 14:07:49*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 14:11:14*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -5487,7 +5487,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     */
     context.distinct = function(){
         const valoresJaVistos = {};
-        const valoresUnicos = Vectorization.Matrix([]);
+        const valoresUnicos = Vectorization.Matrix([], { flexibilidade: context.flexibilidade });
 
         context.forEach(function(indice, linhaVector){
             const identificador = linhaVector.raw()
