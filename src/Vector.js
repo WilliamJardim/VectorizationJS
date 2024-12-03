@@ -825,6 +825,25 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Remove amostras duplicadas deste Vectorization.Vector com base em colunas específicas.
+    */
+    context.distinct = function(){
+        const valoresJaVistos = {};
+        const valoresUnicos = Vectorization.Vector([]);
+
+        context.forEach(function(indice, valor){
+            const identificador = String(valor);
+
+            if( valoresJaVistos[identificador] == undefined ){
+                valoresJaVistos[identificador] = true;
+                valoresUnicos.push( valor );
+            }
+        });
+
+        return valoresUnicos;
+    }
+
+    /**
     * Similar ao context.filtrar
     * Percorre cada elemento do vetor, aplicando uma função de filtro, retornando um resultado que é filtrado de forma rígida.
     * Isso ignora elementos que não atendam aos critérios que voce estabeleceu na função de filtro
