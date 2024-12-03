@@ -1062,7 +1062,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     */
     context.distinct = function(){
         const valoresJaVistos = {};
-        const valoresUnicos = Vectorization.Matrix([]);
+        const valoresUnicos = Vectorization.Matrix([], { flexibilidade: context.flexibilidade });
 
         context.forEach(function(indice, linhaVector){
             const identificador = linhaVector.raw()
