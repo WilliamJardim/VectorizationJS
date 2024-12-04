@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 22:01:10*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 4/12/2024 - 15:31:03*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6893,6 +6893,142 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 		}
 
 		return context.raw();
+	}
+
+    /** IMPORTAR DADOS */
+
+	/**
+	* Carrega um arquivo CSV do computador via upload e injeta dentro deste DataStructure
+	* @param {Function} callback
+	* @param {string} separador Separador usado no CSV (padrão: ',')
+	*/
+	context.loadCSV = function(callback, separador = ',') {
+		// Cria dinamicamente o elemento <input> do tipo "file"
+		const inputFile = document.createElement("input");
+		inputFile.type = "file";
+		inputFile.accept = ".csv"; // Aceita apenas arquivos CSV
+
+		// Adiciona o evento "change" para capturar o arquivo selecionado
+		inputFile.addEventListener("change", function(event) {
+			const file = event.target.files[0]; // Obtém o primeiro arquivo selecionado
+
+			if (!file) return; // Caso nenhum arquivo seja selecionado, não faz nada
+
+			const reader = new FileReader();
+
+			// Lê o conteúdo do arquivo como texto
+			reader.onload = function() {
+				try {
+					const csvData = reader.result;
+
+					// Divide as linhas do CSV
+					const linhas = csvData.split(/\r?\n/).filter(linha => linha.trim() !== '');
+
+					// Processa os dados (demais linhas)
+					const dadosTratados = linhas.map(linha => {
+						const valores = linha.split(separador).map(valor => valor.trim());
+
+						return valores;
+					});
+
+					context.content = dadosTratados.map(amostra =>
+						Object.values(amostra)
+					);
+					context._matrix2Advanced();
+					context.atualizarQuantidadeColunasLinhas();
+
+					context.columns = context.content[0]?.length || 0;
+					context.colunas = context.columns;
+
+					if (callback) {
+						// Chama o callback com os dados CSV
+						callback(dadosTratados, context);
+					}
+				} catch (error) {
+					console.error("Erro ao carregar o arquivo CSV:", error);
+					alert("O arquivo selecionado não é um CSV válido.");
+				}
+			};
+
+			// Lê o arquivo
+			reader.readAsText(file);
+
+			// Remove o elemento de input do DOM após a leitura
+			document.body.removeChild(inputFile);
+		});
+
+		// Adiciona o elemento de input ao DOM para que possa ser utilizado
+		document.body.appendChild(inputFile);
+
+		// Simula um clique no input para abrir a janela de seleção de arquivo
+		inputFile.click();
+	}
+
+	/**
+	* Carrega um arquivo TXT do computador via upload e injeta dentro deste DataStructure.
+	* @param {Function} callback Função a ser chamada após carregar os dados.
+	* @param {string} separador Separador usado no TXT (padrão: '\t').
+	*/
+	context.loadTXT = function(callback, separador = '\t') {
+		// Cria dinamicamente o elemento <input> do tipo "file"
+		const inputFile = document.createElement("input");
+		inputFile.type = "file";
+		inputFile.accept = ".txt"; // Aceita apenas arquivos TXT
+
+		// Adiciona o evento "change" para capturar o arquivo selecionado
+		inputFile.addEventListener("change", function(event) {
+			const file = event.target.files[0]; // Obtém o primeiro arquivo selecionado
+
+			if (!file) return; // Caso nenhum arquivo seja selecionado, não faz nada
+
+			const reader = new FileReader();
+
+			// Lê o conteúdo do arquivo como texto
+			reader.onload = function() {
+				try {
+					const txtData = reader.result;
+
+					// Divide as linhas do TXT
+					const linhas = txtData.split(/\r?\n/).filter(linha => linha.trim() !== '');
+
+					// Processa os dados (demais linhas)
+					const dadosTratados = linhas.map(linha => {
+						const valores = linha.split(separador).map(valor => valor.trim());
+
+						return valores;
+					});
+
+					context.content = dadosTratados.map(amostra =>
+						Object.values(amostra)
+					);
+					context._matrix2Advanced();
+					context.atualizarQuantidadeColunasLinhas();
+
+					context.columns = context.content[0]?.length || 0;
+					context.colunas = context.columns;
+
+					if (callback) {
+						// Chama o callback com os dados TXT
+						callback(dadosTratados, context);
+					}
+				} catch (error) {
+					console.error("Erro ao carregar o arquivo TXT:", error);
+					alert("O arquivo selecionado não é um TXT válido.");
+				}
+			};
+
+			// Lê o arquivo
+			reader.readAsText(file);
+
+			// Remove o elemento de input do DOM após a leitura
+			document.body.removeChild(inputFile);
+		});
+
+		// Adiciona o elemento de input ao DOM para que possa ser utilizado
+		document.body.appendChild(inputFile);
+
+		// Simula um clique no input para abrir a janela de seleção de arquivo
+		inputFile.click();
 	}
 
     //return context;
