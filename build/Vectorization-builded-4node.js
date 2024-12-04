@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 21:47:43*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 21:48:42*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6871,8 +6871,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         });
 
         //Corta o \n sozinho no final
-        if( csvConteudo.endsWith('\n') ){
-            csvConteudo = csvConteudo.slice(0, csvConteudo.length-String('\n').length);
+        if( txtConteudo.endsWith('\n') ){
+            txtConteudo = txtConteudo.slice(0, txtConteudo.length-String('\n').length);
         }
 
         // Faz o download do arquivo, se solicitado

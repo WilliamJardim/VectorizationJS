@@ -2446,8 +2446,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         });
 
         //Corta o \n sozinho no final
-        if( csvConteudo.endsWith('\n') ){
-            csvConteudo = csvConteudo.slice(0, csvConteudo.length-String('\n').length);
+        if( txtConteudo.endsWith('\n') ){
+            txtConteudo = txtConteudo.slice(0, txtConteudo.length-String('\n').length);
         }
 
         // Faz o download do arquivo, se solicitado
