@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 21:48:42*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 21:51:52*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6882,6 +6882,18 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
         return txtConteudo;
     }
+
+    /**
+	* Exporta os dados deste Vectorization.Matrix para um formato JSON
+	*/
+	context.exportarJSON = function( downloadArquivo=null ){
+		
+		if(downloadArquivo && downloadArquivo.endsWith('.json') ){
+			context.downloadArquivo( context.raw() , downloadArquivo );
+		}
+
+		return context.raw();
+	}
 
     //return context;
     //Cria um Proxy para permitir acessar os indices da matrix diretamente

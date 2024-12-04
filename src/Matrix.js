@@ -2458,6 +2458,18 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return txtConteudo;
     }
 
+    /**
+	* Exporta os dados deste Vectorization.Matrix para um formato JSON
+	*/
+	context.exportarJSON = function( downloadArquivo=null ){
+		
+		if(downloadArquivo && downloadArquivo.endsWith('.json') ){
+			context.downloadArquivo( context.raw() , downloadArquivo );
+		}
+
+		return context.raw();
+	}
+
     //return context;
     //Cria um Proxy para permitir acessar os indices da matrix diretamente
     return new Proxy(context, {
