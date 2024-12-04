@@ -2445,6 +2445,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             txtConteudo += linhaValores + '\n';
         });
 
+        //Corta o \n sozinho no final
+        if( csvConteudo.endsWith('\n') ){
+            csvConteudo = csvConteudo.slice(0, csvConteudo.length-String('\n').length);
+        }
+
         // Faz o download do arquivo, se solicitado
         if (downloadArquivo && downloadArquivo.endsWith('.txt')) {
             context.downloadArquivo(txtConteudo, downloadArquivo);
