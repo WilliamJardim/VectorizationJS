@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 14:11:14*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 21:26:24*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -5034,7 +5034,13 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         if( context.isAdvancedMatrix ){
-            context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
+            if( context.isFlexivelNasColunas == true ){
+                context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.BendableVector(element, context._config) );
+
+            //Se não tem flexibilidade
+            }else{
+                context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
+            }
 
         }else{
             context.content.push(element);
