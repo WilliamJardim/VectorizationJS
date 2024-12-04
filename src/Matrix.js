@@ -2392,8 +2392,8 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         let csvConteudo = '';
 
         // Gera a linha de cabeçalho
-        const linhaCabecalho = Array(context.colunas).fill(0).map((_, index) => `Coluna_${index}`).join(separador);
-        csvConteudo += linhaCabecalho + '\n';
+        //const linhaCabecalho = Array(context.colunas).fill(0).map((_, index) => `Coluna_${index}`).join(separador);
+        //csvConteudo += linhaCabecalho + '\n';
 
         // Percorre cada linha da matriz
         context.content.forEach(linha => {
@@ -2408,6 +2408,11 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             // Adiciona a linha atual ao conteúdo do CSV
             csvConteudo += linhaValores + '\n';
         });
+
+        //Corta o \n sozinho no final
+        if( csvConteudo.endsWith('\n') ){
+            csvConteudo = csvConteudo.slice(0, csvConteudo.length-String('\n').length);
+        }
 
         // Faz o download do arquivo, se solicitado
         if (downloadArquivo && downloadArquivo.endsWith('.csv')) {
