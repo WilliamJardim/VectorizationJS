@@ -609,7 +609,13 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         if( context.isAdvancedMatrix ){
-            context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
+            if( context.isFlexivelNasColunas == true ){
+                context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.BendableVector(element, context._config) );
+
+            //Se não tem flexibilidade
+            }else{
+                context.content.push( element.objectName != undefined && element.objectName == 'Vector' ? element : Vectorization.Vector(element) );
+            }
 
         }else{
             context.content.push(element);
