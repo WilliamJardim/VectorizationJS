@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 21:36:01*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 21:41:28*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6840,6 +6840,37 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         return csvConteudo;
+    }
+
+    /**
+    * Exporta os dados de um objeto Vectorization.Matrix para um formato TXT com separador configurável.
+    * @param {string|null} downloadArquivo Nome do arquivo para download (opcional).
+    * @param {string} separador Separador entre valores (padrão: tabulação '\t').
+    * @returns {string} Conteúdo do TXT.
+    */
+    context.exportarTXT = function(downloadArquivo = null, separador = '\t') {
+        let txtConteudo = '';
+
+        // Gera as linhas do conteúdo TXT
+        context.content.forEach(linha => {
+            const linhaValores = linha.map( (indice, valor) => {
+                // Formata o valor, se necessário
+                if (typeof valor === 'string' && (valor.includes(separador) || valor.includes('"'))) {
+                    return `"${valor.replace(/"/g, '""')}"`;
+                }
+                return valor;
+            }).raw().join(separador);
+
+            // Adiciona a linha ao conteúdo do TXT
+            txtConteudo += linhaValores + '\n';
+        });
+
+        // Faz o download do arquivo, se solicitado
+        if (downloadArquivo && downloadArquivo.endsWith('.txt')) {
+            context.downloadArquivo(txtConteudo, downloadArquivo);
+        }
+
+        return txtConteudo;
     }
 
     //return context;
