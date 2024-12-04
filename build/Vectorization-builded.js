@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 3/12/2024 - 21:51:52*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 3/12/2024 - 22:01:10*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
