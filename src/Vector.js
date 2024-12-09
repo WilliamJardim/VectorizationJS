@@ -578,10 +578,16 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             isIgual = false;
             return isIgual;
         }
-        
+
         for( let i = 0 ; i < vectorB.length ; i++ )
         {
-            if( vectorB.readIndex(i) == context.readIndex(i)){
+            const saoEscalaresOuTextos = (Vectorization.Text.isVectorizationText( vectorB.readIndex(i) ) == true && Vectorization.Text.isVectorizationText( context.readIndex(i) ) == true) == true ||
+                                         (Vectorization.Scalar.isVectorizationScalar( vectorB.readIndex(i) ) == true && Vectorization.Scalar.isVectorizationScalar( context.readIndex(i) ) == true) == true;
+            
+            const condicao = saoEscalaresOuTextos == true ? vectorB.readIndex(i).isIgual( context.readIndex(i) )
+                                                          : vectorB.readIndex(i) == context.readIndex(i);
+
+            if( condicao == true ){
                 isIgual = true;
             }else{
                 isIgual = false;
