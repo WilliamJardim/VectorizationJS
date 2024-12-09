@@ -1782,6 +1782,21 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         return Vectorization.Vector(novoVetor);
     }
 
+    /**
+    * Obtem o log10 de cada elemento do vetor
+    * @returns {Vectorization.Vector}
+    */
+    context.log10 = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = Math.log10(context.content[i]);
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
     context.removerApenasUm = function(elementoRemover){
         let novoVectorRetirado = Vectorization.Vector([]);
         let vetorPercorrer = context.duplicar();

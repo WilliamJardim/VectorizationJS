@@ -1786,6 +1786,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+     * Obtem o log10, de cada elemento da matrix 
+     * @returns {Vectorization.Matrix}
+     */
+    context.log10 = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.log10(matrixA[i][j]);
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
     * Tenta obter a matrix de identidade de ordem desta matrix 
     */
     context.identidade = function(){
