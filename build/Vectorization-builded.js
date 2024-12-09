@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 9/12/2024 - 14:38:42*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 9/12/2024 - 14:59:59*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -382,6 +382,33 @@ window.Vectorization.isAlgumVetorVectorization = function(obj){
 }
 
 module.exports = window.Vectorization.Root;
+
+//Cria uma namespace para calculos matemáticos basicos
+window.Vectorization.Math = {};
+
+window.Vectorization.Math.log = function(base, valor){
+    return Math.log(valor) / Math.log(base)
+}
+
+window.Vectorization.Math.log2 = function(valor){
+    return Math.log2(valor);
+}
+
+window.Vectorization.Math.log10 = function(valor){
+    return Math.log10(valor);
+}
+
+window.Vectorization.Math.sin = function(radians){
+    return Math.sin(radians);
+}
+
+window.Vectorization.Math.cos = function(radians){
+    return Math.cos(radians);
+}
+
+window.Vectorization.Math.pow = function(base, exponente){
+    return Math.pow(base, exponente);
+}
 
 //Cria um alias para facilitar a chamada
 if( typeof V == 'undefined' ){
@@ -3109,6 +3136,21 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         for( let i = 0 ; i < context.content.length ; i++ )
         {
             novoVetor[i] = Math.log2(context.content[i]);
+        }
+
+        return Vectorization.Vector(novoVetor);
+    }
+
+    /**
+    * Obtem o log10 de cada elemento do vetor
+    * @returns {Vectorization.Vector}
+    */
+    context.log10 = function(){
+        let novoVetor = [];
+        
+        for( let i = 0 ; i < context.content.length ; i++ )
+        {
+            novoVetor[i] = Math.log10(context.content[i]);
         }
 
         return Vectorization.Vector(novoVetor);
@@ -6209,6 +6251,26 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             for( let j = 0 ; j < matrixA[0].length ; j++ )
             {
                 novaMatrix[i][j] = Math.log2(matrixA[i][j]);
+            }
+        }
+    
+        return Vectorization.Matrix(novaMatrix);
+    }
+
+    /**
+     * Obtem o log10, de cada elemento da matrix 
+     * @returns {Vectorization.Matrix}
+     */
+    context.log10 = function(){
+        let matrixA = context.content;
+        let novaMatrix = [];
+    
+        for( let i = 0 ; i < matrixA.length ; i++ )
+        {
+            novaMatrix[i] = [];
+            for( let j = 0 ; j < matrixA[0].length ; j++ )
+            {
+                novaMatrix[i][j] = Math.log10(matrixA[i][j]);
             }
         }
     

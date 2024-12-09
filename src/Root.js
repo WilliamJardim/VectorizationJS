@@ -367,6 +367,33 @@ window.Vectorization.isAlgumVetorVectorization = function(obj){
 
 module.exports = window.Vectorization.Root;
 
+//Cria uma namespace para calculos matemáticos basicos
+window.Vectorization.Math = {};
+
+window.Vectorization.Math.log = function(base, valor){
+    return Math.log(valor) / Math.log(base)
+}
+
+window.Vectorization.Math.log2 = function(valor){
+    return Math.log2(valor);
+}
+
+window.Vectorization.Math.log10 = function(valor){
+    return Math.log10(valor);
+}
+
+window.Vectorization.Math.sin = function(radians){
+    return Math.sin(radians);
+}
+
+window.Vectorization.Math.cos = function(radians){
+    return Math.cos(radians);
+}
+
+window.Vectorization.Math.pow = function(base, exponente){
+    return Math.pow(base, exponente);
+}
+
 //Cria um alias para facilitar a chamada
 if( typeof V == 'undefined' ){
     window.V = window.Vectorization;
