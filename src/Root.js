@@ -366,3 +366,8 @@ window.Vectorization.isAlgumVetorVectorization = function(obj){
 }
 
 module.exports = window.Vectorization.Root;
+
+//Cria um alias para facilitar a chamada
+if( typeof V == 'undefined' ){
+    window.V = window.Vectorization;
+}
