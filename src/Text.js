@@ -130,6 +130,15 @@ window.Vectorization.Text = function( value=NaN, classConfig={} ){
         return context.value;
     }
 
+    context.isIgual = function( outraCoisa ){
+        if( Vectorization.Text.isText(outraCoisa) && outraCoisa.objectName != undefined ){
+            return context.raw() == outraCoisa.raw();
+
+        }else if( typeof outraCoisa == 'string' ){
+            return context.raw() == outraCoisa
+        }
+    }
+
     /**
     * Transforma este Vectorization.Text em um Vectorization.StringVector
     * Transform this Vectorization.Text into a Vectorization.StringVector

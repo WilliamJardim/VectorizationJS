@@ -232,6 +232,15 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         return context.value + 0;
     }
 
+    context.isIgual = function( outraCoisa ){
+        if( Vectorization.Scalar.isScalar(outraCoisa) && outraCoisa.objectName != undefined ){
+            return context.raw() == outraCoisa.raw();
+
+        }else if( typeof outraCoisa == 'number' ){
+            return context.raw() == outraCoisa
+        }
+    }
+
     context.somarNumero = function(numero){
         return Vectorization.Scalar(context.value + numero, {... classConfig});
     }
