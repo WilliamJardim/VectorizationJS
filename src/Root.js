@@ -394,6 +394,55 @@ window.Vectorization.Math.pow = function(base, exponente){
     return Math.pow(base, exponente);
 }
 
+/**
+* Calcula a correlação de Pearson entre dois vetores do Vectorization. 
+* Valores altos proximos de 1 significa que é uma correlação positiva forte, ou seja, isso significa que quando os valores de X aumentam, os valores de Y tambem aumentam
+* Valores altos proximos de -1 significa que é uma correlação negativa forte, ou seja, isso significa que quando os valores de X aumentam, os valores de Y diminuem
+*
+* @param {Vectorization.Vector} vetor1
+* @param {Vectorization.Vector} vetor2
+* @returns {Number}
+*/
+window.Vectorization.Math.correlation = function(vetor1, vetor2) {
+    if( !Vectorization.Vector.isVector(vetor1) || !Vectorization.Vector.isVector(vetor2) ){
+        throw new Error('Os parametros precisam ser Vectorization.Vector(s)');
+    }
+    if (vetor1.length !== vetor2.length) {
+        throw new Error('Os dois vetores devem ter o mesmo tamanho.');
+    }
+    if (vetor1.length === 0) {
+        throw new Error('Os vetores não podem estar vazios.');
+    }
+
+    //Pega a quantidade de elementos, que vai ser a mesma para ambas os vetores
+    const qtdeElementos = vetor1.length;
+
+    //Calcula as médias de ambos os vetores
+    const mediaX = vetor1.media();
+    const mediaY = vetor2.media();
+
+    let numerador = 0;
+    let denominadorX = 0;
+    let denominadorY = 0;
+
+    for (let i = 0; i < qtdeElementos; i++) {
+        const deltaVetor1 = vetor1[i] - mediaX;
+        const deltaVetor2 = vetor2[i] - mediaY;
+
+        numerador += deltaVetor1 * deltaVetor2;
+        denominadorX += deltaVetor1 ** 2;
+        denominadorY += deltaVetor2 ** 2;
+    }
+
+    const denominador = Math.sqrt(denominadorX * denominadorY);
+
+    if (denominador === 0) {
+        throw new Error('Impossivel ter divisão por zero ao calcular a correlação.');
+    }
+
+    return numerador / denominador;
+}
+
 //Cria um alias para facilitar a chamada
 if( typeof V == 'undefined' ){
     window.V = window.Vectorization;

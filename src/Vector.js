@@ -2285,6 +2285,13 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula a correlação deste Vectorization.Vector com a de outro Vectorization.Vector
+    */
+    context.correlationWith = function( outroVector ){
+        return Vectorization.Math.correlation( Vectorization.Vector(context.raw()), outroVector );
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){
