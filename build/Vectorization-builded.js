@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 11/12/2024 - 15:15:59*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 11/12/2024 - 15:35:57*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -6891,6 +6891,15 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
                 return this.resultado_vector;
             }
         };
+    }
+
+    /**
+    * Calcula a correlação entre duas colunas(pelo indice) 
+    */
+    context.correlationColumns = function(indiceColuna1, indiceColuna2){
+        const valoresColuna1 = context.extrairValoresColuna(indiceColuna1);
+        const valoresColuna2 = context.extrairValoresColuna(indiceColuna2);
+        return valoresColuna1.correlationWith( valoresColuna2 );
     }
 
     context._doDefaultBaseAfterCreate();

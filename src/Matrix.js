@@ -2341,6 +2341,15 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         };
     }
 
+    /**
+    * Calcula a correlação entre duas colunas(pelo indice) 
+    */
+    context.correlationColumns = function(indiceColuna1, indiceColuna2){
+        const valoresColuna1 = context.extrairValoresColuna(indiceColuna1);
+        const valoresColuna2 = context.extrairValoresColuna(indiceColuna2);
+        return valoresColuna1.correlationWith( valoresColuna2 );
+    }
+
     context._doDefaultBaseAfterCreate();
 
     //Se a opção advanced estiver ativa, ele roda um método adicional após criar a matrix
