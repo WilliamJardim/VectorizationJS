@@ -680,6 +680,12 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             dadosRecortados.push( context.getLinha(i).raw() );
         }
 
+        if( context.flexibilidade ){
+            return Vectorization.Matrix(dadosRecortados, {
+                flexibilidade: context.flexibilidade || []
+            });
+        }
+
         return Vectorization.Matrix(dadosRecortados);
     }
 
