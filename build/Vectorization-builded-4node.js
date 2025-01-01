@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 17/12/2024 - 16:27:05*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 1/1/2025 - 15:55:57*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -3718,6 +3718,96 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula as diferenças com os valores anteriores:
+    * 
+    * Para cada número no Vector, vai subtrair ele com um número anterior(ou melhor dizendo com o número cujo índice seja "indiceNumero - quantidadeElementosAtraz", caso exista. Se não existir, ele coloca um valor inválido. 
+    * Voce pode incluir um parâmetro adicional que permite fazer uma subtração acumulada 
+    * 
+    * Por exemplo:
+    *   V.Vector([10,5,2,50,9]).diferencaValores(1).raw()
+    * 
+    *      Ele vai retornar: [NaN, -5, -3, 48, -41]
+    * 
+    * Então, ele vai fazer:
+    *   10 - NADA = NADA
+    *   5 - 10 = -5
+    *   2 - 5 =  -3
+    *   50 - 2 = 48
+    *   9 - 50 = -41
+    * 
+    *   NOTA: Ou seja, resultando nesse vetor [NaN, -5, -3, 48, -41]
+    * 
+    * @param {number} quantidadeElementosAtraz
+    * @param {string} acumulacao
+    * 
+    * @returns {Vectorization.Vector}
+    */
+    context.diferencaValores = function( quantidadeElementosAtraz, acumulacao="nenhuma" ){
+        if( !quantidadeElementosAtraz ){
+            throw 'Voce precisa dizer quantos elementos atraz de cada elemento voce quer usar!';
+        }
+
+        let vetorResultado = Vectorization.Vector([]);
+
+        context.forEach(function(indiceAtual, valorAtual, contextoEste){
+
+            const indiceAnterior = indiceAtual - Number(quantidadeElementosAtraz);
+            const valorAnterior  = context.lerIndice( indiceAnterior );
+
+            if( valorAnterior != undefined ) {
+                const subtracaoFeita   = valorAtual - valorAnterior;
+                const subtracaoTratada = context.usarEscalares == true ? Vectorization.Scalar(subtracaoFeita) : subtracaoFeita;
+
+                vetorResultado.adicionarElemento( subtracaoTratada );
+
+            //Caso não exista
+            }else{
+                vetorResultado.adicionarElemento( context.usarEscalares == true ? Vectorization.Scalar( NaN ) : NaN );
+            }
+
+        });
+
+        return vetorResultado;
+    }
+
+    /**
+    * Subfatiar este Vector em varias partes, cada uma com uma CERTA QUANTIDADE FIXA DE ELEMENTOS
+    *  
+    * Agrupa sequencialmente os números, de acordo com O TAMANHO DA FATIA , por exemplo, se for uma fatia de 7 números, então, ele vai dividir o Vector em subgrupos, cada um tendo 7 números cada.
+    * Ou seja, o Vector seria dividido de 7 em 7 números. Ou seja, cada fatia teria 7 números.
+    * 
+    * NOTA: Cada parte vai ser um novo Vectorization.Vector, contendo números dentro. 
+    * 
+    * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de números por fatia)
+    * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
+    * 
+    * @returns { Array<Vectorization.Vector> }
+    */
+    context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
+        if(!tamanhoFatia){
+            throw 'Voce precisa definir uma quantidade de números para as fatias!';
+        }
+        if( tamanhoFatia > context.length ){
+            console.warn(`O tamanho de fatia ${tamanhoFatia} é maior do que a quantidade de números deste Vector`);
+        }
+
+        let fatiasFeitas = [];
+        let indiceFinalFatia = (tamanhoFatia - iniciarEm);;
+
+        for( let indiceAtual = iniciarEm ; indiceAtual < context.length ; indiceAtual += tamanhoFatia ){
+
+            const sliceAtual = context.clonar()
+                                      .slice( indiceAtual, indiceFinalFatia );
+
+            indiceFinalFatia = indiceFinalFatia + tamanhoFatia;
+
+            fatiasFeitas.push( sliceAtual );
+        }
+
+        return fatiasFeitas;
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){
@@ -5381,6 +5471,43 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }else{
             return valoresColuna;
         }
+    }
+
+    /**
+    * Subfatiar esta matriz em varias partes, cada uma com uma CERTA QUANTIDADE FIXA DE AMOSTRAS
+    *  
+    * Agrupa sequencialmente amostras, de acordo com O TAMANHO DA FATIA , por exemplo, se for uma fatia de 7 amostras, então, ele vai dividir o dataset em subgrupos, cada um tendo 7 amostras cada.
+    * Ou seja, o dataset seria dividido de 7 em 7 amostras. Ou seja, cada fatia teria 7 amostras.
+    * 
+    * NOTA: Cada parte vai ser uma nova Vectorization.Matrix, contendo Vectorization.Vector(s) dentro. Ou seja, cada Vectorization.Vector dentro dessa matrix resultado, vai ser uma amostra.
+    * 
+    * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de amostras por fatia)
+    * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
+    * 
+    * @returns { Array<Vectorization.Matrix> }
+    */
+    context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
+        if(!tamanhoFatia){
+            throw 'Voce precisa definir uma quantidade de amostras para as fatias!';
+        }
+        if( tamanhoFatia > context.linhas ){
+            console.warn(`O tamanho de fatia ${tamanhoFatia} é maior do que a quantidade de linhas da matrix`);
+        }
+
+        let fatiasFeitas = [];
+        let indiceFinalFatia = (tamanhoFatia - iniciarEm);
+
+        for( let indiceAtual = iniciarEm ; indiceAtual < context.linhas ; indiceAtual += tamanhoFatia ){
+
+            const sliceAtual = context.clonar()
+                                      .slice( indiceAtual, indiceFinalFatia );
+
+            indiceFinalFatia = indiceFinalFatia + tamanhoFatia;
+
+            fatiasFeitas.push( sliceAtual );
+        }
+
+        return fatiasFeitas;
     }
 
     context.extrairValoresLinha = context.getLinha;
