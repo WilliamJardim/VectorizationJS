@@ -2292,6 +2292,45 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula as diferenças com os valores anteriores:
+    * 
+    * Para cada número no Vector, vai subtrair ele com um número anterior(ou melhor dizendo com o número cujo índice seja "indiceNumero - quantidadeElementosAtraz", caso exista. Se não existir, ele coloca um valor inválido. 
+    * Voce pode incluir um parâmetro adicional que permite fazer uma subtração acumulada 
+    * 
+    * @param {number} quantidadeElementosAtraz
+    * @param {string} acumulacao
+    * 
+    * @returns {Vectorization.Vector}
+    */
+    context.diferencaValores = function( quantidadeElementosAtraz, acumulacao="nenhuma" ){
+        if( !quantidadeElementosAtraz ){
+            throw 'Voce precisa dizer quantos elementos atraz de cada elemento voce quer usar!';
+        }
+
+        let vetorResultado = Vectorization.Vector([]);
+
+        context.forEach(function(indiceAtual, valorAtual, contextoEste){
+
+            const indiceAnterior = indiceAtual - Number(quantidadeElementosAtraz);
+            const valorAnterior  = context.lerIndice( indiceAnterior );
+
+            if( valorAnterior != undefined ) {
+                const subtracaoFeita   = valorAtual - valorAnterior;
+                const subtracaoTratada = context.usarEscalares == true ? Vectorization.Scalar(subtracaoFeita) : subtracaoFeita;
+
+                vetorResultado.adicionarElemento( subtracaoTratada );
+
+            //Caso não exista
+            }else{
+                vetorResultado.adicionarElemento( context.usarEscalares == true ? Vectorization.Scalar( NaN ) : NaN );
+            }
+
+        });
+
+        return vetorResultado;
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){
