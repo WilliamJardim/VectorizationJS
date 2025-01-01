@@ -831,6 +831,43 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
     }
 
+    /**
+    * Subfatiar esta matriz em varias partes, cada uma com uma CERTA QUANTIDADE FIXA DE AMOSTRAS
+    *  
+    * Agrupa sequencialmente amostras, de acordo com O TAMANHO DA FATIA , por exemplo, se for uma fatia de 7 amostras, então, ele vai dividir o dataset em subgrupos, cada um tendo 7 amostras cada.
+    * Ou seja, o dataset seria dividido de 7 em 7 amostras. Ou seja, cada fatia teria 7 amostras.
+    * 
+    * NOTA: Cada parte vai ser uma nova Vectorization.Matrix, contendo Vectorization.Vector(s) dentro. Ou seja, cada Vectorization.Vector dentro dessa matrix resultado, vai ser uma amostra.
+    * 
+    * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de amostras por fatia)
+    * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
+    * 
+    * @returns { Array<Vectorization.Matrix> }
+    */
+    context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
+        if(!tamanhoFatia){
+            throw 'Voce precisa definir uma quantidade de amostras para as fatias!';
+        }
+        if( tamanhoFatia > context.linhas ){
+            console.warn(`O tamanho de fatia ${tamanhoFatia} é maior do que a quantidade de linhas da matrix`);
+        }
+
+        let fatiasFeitas = [];
+        let indiceFinalFatia = (tamanhoFatia - iniciarEm);
+
+        for( let indiceAtual = iniciarEm ; indiceAtual < context.linhas ; indiceAtual += tamanhoFatia ){
+
+            const sliceAtual = context.clonar()
+                                      .slice( indiceAtual, indiceFinalFatia );
+
+            indiceFinalFatia = indiceFinalFatia + tamanhoFatia;
+
+            fatiasFeitas.push( sliceAtual );
+        }
+
+        return fatiasFeitas;
+    }
+
     context.extrairValoresLinha = context.getLinha;
 
     context._definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){

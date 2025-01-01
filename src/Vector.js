@@ -2345,6 +2345,43 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Subfatiar este Vector em varias partes, cada uma com uma CERTA QUANTIDADE FIXA DE ELEMENTOS
+    *  
+    * Agrupa sequencialmente os números, de acordo com O TAMANHO DA FATIA , por exemplo, se for uma fatia de 7 números, então, ele vai dividir o Vector em subgrupos, cada um tendo 7 números cada.
+    * Ou seja, o Vector seria dividido de 7 em 7 números. Ou seja, cada fatia teria 7 números.
+    * 
+    * NOTA: Cada parte vai ser um novo Vectorization.Vector, contendo números dentro. 
+    * 
+    * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de números por fatia)
+    * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
+    * 
+    * @returns { Array<Vectorization.Vector> }
+    */
+    context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
+        if(!tamanhoFatia){
+            throw 'Voce precisa definir uma quantidade de números para as fatias!';
+        }
+        if( tamanhoFatia > context.length ){
+            console.warn(`O tamanho de fatia ${tamanhoFatia} é maior do que a quantidade de números deste Vector`);
+        }
+
+        let fatiasFeitas = [];
+        let indiceFinalFatia = (tamanhoFatia - iniciarEm);;
+
+        for( let indiceAtual = iniciarEm ; indiceAtual < context.length ; indiceAtual += tamanhoFatia ){
+
+            const sliceAtual = context.clonar()
+                                      .slice( indiceAtual, indiceFinalFatia );
+
+            indiceFinalFatia = indiceFinalFatia + tamanhoFatia;
+
+            fatiasFeitas.push( sliceAtual );
+        }
+
+        return fatiasFeitas;
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){
