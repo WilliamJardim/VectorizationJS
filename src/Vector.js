@@ -2297,6 +2297,20 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * Para cada número no Vector, vai subtrair ele com um número anterior(ou melhor dizendo com o número cujo índice seja "indiceNumero - quantidadeElementosAtraz", caso exista. Se não existir, ele coloca um valor inválido. 
     * Voce pode incluir um parâmetro adicional que permite fazer uma subtração acumulada 
     * 
+    * Por exemplo:
+    *   V.Vector([10,5,2,50,9]).diferencaValores(1).raw()
+    * 
+    *      Ele vai retornar: [NaN, -5, -3, 48, -41]
+    * 
+    * Então, ele vai fazer:
+    *   10 - NADA = NADA
+    *   5 - 10 = -5
+    *   2 - 5 =  -3
+    *   50 - 2 = 48
+    *   9 - 50 = -41
+    * 
+    *   NOTA: Ou seja, resultando nesse vetor [NaN, -5, -3, 48, -41]
+    * 
     * @param {number} quantidadeElementosAtraz
     * @param {string} acumulacao
     * 
