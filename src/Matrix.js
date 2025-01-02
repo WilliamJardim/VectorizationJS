@@ -868,6 +868,47 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         return fatiasFeitas;
     }
 
+    /**
+    * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
+    * Pode ser usado para calcular médias móveis, desvio padrão movel, variancia movel, etc. 
+    * 
+    * @returns {Vectorization.Envelope}
+    */
+    context.deslizes = function( quantidadeDeslizes=4, iniciarEm=0 ){
+        let deslizesProntos = Vectorization.Envelope([]);
+
+        if( String(quantidadeDeslizes).indexOf('.') != -1 ){
+            throw `O parametro quantidadeDeslizes tem valor '${quantidadeDeslizes}', porém ele precisa ser inteiro!. `;
+        }
+
+        if( iniciarEm < 0 ){
+            throw `O parametro 'iniciarEm' tem valor ${ iniciarEm }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes < 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes == 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser maior que zero!`;
+        }
+
+        for( let i = iniciarEm ; i < context.linhas ; i++ ){
+
+            //Se a proxima iteração for ultrapassar os limites(a ultima linha desta Matrix), interompe, pois ja terminou
+            if( i + quantidadeDeslizes > context.linhas ){
+                break;
+            }
+
+            const sliceAtual = context.clonar()
+                                      .slice( i, i + quantidadeDeslizes );
+
+            deslizesProntos.adicionarObjeto( sliceAtual );
+        }
+
+        return deslizesProntos;
+    }
+
     context.extrairValoresLinha = context.getLinha;
 
     context._definirValorLinha = function(indice, indiceAdicionar, vetorDaLinha){
