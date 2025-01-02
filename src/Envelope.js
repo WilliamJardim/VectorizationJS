@@ -3,6 +3,9 @@
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
  * 
+ * Description: Um objeto chamado literalmente de Envelope, para permitir "envelopar" varios objetos de diversos tipos, e permitir executar algum método em todos eles.
+ * Ao executar um método em um Envelope, ele vai executar esse método em cada objeto que ele está armazenando. E vai retornar um novo Envelope, conténdo os resultados, que podem ser números, vetores, matrizes, ou qualquer coisa que o método escolhido para ser aplicado retorne.
+ * 
  * LICENSE: MIT
 */
 
