@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 2/1/2025 - 13:38:56*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 2/1/2025 - 17:43:38*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -3781,7 +3781,13 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de números por fatia)
     * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
     * 
-    * @returns { Array<Vectorization.Vector> }
+    * Exemplo:
+    *   V.Vector([5, 10, 5, 6]).subfatiar(2).soma().raw()
+    *       vai retornar: [15, 11]
+    *  
+    *   o uso do Envelope permite fazer operações mais facilmente.
+    * 
+    * @returns { Vectorization.Envelope }
     */
     context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
         if(!tamanhoFatia){
@@ -3804,7 +3810,51 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             fatiasFeitas.push( sliceAtual );
         }
 
-        return fatiasFeitas;
+        return Vectorization.Envelope(fatiasFeitas);
+    }
+
+    /**
+    * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
+    * Pode ser usado para calcular médias móveis, desvio padrão movel, variancia movel, etc. 
+    * 
+    * Em outras palavras, O método 'deslizes' serve para gerar vários deslizes por assim dizer, ou seja, vai deslizando os elementos deste Vector, gerando outros sub Vetores com uma mesma quantidade fixa de elementos, cada parte contendo seu slice atual da posição atual ATÈ a posição atual MAIS O TAMANHO DO PEDAÇO. 
+    * O método retorna um objeto Envelope.
+    * 
+    * @returns {Vectorization.Envelope}
+    */
+    context.deslizes = function( quantidadeDeslizes=4, iniciarEm=0 ){
+        let deslizesProntos = Vectorization.Envelope([]);
+
+        if( String(quantidadeDeslizes).indexOf('.') != -1 ){
+            throw `O parametro quantidadeDeslizes tem valor '${quantidadeDeslizes}', porém ele precisa ser inteiro!. `;
+        }
+
+        if( iniciarEm < 0 ){
+            throw `O parametro 'iniciarEm' tem valor ${ iniciarEm }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes < 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes == 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser maior que zero!`;
+        }
+
+        for( let i = iniciarEm ; i < context.length ; i++ ){
+
+            //Se a proxima iteração for ultrapassar os limites deste Vector, interompe, pois ja terminou
+            if( i + quantidadeDeslizes > context.length ){
+                break;
+            }
+
+            const sliceAtual = context.clonar()
+                                      .slice( i, i + quantidadeDeslizes );
+
+            deslizesProntos.adicionarObjeto( sliceAtual );
+        }
+
+        return deslizesProntos;
     }
 
     /**
@@ -5534,7 +5584,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de amostras por fatia)
     * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
     * 
-    * @returns { Array<Vectorization.Matrix> }
+    * @returns { Vectorization.Envelope }
     */
     context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
         if(!tamanhoFatia){
@@ -5557,7 +5607,51 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             fatiasFeitas.push( sliceAtual );
         }
 
-        return fatiasFeitas;
+        return Vectorization.Envelope(fatiasFeitas);
+    }
+
+    /**
+    * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
+    * Pode ser usado para calcular médias móveis, desvio padrão movel, variancia movel, etc. 
+    * 
+    * Em outras palavras, O método 'deslizes' serve para gerar vários deslizes por assim dizer, ou seja, vai deslizando as linhas desta Matrix, gerando outras sub Matrizes com uma mesma quantidade fixa de linhas, cada parte contendo seu slice atual da posição atual ATÈ a posição atual MAIS O TAMANHO DO PEDAÇO. 
+    * O método retorna um objeto Envelope.
+    * 
+    * @returns {Vectorization.Envelope}
+    */
+    context.deslizes = function( quantidadeDeslizes=4, iniciarEm=0 ){
+        let deslizesProntos = Vectorization.Envelope([]);
+
+        if( String(quantidadeDeslizes).indexOf('.') != -1 ){
+            throw `O parametro quantidadeDeslizes tem valor '${quantidadeDeslizes}', porém ele precisa ser inteiro!. `;
+        }
+
+        if( iniciarEm < 0 ){
+            throw `O parametro 'iniciarEm' tem valor ${ iniciarEm }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes < 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser positivo!`;
+        }
+
+        if( quantidadeDeslizes == 0 ){
+            throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser maior que zero!`;
+        }
+
+        for( let i = iniciarEm ; i < context.linhas ; i++ ){
+
+            //Se a proxima iteração for ultrapassar os limites(a ultima linha desta Matrix), interompe, pois ja terminou
+            if( i + quantidadeDeslizes > context.linhas ){
+                break;
+            }
+
+            const sliceAtual = context.clonar()
+                                      .slice( i, i + quantidadeDeslizes );
+
+            deslizesProntos.adicionarObjeto( sliceAtual );
+        }
+
+        return deslizesProntos;
     }
 
     context.extrairValoresLinha = context.getLinha;
@@ -8030,6 +8124,9 @@ module.exports = window.Vectorization.Random._translations;
  * File Name: Envelope.js
  * Author Name: William Alves Jardim
  * Author Email: williamalvesjardim@gmail.com
+ * 
+ * Description: Um objeto chamado literalmente de Envelope, para permitir "envelopar" varios objetos de diversos tipos, e permitir executar algum método em todos eles.
+ * Ao executar um método em um Envelope, ele vai executar esse método em cada objeto que ele está armazenando. E vai retornar um novo Envelope, conténdo os resultados, que podem ser números, vetores, matrizes, ou qualquer coisa que o método escolhido para ser aplicado retorne.
  * 
  * LICENSE: MIT
 */
