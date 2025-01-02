@@ -842,7 +842,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de amostras por fatia)
     * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
     * 
-    * @returns { Array<Vectorization.Matrix> }
+    * @returns { Vectorization.Envelope }
     */
     context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
         if(!tamanhoFatia){
@@ -865,7 +865,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
             fatiasFeitas.push( sliceAtual );
         }
 
-        return fatiasFeitas;
+        return Vectorization.Envelope(fatiasFeitas);
     }
 
     /**

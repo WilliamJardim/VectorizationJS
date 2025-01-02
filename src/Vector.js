@@ -2355,7 +2355,13 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @param {Number} tamanhoFatia - O tamanho das fatias(quantidade de números por fatia)
     * @param {Number} iniciarEm - O indice que ele vai iniciar o fatiamento
     * 
-    * @returns { Array<Vectorization.Vector> }
+    * Exemplo:
+    *   V.Vector([5, 10, 5, 6]).subfatiar(2).soma().raw()
+    *       vai retornar: [15, 11]
+    *  
+    *   o uso do Envelope permite fazer operações mais facilmente.
+    * 
+    * @returns { Vectorization.Envelope }
     */
     context.subfatiar = function( tamanhoFatia, iniciarEm=0 ){
         if(!tamanhoFatia){
@@ -2378,7 +2384,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             fatiasFeitas.push( sliceAtual );
         }
 
-        return fatiasFeitas;
+        return Vectorization.Envelope(fatiasFeitas);
     }
 
     /**
