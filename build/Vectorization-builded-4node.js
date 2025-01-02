@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 1/1/2025 - 15:55:57*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 2/1/2025 - 12:48:48*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -3805,6 +3805,56 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         }
 
         return fatiasFeitas;
+    }
+
+    /**
+    * Calcula a variancia dos números.
+    * Baseado em conceitos matemáticos de estatística.
+    * 
+    * Isso é, mede o quanto os números do Vector estão se afastando da média.
+    * Quanto menor o valor, mais perto da média os números desse Vector estão.
+    * @returns {Number} - a variancia
+    */
+    context.variancia = function(){
+
+        /**
+        * A média aritmética normal mesmo 
+        */
+        const mediaVetor = context.media();
+
+        const diferencasAoQuadrado = Vectorization.Vector([]);
+
+        /**
+        * Para cada número dentro deste Vector 
+        */
+        context.paraCadaElemento(function( indiceElemento, numeroAtual ){
+
+            const subtracao = numeroAtual - mediaVetor;
+
+            /**
+            * Adiciona a subtração atual no vetor 'diferencasAoQuadrado'
+            */
+            diferencasAoQuadrado.adicionarElemento( Math.pow(subtracao, 2 ) );
+
+        });
+
+        const qtdeElementosVetor = context.tamanho();
+        const variancia          = diferencasAoQuadrado.soma() / ( qtdeElementosVetor-1 );
+
+        return variancia;
+    }
+
+    /**
+    * Calcula o desvio padrão.
+    * Baseado nos conceitos estatísticos de variância.
+    * 
+    * Desvio padrão significa o quanto os números do Vector estão se afastando da média.
+    * Quanto menor o valor, mais perto da média os números desse Vector estão.
+    * 
+    * NOTA: Muito semelhante à variancia. É basicamente uma maneira diferente de ver a variancia. 
+    */
+    context.desvioPadrao = function(){
+        return Math.sqrt( context.variancia() );
     }
 
     /**
