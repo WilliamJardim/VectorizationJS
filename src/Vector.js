@@ -2385,6 +2385,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
     * Pode ser usado para calcular médias móveis, desvio padrão movel, variancia movel, etc. 
     * 
+    * Em outras palavras, O método 'deslizes' serve para gerar vários deslizes por assim dizer, ou seja, vai deslizando os elementos deste Vector, gerando outros sub Vetores com uma mesma quantidade fixa de elementos, cada parte contendo seu slice atual da posição atual ATÈ a posição atual MAIS O TAMANHO DO PEDAÇO. 
+    * O método retorna um objeto Envelope.
+    * 
     * @returns {Vectorization.Envelope}
     */
     context.deslizes = function( quantidadeDeslizes=4, iniciarEm=0 ){
