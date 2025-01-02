@@ -2382,6 +2382,56 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula a variancia dos números.
+    * Baseado em conceitos matemáticos de estatística.
+    * 
+    * Isso é, mede o quanto os números do Vector estão se afastando da média.
+    * Quanto menor o valor, mais perto da média os números desse Vector estão.
+    * @returns {Number} - a variancia
+    */
+    context.variancia = function(){
+
+        /**
+        * A média aritmética normal mesmo 
+        */
+        const mediaVetor = context.media();
+
+        const diferencasAoQuadrado = Vectorization.Vector([]);
+
+        /**
+        * Para cada número dentro deste Vector 
+        */
+        context.paraCadaElemento(function( indiceElemento, numeroAtual ){
+
+            const subtracao = numeroAtual - mediaVetor;
+
+            /**
+            * Adiciona a subtração atual no vetor 'diferencasAoQuadrado'
+            */
+            diferencasAoQuadrado.adicionarElemento( Math.pow(subtracao, 2 ) );
+
+        });
+
+        const qtdeElementosVetor = context.tamanho();
+        const variancia          = diferencasAoQuadrado.soma() / ( qtdeElementosVetor-1 );
+
+        return variancia;
+    }
+
+    /**
+    * Calcula o desvio padrão.
+    * Baseado nos conceitos estatísticos de variância.
+    * 
+    * Desvio padrão significa o quanto os números do Vector estão se afastando da média.
+    * Quanto menor o valor, mais perto da média os números desse Vector estão.
+    * 
+    * NOTA: Muito semelhante à variancia. É basicamente uma maneira diferente de ver a variancia. 
+    */
+    context.desvioPadrao = function(){
+        return Math.sqrt( context.variancia() );
+    }
+
+    /**
     * Método que converte este Vectorization.Vector para um Vectorization.Vector avançado, onde cada elemento dentro do mesmo é um Vectorization.Scalar
     */
     context._vectorElementos2Escalares = function(vectorClassConfig={}){
