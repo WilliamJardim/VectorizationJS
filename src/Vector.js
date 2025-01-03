@@ -2285,6 +2285,25 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula a moda(valor que mais aparece neste Vector)
+    */
+    context.moda = function(){
+        return context.contabilizarFrequencias().maisAparece();
+    }
+
+    /**
+    * Calcula a moda(valor que mais aparece neste Vector)
+    */
+    context.maisAparece = context.moda;
+
+    /**
+    * Calcula valor que menos aparece neste Vector
+    */
+    context.menosAparece = function(){
+        return context.contabilizarFrequencias().menosAparece();
+    }
+
+    /**
     * Calcula a correlação deste Vectorization.Vector com a de outro Vectorization.Vector
     */
     context.correlationWith = function( outroVector ){
