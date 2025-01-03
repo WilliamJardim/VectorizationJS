@@ -869,6 +869,19 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Concatena duas matrizes 
+    */
+    context.concat = function( outraMatrix ){
+        let matrixAtualArray = context.clonar();
+
+        outraMatrix.paraCadaLinha(function(indiceLinha, vetorDaLinha){
+            matrixAtualArray.push( vetorDaLinha );
+        });
+
+        return matrixAtualArray;
+    }
+
+    /**
     * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
     * Pode ser usado para calcular médias móveis, desvio padrão movel, variancia movel, etc. 
     * 
@@ -894,6 +907,23 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
 
         if( quantidadeDeslizes == 0 ){
             throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser maior que zero!`;
+        }
+
+        //Preenche com zeros nos deslizes iniciais
+        let primeiroPosicaoQueVaiTerInicio = context.clonar().slice(0, quantidadeDeslizes);
+        let posicaoAtualDoInicio = 1;
+
+        for( let i = 0 ; i < primeiroPosicaoQueVaiTerInicio.linhas-1 ; i++ ){
+            let valoresColocarNessaIteracao = primeiroPosicaoQueVaiTerInicio.slice( 0, posicaoAtualDoInicio );
+            posicaoAtualDoInicio++;
+
+            let quantosFaltamNessaIteracao = Math.abs( valoresColocarNessaIteracao.raw().length - quantidadeDeslizes );
+
+            let arrayPreencher = Vectorization.Matrix( Array( quantosFaltamNessaIteracao )
+                                                       .fill( Array( primeiroPosicaoQueVaiTerInicio.raw()[0].length ).fill(0) ) )
+                                              .concat( valoresColocarNessaIteracao );
+
+            deslizesProntos.adicionarObjeto( arrayPreencher );
         }
 
         for( let i = iniciarEm ; i < context.linhas ; i++ ){

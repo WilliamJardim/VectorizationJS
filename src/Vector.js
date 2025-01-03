@@ -2386,6 +2386,15 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
         return Vectorization.Envelope(fatiasFeitas);
     }
+    
+    /**
+    * Concatena dois Vector(s), retornando um novo Vector contendo a junção desses dois.
+    * @param {Vectorization.Vector} outroVector 
+    * @returns {Vectorization.Vector}
+    */
+    context.concat = function( outroVector ){
+        return Vectorization.Vector( context.raw().concat( Vectorization.Vector.isVectorizationVector( outroVector ) ? outroVector.raw() : outroVector ), context.classConfig );
+    }
 
     /**
     * Cria varias "áreas deslizantes". Cada área vai ter <N> números.
@@ -2415,6 +2424,59 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             throw `O parametro 'quantidadeDeslizes' tem valor ${ quantidadeDeslizes }. Porém, ele precisa ser maior que zero!`;
         }
 
+        //Preenche com zeros nos deslizes iniciais
+        let primeiroPosicaoQueVaiTerInicio = context.clonar().slice(0, quantidadeDeslizes);
+        let posicaoAtualDoInicio = 1;
+
+        for( let i = 0 ; i < primeiroPosicaoQueVaiTerInicio.length-1 ; i++ ){
+            let valoresColocarNessaIteracao = primeiroPosicaoQueVaiTerInicio.slice( 0, posicaoAtualDoInicio );
+            posicaoAtualDoInicio++;
+
+            let quantosFaltamNessaIteracao = Math.abs( valoresColocarNessaIteracao.raw().length - quantidadeDeslizes );
+
+            let arrayPreencher = Vectorization.Vector( Array( quantosFaltamNessaIteracao ).fill(0) ).concat( valoresColocarNessaIteracao );
+
+            /* 
+            NOTAS DE DESENVOLVIMENTO 02/01/2025
+
+            TODO: Identificar quantos faltam para interar a quantidade de 'quantidadeDeslizes'
+            TODO: Ir preenchendo a direita os números que faltam
+            TODO EXEMPLO:
+            [
+                [0, 0, 0, 1]
+                [0, 0, 0, 2]
+                [0, 0, 0, 3]
+                [1, 2, 3, 4]
+                [2, 3, 4, 5]
+                [3, 4, 5, 6]
+                [4, 5, 6, 7]
+                [5, 6, 7, 8]
+                [6, 7, 8, 9]
+                [7, 8, 9, 10]
+                [8, 9, 10, 11]
+                [9, 10, 11, 12]
+                [10, 11, 12, 13]
+            ]
+            
+            BUGS:
+
+                AO INVEZ DE SER [0, 0, 0, 1]
+                                [0, 0, 0, 2]
+                                [0, 0, 0, 3]
+                                [.... etc]
+
+                PRECISARIA SER:
+                            [0, 0, 0, 1]
+                            [0, 0, 1, 2]
+                            [0, 1, 2, 3]
+                            [.... etc]
+            */
+            //arrayPreencher.definirElementoNoIndice( primeiroPosicaoQueVaiTerJanela.length-1, primeiroPosicaoQueVaiTerJanela[ 0+i ] );
+            
+            deslizesProntos.adicionarObjeto( arrayPreencher );
+        }
+
+        //Continua para os "delizes" que vão estar completos(que não vão faltar nenhuma amostra)
         for( let i = iniciarEm ; i < context.length ; i++ ){
 
             //Se a proxima iteração for ultrapassar os limites deste Vector, interompe, pois ja terminou
