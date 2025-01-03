@@ -2285,7 +2285,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         /**
         * Pega os elementos que mais aparecem neste Vectorization.Vector.
         * 
-        * @param {Number|String} quantidade - Os TOP N elementos que mais aparecem
+        * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que mais aparecem
+        * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+        * Para explicar melhor, as frequencias serão ordenadas do menor pro maior, e mais TOP N frequencias MAIS ALTAS serão selecionadas.
+        * 
         * @param {Number|String} limiar - (opcional) A frequencia especifica
         * 
         * @returns {Vectorization.Vector} - os elementos que mais aparecem
@@ -2340,6 +2343,68 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             }
 
             return Vectorization.Vector( elementosMaisAparecem );
+        }
+
+        /**
+        * Pega os elementos que MENOS aparecem neste Vectorization.Vector.
+        * 
+        * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que MENOS aparecem
+        * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+        * 
+        * @param {Number|String} limiar - (opcional) A frequencia especifica
+        * 
+        * @returns {Vectorization.Vector} - os elementos que MENOS aparecem
+        */
+        informacoesCopiadas.menosAparecem = function( quantidade='todos', limiar='media' ){
+            let contagens = informacoesCopiadas.obterContagens();
+            let mediaFrequencias = Vectorization.Vector( Object.values(contagens) ).media();
+            let chavesElementos = Object.keys(contagens);
+            let elementosMenosAparecem = [];
+            let frequenciasMenosAparecem = [];
+            let tabelaMenosAparecem = {};
+
+            for( let i = 0 ; i < chavesElementos.length ; i++ ){
+                const chaveElemento     = chavesElementos[i];
+                const frequenciElemento = contagens[ chaveElemento ];
+
+                if( limiar == 'media' ? (frequenciElemento < mediaFrequencias) 
+                                      : (typeof limiar == 'number' && frequenciElemento < limiar)
+
+                //Se bateu a condição
+                ){
+                    elementosMenosAparecem.push(chaveElemento);
+                    frequenciasMenosAparecem.push( frequenciElemento );
+                    tabelaMenosAparecem[ chaveElemento ] = frequenciElemento;
+                }
+            }
+
+            if(quantidade != 'todos' && typeof quantidade == 'number'){
+            
+                let frequenciasMenosAparecemOrdenada = Vectorization.Vector( frequenciasMenosAparecem , {usarEscalares: false})
+                                                                   //Ordena do menor pro maior
+                                                                   .ordenarDecrescente()
+                                                                   //Pega as TOP "quantidade" que MENOS aparecem
+                                                                   .ultimos( quantidade );
+
+                let elementosMenosAparecemOrdenado = [];
+
+                //Achar quem são os que tem essas TOP frequencias
+                for( let f = 0 ; f < frequenciasMenosAparecemOrdenada.length ; f++ ){
+
+                    const valorFreq = frequenciasMenosAparecemOrdenada.readIndex(f);
+
+                    //Pega todos os elementos que tenham a frequencia "valorFreq". Lembrando que pode ser mais de um, por isso eu filtro por TODOS
+                    const chavesFreq = elementosMenosAparecem.filter( ( nomeElemento, indiceElemento )=>{ return tabelaMenosAparecem[ nomeElemento ] == valorFreq } );
+
+                    elementosMenosAparecemOrdenado = elementosMenosAparecemOrdenado.concat(chavesFreq);
+                }
+
+                //Uso o "valoresUnicos" para poder remover os elementos repetidos
+                return Vectorization.Vector( elementosMenosAparecemOrdenado )
+                                    .valoresUnicos();
+            }
+
+            return Vectorization.Vector( elementosMenosAparecem );
         }
 
         informacoesCopiadas.atualizarContagem = function(novosDadosProcurar=null){
@@ -2413,7 +2478,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * Similar a moda, só que para vários elementos!
     * Pega os elementos que mais aparecem neste Vectorization.Vector.
     * 
-    * @param {Number|String} quantidade - Os TOP N elementos que mais aparecem
+    * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que mais aparecem
+    * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+    * 
     * @param {Number|String} limiar - (opcional) A frequencia especifica
     * 
     * @returns {Vectorization.Vector} - os elementos que mais aparecem
@@ -2427,6 +2494,22 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.menosAparece = function(){
         return context.contabilizarFrequencias().menosAparece();
+    }
+
+    /**
+    * Similar ao menosAparece, só que para vários elementos!
+    * Pega os elementos que MENOS aparecem neste Vectorization.Vector.
+    * 
+    * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que MENOS aparecem
+    * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+    * Para explicar melhor, as frequencias serão ordenadas do menor pro maior, e mais TOP N frequencias MAIS ALTAS serão selecionadas.
+    * 
+    * @param {Number|String} limiar - (opcional) A frequencia especifica
+    * 
+    * @returns {Vectorization.Vector} - os elementos que MENOS aparecem
+    */
+    context.menosAparecem = function( quantidade='todos', limiar='media' ){
+        return context.contabilizarFrequencias().menosAparecem(quantidade, limiar);
     }
 
     /**
