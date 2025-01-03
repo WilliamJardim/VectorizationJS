@@ -2158,6 +2158,23 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Pega os ultimos números deste Vectorization.Vector 
+    */
+    context.ultimos = function( qtdeElementos ){
+        if(!qtdeElementos){
+            throw Error('Voce precisa informar a quantidade de elementos!');
+        }
+
+        return context.clonar()
+                      .slice( Number(context.length - qtdeElementos), context.length )
+    }
+
+    /**
+    * Pega os ultimos números deste Vectorization.Vector 
+    */
+    context.obterUltimos = context.ultimos;
+
+    /**
      * Sub-classe auxiliar, para uso interno
      * Possui uma estrutura personalizada para armazenar frequencias
      * @param { Object{contextVinculado:Vectorization.Vector, calcular:Vectorization.Vector||Array} } dadosFrequencias
@@ -2265,11 +2282,21 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             return menosAparece;
         }
 
-        informacoesCopiadas.maisAparecem = function( quantidade=2, limiar='media' ){
+        /**
+        * Pega os elementos que mais aparecem neste Vectorization.Vector.
+        * 
+        * @param {Number|String} quantidade - Os TOP N elementos que mais aparecem
+        * @param {Number|String} limiar - (opcional) A frequencia especifica
+        * 
+        * @returns {Vectorization.Vector} - os elementos que mais aparecem
+        */
+        informacoesCopiadas.maisAparecem = function( quantidade='todos', limiar='media' ){
             let contagens = informacoesCopiadas.obterContagens();
             let mediaFrequencias = Vectorization.Vector( Object.values(contagens) ).media();
             let chavesElementos = Object.keys(contagens);
             let elementosMaisAparecem = [];
+            let frequenciasMaisAparecem = [];
+            let tabelaMaisAparecem = {};
 
             for( let i = 0 ; i < chavesElementos.length ; i++ ){
                 const chaveElemento     = chavesElementos[i];
@@ -2281,8 +2308,35 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                 //Se bateu a condição
                 ){
                     elementosMaisAparecem.push(chaveElemento);
+                    frequenciasMaisAparecem.push( frequenciElemento );
+                    tabelaMaisAparecem[ chaveElemento ] = frequenciElemento;
                 }
-                
+            }
+
+            if(quantidade != 'todos' && typeof quantidade == 'number'){
+            
+                let frequenciasMaisAparecemOrdenada = Vectorization.Vector( frequenciasMaisAparecem , {usarEscalares: false})
+                                                                   //Ordena do menor pro maior
+                                                                   .ordenarCrescente()
+                                                                   //Pega as TOP "quantidade" que mais aparecem
+                                                                   .ultimos( quantidade );
+
+                let elementosMaisAparecemOrdenado = [];
+
+                //Achar quem são os que tem essas TOP frequencias
+                for( let f = 0 ; f < frequenciasMaisAparecemOrdenada.length ; f++ ){
+
+                    const valorFreq = frequenciasMaisAparecemOrdenada.readIndex(f);
+
+                    //Pega todos os elementos que tenham a frequencia "valorFreq". Lembrando que pode ser mais de um, por isso eu filtro por TODOS
+                    const chavesFreq = elementosMaisAparecem.filter( ( nomeElemento, indiceElemento )=>{ return tabelaMaisAparecem[ nomeElemento ] == valorFreq } );
+
+                    elementosMaisAparecemOrdenado = elementosMaisAparecemOrdenado.concat(chavesFreq);
+                }
+
+                //Uso o "valoresUnicos" para poder remover os elementos repetidos
+                return Vectorization.Vector( elementosMaisAparecemOrdenado )
+                                    .valoresUnicos();
             }
 
             return Vectorization.Vector( elementosMaisAparecem );
@@ -2356,9 +2410,15 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.maisAparece = context.moda;
 
     /**
-    * Calcula a moda(valor que mais aparece neste Vector)
+    * Similar a moda, só que para vários elementos!
+    * Pega os elementos que mais aparecem neste Vectorization.Vector.
+    * 
+    * @param {Number|String} quantidade - Os TOP N elementos que mais aparecem
+    * @param {Number|String} limiar - (opcional) A frequencia especifica
+    * 
+    * @returns {Vectorization.Vector} - os elementos que mais aparecem
     */
-    context.maisAparecem = function( quantidade=2, limiar='media' ){
+    context.maisAparecem = function( quantidade='todos', limiar='media' ){
         return context.contabilizarFrequencias().maisAparecem(quantidade, limiar);
     }
 
