@@ -399,7 +399,10 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
         }
 
-        context.content.push(element);
+                              //Se está usando escalares, e se o objeto 'element' não é um Scalar, converte para Scalar
+        context.content.push( context.usarEscalares == true && !Vectorization.Scalar.isVectorizationScalar(element) ? Vectorization.Scalar(element) 
+                                                                                                                    //Agora caso não use escalares o 'element' vai ser um númerio, ou então caso o 'element' ja seja um scalar, mantém ele como scalar.
+                                                                                                                    : element );
         context._update();
     }
     context.adicionarElemento = context.push;
