@@ -399,10 +399,20 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
         }
 
-                              //Se está usando escalares, e se o objeto 'element' não é um Scalar, converte para Scalar
-        context.content.push( context.usarEscalares == true && !Vectorization.Scalar.isVectorizationScalar(element) ? Vectorization.Scalar(element) 
-                                                                                                                    //Agora caso não use escalares o 'element' vai ser um númerio, ou então caso o 'element' ja seja um scalar, mantém ele como scalar.
-                                                                                                                    : element );
+        //Se este Vector está usando escalares, e se o objeto 'element' não é um Scalar, converte para Scalar
+        if( context.usarEscalares == true ){
+            context.content.push( !Vectorization.Scalar.isVectorizationScalar(element) ? Vectorization.Scalar(element) 
+                                                                                       //Ou então caso o 'element' ja seja um scalar, mantém ele como scalar.
+                                                                                       : element );
+
+        //Caso este Vector não use escalares
+        }else if( context.usarEscalares == false ){
+                                 //Se ele ja for um número normal, mantem como está
+            context.content.push( !Vectorization.Scalar.isVectorizationScalar(element) ? element
+                                                                                       //Agora caso ele seja um Scalar e este Vector não usa escalares, ele converte para número normal
+                                                                                       : element.raw() );
+        }
+
         context._update();
     }
     context.adicionarElemento = context.push;
