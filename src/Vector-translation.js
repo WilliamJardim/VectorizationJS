@@ -99,7 +99,10 @@ window.Vectorization.Vector._translations = function(){
         "ordemCrescente": "ordenarCrescente",
         "ordemDecrescente": "ordenarDecrescente",
         "isOrdemCrescente": "isOrdenadoCrescente",
-        "isOrdemDecrescente": "isOrdenadoDecrescente"
+        "isOrdemDecrescente": "isOrdenadoDecrescente",
+
+        "contarFrequencias": "contabilizarFrequencias",
+        "frequencias": "contabilizarFrequencias"
     };
 
     const translatedAttributes = {
