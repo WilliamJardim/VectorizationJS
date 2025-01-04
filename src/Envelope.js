@@ -58,7 +58,7 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
         const objetos = context.arrayObjetos;
 
         //um contexto manipulavel que não roda nos objetos do Envelope, mais sim no própio Envelope em si, podendo manipular seus atributos e objetos armazenados de forma independente do propio Envelope
-        return {
+        return Vectorization.Base({
 
             contextEnvelope: context,
 
@@ -90,7 +90,7 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
                 this.contextEnvelope.arrayObjetos = novoArrayObjetos;
             }
 
-        }
+        });
     }
     context.getSeparatedContext = context.separatedContext;
     context.internalContext = context.separatedContext;
