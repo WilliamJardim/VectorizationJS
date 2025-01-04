@@ -849,7 +849,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.distinct = function(){
         const valoresJaVistos = {};
-        const valoresUnicos = Vectorization.Vector([]);
+        const valoresUnicos = Vectorization.Vector([], context._config);
 
         context.forEach(function(indice, valor){
             const identificador = String(valor);
@@ -1117,7 +1117,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector}
     */
     context.getValoresArredondados = function(tipoArredondamentoAplicar='cima'){
-        let novoVetorArredondado = Vectorization.Vector( context.duplicar() );
+        let novoVetorArredondado = Vectorization.Vector( context.duplicar(), context._config );
 
         //Se o programador quiser arredondar
         if( tipoArredondamentoAplicar != undefined ){
@@ -1193,7 +1193,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
     */
     context.acrescentarVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
@@ -1217,7 +1217,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
     */
     context.juntarComOutroVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         let novoVetorASerAcrescentado_VectorFinal = contextoEsteVetor.duplicar();
@@ -1240,7 +1240,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
     */
     context.acrescentarNoInicioVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
@@ -1282,7 +1282,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
     */
     context.juntarComOutroVetorNoInicio = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado.duplicar() : Vectorization.Vector(novoVetorASerAcrescentado).duplicar(); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado.duplicar() : Vectorization.Vector(novoVetorASerAcrescentado, context._config).duplicar(); 
         let contextoEsteVetorDuplicado = context.duplicar();
 
         Vectorization.Vector({
@@ -1388,7 +1388,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push(produtoAtual);
         }
     
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -1415,7 +1415,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push( vectorA[i] * vectorB[i] );
         }
 
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -1433,7 +1433,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push( vectorA[i] * numero );
         }
 
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -1508,7 +1508,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] + vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1526,7 +1526,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] + numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1577,7 +1577,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] - vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1594,7 +1594,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] - numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1645,7 +1645,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] / vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1663,7 +1663,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] / numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1680,7 +1680,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.pow(vectorA[i], numero);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1707,7 +1707,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.pow(vectorA[i], vectorB[i]);
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1746,7 +1746,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = context.content[i] * -1;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1761,7 +1761,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.abs(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1784,7 +1784,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.sqrt(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1799,7 +1799,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.log2(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -1814,7 +1814,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.log10(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     context.removerApenasUm = function(elementoRemover){
@@ -1990,7 +1990,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             });
         })
 
-        return Vectorization.Vector(listaResultadoDivisao);
+        return Vectorization.Vector(listaResultadoDivisao, context._config);
     }
     context.split = context.dividirEmPartes;
 
