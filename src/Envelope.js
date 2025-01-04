@@ -61,16 +61,29 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
         return {
 
             contextEnvelope: context,
+
             path: 'Envelope.SeparatedContext',
             objectName: 'EnvelopeSeparatedContext',
             arrayObjetos: objetos,
             
             lerIndice: function( indice ){
-                return this.arrayObjetos[indice];
+                return this.contextEnvelope.arrayObjetos[indice];
             },
 
             adicionarElemento: function( obj ){
                 this.contextEnvelope.adicionarObjeto(obj);
+            },
+
+            getArrayObjetos: function(){
+                return this.contextEnvelope.arrayObjetos;
+            },
+
+            getEnvelope: function(){
+                return this.contextEnvelope;
+            },
+
+            getObjetos: function(){
+                return Vectorization.Envelope( this.contextEnvelope.arrayObjetos );
             }
 
         }
@@ -78,6 +91,9 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
     context.getSeparatedContext = context.separatedContext;
     context.internalContext = context.separatedContext;
     context.getInternalContext = context.separatedContext;
+    context.separated = context.separatedContext;
+    context.it = context.separatedContext;
+    context.getIt = context.separatedContext;
 
     context.raw = function(){
         return context.arrayObjetos;
