@@ -1948,10 +1948,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         let tamanhosAproximados = Math.round( esteVetorCopiado.elementos / numeroPartesDividir );
         let ondeParou = 0;
 
-        let listaResultadoDivisao = Vectorization.Vector({
-            valorPreencher: Vectorization.Vector([]),
-            elementos: numeroPartesDividir
-        });
+        //Inicia um Envelope contendo "numeroPartesDividir" Vector(s)
+        let listaResultadoDivisao = Vectorization.Envelope( Array(numeroPartesDividir).fill(null)
+                                                                                      .map(()=>{ 
+                                                                                         return Vectorization.Vector([]) 
+                                                                                       }) );
 
         Vectorization.Vector({
             valorPreencher: tamanhosAproximados,
@@ -1969,7 +1970,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
                 if( jaTerminouEste == false && (ondeParou == 0 || iElemento > ondeParou) && quantosJaColocou <= (tamanhoParte-1) )
                 {
-                    listaResultadoDivisao.lerIndice(iParte)
+                    //Adiciona ao envelope
+                    listaResultadoDivisao.getSeparatedContext()
+                                         .lerIndice(iParte)
                                          .adicionarElemento(elementoAtual);
 
                     ondeParou = iElemento;
@@ -1990,7 +1993,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             });
         })
 
-        return Vectorization.Vector(listaResultadoDivisao, context._config);
+        //Retorna o Envelope
+        return listaResultadoDivisao;
     }
     context.split = context.dividirEmPartes;
 

@@ -101,6 +101,8 @@ window.Vectorization.Vector._translations = function(){
         "isOrdemCrescente": "isOrdenadoCrescente",
         "isOrdemDecrescente": "isOrdenadoDecrescente",
 
+        "subdividir": "dividirEmPartes",
+
         "contarFrequencias": "contabilizarFrequencias",
         "frequencias": "contabilizarFrequencias"
     };

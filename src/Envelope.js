@@ -50,6 +50,35 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
         context.arrayObjetos.push( objeto );
     }
 
+    /**
+    * Cria um contexto separado do contexto do Envelope, para permitir executar métodos dentro do Envelope em si, e não dentro dos objetos dele
+    * @returns {Envelope.SeparatedContext}
+    */
+    context.separatedContext = function(){
+        const objetos = context.arrayObjetos;
+
+        //um contexto manipulavel que não roda no Envelope
+        return {
+
+            contextEnvelope: context,
+            path: 'Envelope.SeparatedContext',
+            objectName: 'EnvelopeSeparatedContext',
+            arrayObjetos: objetos,
+            
+            lerIndice: function( indice ){
+                return this.arrayObjetos[indice];
+            },
+
+            adicionarElemento: function( obj ){
+                this.contextEnvelope.adicionarObjeto(obj);
+            }
+
+        }
+    }
+    context.getSeparatedContext = context.separatedContext;
+    context.internalContext = context.separatedContext;
+    context.getInternalContext = context.separatedContext;
+
     context.raw = function(){
         return context.arrayObjetos;
     }
