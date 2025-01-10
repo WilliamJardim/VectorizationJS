@@ -890,7 +890,7 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     * 
     * @returns {Vectorization.Envelope}
     */
-    context.deslizes = function( quantidadeDeslizes=4, iniciarEm=0 ){
+    context.deslizes = function( quantidadeDeslizes=4, incluirIncompletos=false, iniciarEm=0 ){
         let deslizesProntos = Vectorization.Envelope([]);
 
         if( String(quantidadeDeslizes).indexOf('.') != -1 ){
@@ -910,20 +910,23 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
         }
 
         //Preenche com zeros nos deslizes iniciais
-        let primeiroPosicaoQueVaiTerInicio = context.clonar().slice(0, quantidadeDeslizes);
-        let posicaoAtualDoInicio = 1;
+        if( incluirIncompletos == true )
+        {
+            let primeiroPosicaoQueVaiTerInicio = context.clonar().slice(0, quantidadeDeslizes);
+            let posicaoAtualDoInicio = 1;
 
-        for( let i = 0 ; i < primeiroPosicaoQueVaiTerInicio.linhas-1 ; i++ ){
-            let valoresColocarNessaIteracao = primeiroPosicaoQueVaiTerInicio.slice( 0, posicaoAtualDoInicio );
-            posicaoAtualDoInicio++;
+            for( let i = 0 ; i < primeiroPosicaoQueVaiTerInicio.linhas-1 ; i++ ){
+                let valoresColocarNessaIteracao = primeiroPosicaoQueVaiTerInicio.slice( 0, posicaoAtualDoInicio );
+                posicaoAtualDoInicio++;
 
-            let quantosFaltamNessaIteracao = Math.abs( valoresColocarNessaIteracao.raw().length - quantidadeDeslizes );
+                let quantosFaltamNessaIteracao = Math.abs( valoresColocarNessaIteracao.raw().length - quantidadeDeslizes );
 
-            let arrayPreencher = Vectorization.Matrix( Array( quantosFaltamNessaIteracao )
-                                                       .fill( Array( primeiroPosicaoQueVaiTerInicio.raw()[0].length ).fill(0) ) )
-                                              .concat( valoresColocarNessaIteracao );
+                let arrayPreencher = Vectorization.Matrix( Array( quantosFaltamNessaIteracao )
+                                                        .fill( Array( primeiroPosicaoQueVaiTerInicio.raw()[0].length ).fill(0) ) )
+                                                .concat( valoresColocarNessaIteracao );
 
-            deslizesProntos.adicionarObjeto( arrayPreencher );
+                deslizesProntos.adicionarObjeto( arrayPreencher );
+            }
         }
 
         for( let i = iniciarEm ; i < context.linhas ; i++ ){
