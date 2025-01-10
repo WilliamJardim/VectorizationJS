@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 2/1/2025 - 22:55:02*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 10/1/2025 - 13:11:39*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -1800,7 +1800,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVector.push( context.readIndex(i) );
         }
 
-        return Vectorization.Vector(novoVector);
+        //Adicionei para ele copiar o config também
+        return Vectorization.Vector(novoVector, {...JSON.parse(JSON.stringify(context._config))} );
     }
 
     //Alias for duplicar
@@ -1824,7 +1825,20 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             throw 'Este Vectorization.Vector está bloqueado para novas gravações!';
         }
 
-        context.content.push(element);
+        //Se este Vector está usando escalares, e se o objeto 'element' não é um Scalar, converte para Scalar
+        if( context.usarEscalares == true ){
+            context.content.push( !Vectorization.Scalar.isVectorizationScalar(element) ? Vectorization.Scalar(element) 
+                                                                                       //Ou então caso o 'element' ja seja um scalar, mantém ele como scalar.
+                                                                                       : element );
+
+        //Caso este Vector não use escalares
+        }else if( context.usarEscalares == false ){
+                                 //Se ele ja for um número normal, mantem como está
+            context.content.push( !Vectorization.Scalar.isVectorizationScalar(element) ? element
+                                                                                       //Agora caso ele seja um Scalar e este Vector não usa escalares, ele converte para número normal
+                                                                                       : element.raw() );
+        }
+
         context._update();
     }
     context.adicionarElemento = context.push;
@@ -1930,6 +1944,43 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     context.media = function(){
         return context.mean();
     }
+
+    /**
+    * Calcula a mediana 
+    * Ou seja, o valor do meio deste Vectorization.Vector quando ordenado em ordem crescente
+    */
+    context.mediana = function(){
+        const valorDoMeio = Math.floor(context.length/2);
+        const quantidadeIsImpar = context.length % 2 != 0;
+        const quatidadeIsPar    = !quantidadeIsImpar;
+
+        //Se tiver apenas um valor central
+        if( quantidadeIsImpar == true ) {
+            return context.ordenarCrescente()
+                          .lerIndice( valorDoMeio );
+
+        //Se tiver mais DOIS VALORES central
+        }else if( quatidadeIsPar == true ){
+
+            // Calcula a media dos dois valores centrais
+            const valor1 = context.ordenarCrescente()
+                                  .lerIndice(valorDoMeio - 1);
+
+            const valor2 = context.ordenarCrescente()
+                                  .lerIndice(valorDoMeio);
+
+            const mediaDeles = (valor1 + valor2) / 2
+
+            return mediaDeles;
+        }
+        
+    }
+
+    /**
+    * Calcula a mediana 
+    * Ou seja, o valor do meio deste Vectorization.Vector quando ordenado em ordem crescente
+    */
+    context.median = context.mediana;
 
     /**
     * Verifica se todos os elementos deste vetor são "true"
@@ -2261,7 +2312,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     */
     context.distinct = function(){
         const valoresJaVistos = {};
-        const valoresUnicos = Vectorization.Vector([]);
+        const valoresUnicos = Vectorization.Vector([], context._config);
 
         context.forEach(function(indice, valor){
             const identificador = String(valor);
@@ -2529,7 +2580,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector}
     */
     context.getValoresArredondados = function(tipoArredondamentoAplicar='cima'){
-        let novoVetorArredondado = Vectorization.Vector( context.duplicar() );
+        let novoVetorArredondado = Vectorization.Vector( context.duplicar(), context._config );
 
         //Se o programador quiser arredondar
         if( tipoArredondamentoAplicar != undefined ){
@@ -2605,7 +2656,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
     */
     context.acrescentarVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
@@ -2629,7 +2680,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
     */
     context.juntarComOutroVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         let novoVetorASerAcrescentado_VectorFinal = contextoEsteVetor.duplicar();
@@ -2652,7 +2703,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Este propio Vectorization.Vector sobrescrito(CUIDADO!)
     */
     context.acrescentarNoInicioVetor = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado : Vectorization.Vector(novoVetorASerAcrescentado, context._config); 
         let contextoEsteVetor = context;
 
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Vector
@@ -2694,7 +2745,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - Um novo Vectorization.Vector
     */
     context.juntarComOutroVetorNoInicio = function(novoVetorASerAcrescentado){
-        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado.duplicar() : Vectorization.Vector(novoVetorASerAcrescentado).duplicar(); 
+        let novoVetorASerAcrescentado_Vector = Vectorization.Vector.isVectorizationVector(novoVetorASerAcrescentado) ? novoVetorASerAcrescentado.duplicar() : Vectorization.Vector(novoVetorASerAcrescentado, context._config).duplicar(); 
         let contextoEsteVetorDuplicado = context.duplicar();
 
         Vectorization.Vector({
@@ -2800,7 +2851,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push(produtoAtual);
         }
     
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -2827,7 +2878,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push( vectorA[i] * vectorB[i] );
         }
 
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -2845,7 +2896,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             vetorResultado.push( vectorA[i] * numero );
         }
 
-        return Vectorization.Vector(vetorResultado);
+        return Vectorization.Vector(vetorResultado, context._config);
     }
 
     /**
@@ -2920,7 +2971,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] + vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -2938,7 +2989,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] + numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -2989,7 +3040,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] - vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3006,7 +3057,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] - numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3057,7 +3108,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] / vectorB[i];
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3075,7 +3126,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = vectorA[i] / numero;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3092,7 +3143,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.pow(vectorA[i], numero);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3119,7 +3170,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.pow(vectorA[i], vectorB[i]);
         }
     
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3158,7 +3209,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = context.content[i] * -1;
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3173,7 +3224,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.abs(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3196,7 +3247,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.sqrt(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3211,7 +3262,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.log2(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     /**
@@ -3226,20 +3277,31 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             novoVetor[i] = Math.log10(context.content[i]);
         }
 
-        return Vectorization.Vector(novoVetor);
+        return Vectorization.Vector(novoVetor, context._config);
     }
 
     context.removerApenasUm = function(elementoRemover){
-        let novoVectorRetirado = Vectorization.Vector([]);
+        let novoVectorRetirado = Vectorization.Vector([], context._config);
         let vetorPercorrer = context.duplicar();
         let jaFoi = false;
 
         vetorPercorrer.paraCadaElemento(function(i, elementoVetor){
-            if( jaFoi == false && elementoVetor == elementoRemover){
+            if( jaFoi == false && 
+                (
+                    //Se estiver usando escalares for true, ele precisa usar o raw pra conseguir acessar o valor
+                    context.usarEscalares == true ? (elementoVetor.raw() == elementoRemover.raw()) 
+                                                  //Caso contrario, se ja for um numero mesmo, ele faz do jeito que estava mesmo
+                                                  : (elementoVetor == elementoRemover)
+                                                    
+                )
+            
+            ){
+                
                 jaFoi = true;
 
             }else{
-                novoVectorRetirado.adicionarElemento(elementoVetor);
+                novoVectorRetirado.adicionarElemento( context.usarEscalares == true && !Vectorization.Scalar.isVectorizationScalar( elementoVetor ) ? Vectorization.Scalar(elementoVetor) 
+                                                                                                                                                    : elementoVetor );
             }
         });
 
@@ -3252,7 +3314,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - um novo Vectorization.Vector ordenado
     */
     context.ordenarCrescente = function(){
-        let novoVectorOrdenado = Vectorization.Vector([]);
+        let novoVectorOrdenado = Vectorization.Vector([], context._config);
         let vetorPercorrer = context.duplicar();
         let vetorTrabalhando = vetorPercorrer.duplicar();
 
@@ -3262,8 +3324,19 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     
             let jaFoiAPrimeira = false;
             vetorTrabalhando.paraCadaElemento(function(i, elementoVetor){
-                if( jaFoiAPrimeira == false && elementoVetor == valorMinimoVetorTrabalhando ){
-                    novoVectorOrdenado.adicionarElemento( elementoVetor );
+
+                if( jaFoiAPrimeira == false && 
+                    (
+                        //Se estiver usando escalares for true, ele precisa usar o raw pra conseguir acessar o valor
+                        context.usarEscalares == true ? (elementoVetor.raw() == valorMinimoVetorTrabalhando.raw()) 
+                                                      //Caso não esteja, pode continuar como antes
+                                                      : (elementoVetor == valorMinimoVetorTrabalhando)
+
+                    )
+                
+                ){
+                    novoVectorOrdenado.adicionarElemento( context.usarEscalares == true && !Vectorization.Scalar.isVectorizationScalar( elementoVetor ) ? Vectorization.Scalar(elementoVetor) 
+                                                                                                                                                        : elementoVetor );
                     jaFoiAPrimeira = true;
 
                     //Vai parar o loop do elementoVetor
@@ -3271,6 +3344,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
                         acao: 'parar_loop'
                     }
                 }
+
             })
 
             //Substitui o vetorTrabalhando
@@ -3286,7 +3360,7 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     * @returns {Vectorization.Vector} - um novo Vectorization.Vector ordenado
     */
     context.ordenarDecrescente = function(){
-        let novoVectorOrdenado = Vectorization.Vector([]);
+        let novoVectorOrdenado = Vectorization.Vector([], context._config);
         let vetorPercorrer = context.duplicar();
         let vetorTrabalhando = vetorPercorrer.duplicar();
 
@@ -3296,15 +3370,27 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     
             let jaFoiAPrimeira = false;
             vetorTrabalhando.paraCadaElemento(function(i, elementoVetor){
-                if( jaFoiAPrimeira == false && elementoVetor == valorMaximoVetorTrabalhando ){
-                    novoVectorOrdenado.adicionarElemento( elementoVetor );
-                    jaFoiAPrimeira = true;
+
+                if( jaFoiAPrimeira == false && 
+                    (
+                        //Se estiver usando escalares for true, ele precisa usar o raw pra conseguir pegar o valor
+                        context.usarEscalares == true ? (elementoVetor.raw() == valorMaximoVetorTrabalhando.raw())
+                                                      //Caso não esteja, pode continuar como antes
+                                                      : (elementoVetor == valorMaximoVetorTrabalhando)
+                        
+                    )
+
+                ){
+                    novoVectorOrdenado.adicionarElemento( context.usarEscalares == true && !Vectorization.Scalar.isVectorizationScalar( elementoVetor ) ? Vectorization.Scalar(elementoVetor) 
+                                                                                                                                                        : elementoVetor );
+                    jaFoiAPrimeira = true; 
 
                     //Vai parar o loop do elementoVetor
                     return {
                         acao: 'parar_loop'
                     }
                 }
+
             })
 
             //Substitui o vetorTrabalhando
@@ -3325,10 +3411,11 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         let tamanhosAproximados = Math.round( esteVetorCopiado.elementos / numeroPartesDividir );
         let ondeParou = 0;
 
-        let listaResultadoDivisao = Vectorization.Vector({
-            valorPreencher: Vectorization.Vector([]),
-            elementos: numeroPartesDividir
-        });
+        //Inicia um Envelope contendo "numeroPartesDividir" Vector(s)
+        let listaResultadoDivisao = Vectorization.Envelope( Array(numeroPartesDividir).fill(null)
+                                                                                      .map(()=>{ 
+                                                                                         return Vectorization.Vector([]) 
+                                                                                       }) );
 
         Vectorization.Vector({
             valorPreencher: tamanhosAproximados,
@@ -3346,7 +3433,9 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
 
                 if( jaTerminouEste == false && (ondeParou == 0 || iElemento > ondeParou) && quantosJaColocou <= (tamanhoParte-1) )
                 {
-                    listaResultadoDivisao.lerIndice(iParte)
+                    //Adiciona ao envelope
+                    listaResultadoDivisao.getSeparatedContext()
+                                         .lerIndice(iParte)
                                          .adicionarElemento(elementoAtual);
 
                     ondeParou = iElemento;
@@ -3367,7 +3456,8 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             });
         })
 
-        return Vectorization.Vector(listaResultadoDivisao);
+        //Retorna o Envelope
+        return listaResultadoDivisao;
     }
     context.split = context.dividirEmPartes;
 
@@ -3548,6 +3638,23 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Pega os ultimos números deste Vectorization.Vector 
+    */
+    context.ultimos = function( qtdeElementos ){
+        if(!qtdeElementos){
+            throw Error('Voce precisa informar a quantidade de elementos!');
+        }
+
+        return context.clonar()
+                      .slice( Number(context.length - qtdeElementos), context.length )
+    }
+
+    /**
+    * Pega os ultimos números deste Vectorization.Vector 
+    */
+    context.obterUltimos = context.ultimos;
+
+    /**
      * Sub-classe auxiliar, para uso interno
      * Possui uma estrutura personalizada para armazenar frequencias
      * @param { Object{contextVinculado:Vectorization.Vector, calcular:Vectorization.Vector||Array} } dadosFrequencias
@@ -3655,6 +3762,131 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
             return menosAparece;
         }
 
+        /**
+        * Pega os elementos que mais aparecem neste Vectorization.Vector.
+        * 
+        * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que mais aparecem
+        * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+        * Para explicar melhor, as frequencias serão ordenadas do menor pro maior, e mais TOP N frequencias MAIS ALTAS serão selecionadas.
+        * 
+        * @param {Number|String} limiar - (opcional) A frequencia especifica
+        * 
+        * @returns {Vectorization.Vector} - os elementos que mais aparecem
+        */
+        informacoesCopiadas.maisAparecem = function( quantidade='todos', limiar='media' ){
+            let contagens = informacoesCopiadas.obterContagens();
+            let mediaFrequencias = Vectorization.Vector( Object.values(contagens) ).media();
+            let chavesElementos = Object.keys(contagens);
+            let elementosMaisAparecem = [];
+            let frequenciasMaisAparecem = [];
+            let tabelaMaisAparecem = {};
+
+            for( let i = 0 ; i < chavesElementos.length ; i++ ){
+                const chaveElemento     = chavesElementos[i];
+                const frequenciElemento = contagens[ chaveElemento ];
+
+                if( limiar == 'media' ? (frequenciElemento > mediaFrequencias) 
+                                      : (typeof limiar == 'number' && frequenciElemento > limiar)
+
+                //Se bateu a condição
+                ){
+                    elementosMaisAparecem.push(chaveElemento);
+                    frequenciasMaisAparecem.push( frequenciElemento );
+                    tabelaMaisAparecem[ chaveElemento ] = frequenciElemento;
+                }
+            }
+
+            if(quantidade != 'todos' && typeof quantidade == 'number'){
+            
+                let frequenciasMaisAparecemOrdenada = Vectorization.Vector( frequenciasMaisAparecem , {usarEscalares: false})
+                                                                   //Ordena do menor pro maior
+                                                                   .ordenarCrescente()
+                                                                   //Pega as TOP "quantidade" que mais aparecem
+                                                                   .ultimos( quantidade );
+
+                let elementosMaisAparecemOrdenado = [];
+
+                //Achar quem são os que tem essas TOP frequencias
+                for( let f = 0 ; f < frequenciasMaisAparecemOrdenada.length ; f++ ){
+
+                    const valorFreq = frequenciasMaisAparecemOrdenada.readIndex(f);
+
+                    //Pega todos os elementos que tenham a frequencia "valorFreq". Lembrando que pode ser mais de um, por isso eu filtro por TODOS
+                    const chavesFreq = elementosMaisAparecem.filter( ( nomeElemento, indiceElemento )=>{ return tabelaMaisAparecem[ nomeElemento ] == valorFreq } );
+
+                    elementosMaisAparecemOrdenado = elementosMaisAparecemOrdenado.concat(chavesFreq);
+                }
+
+                //Uso o "valoresUnicos" para poder remover os elementos repetidos
+                return Vectorization.Vector( elementosMaisAparecemOrdenado )
+                                    .valoresUnicos();
+            }
+
+            return Vectorization.Vector( elementosMaisAparecem );
+        }
+
+        /**
+        * Pega os elementos que MENOS aparecem neste Vectorization.Vector.
+        * 
+        * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que MENOS aparecem
+        * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+        * 
+        * @param {Number|String} limiar - (opcional) A frequencia especifica
+        * 
+        * @returns {Vectorization.Vector} - os elementos que MENOS aparecem
+        */
+        informacoesCopiadas.menosAparecem = function( quantidade='todos', limiar='media' ){
+            let contagens = informacoesCopiadas.obterContagens();
+            let mediaFrequencias = Vectorization.Vector( Object.values(contagens) ).media();
+            let chavesElementos = Object.keys(contagens);
+            let elementosMenosAparecem = [];
+            let frequenciasMenosAparecem = [];
+            let tabelaMenosAparecem = {};
+
+            for( let i = 0 ; i < chavesElementos.length ; i++ ){
+                const chaveElemento     = chavesElementos[i];
+                const frequenciElemento = contagens[ chaveElemento ];
+
+                if( limiar == 'media' ? (frequenciElemento < mediaFrequencias) 
+                                      : (typeof limiar == 'number' && frequenciElemento < limiar)
+
+                //Se bateu a condição
+                ){
+                    elementosMenosAparecem.push(chaveElemento);
+                    frequenciasMenosAparecem.push( frequenciElemento );
+                    tabelaMenosAparecem[ chaveElemento ] = frequenciElemento;
+                }
+            }
+
+            if(quantidade != 'todos' && typeof quantidade == 'number'){
+            
+                let frequenciasMenosAparecemOrdenada = Vectorization.Vector( frequenciasMenosAparecem , {usarEscalares: false})
+                                                                   //Ordena do menor pro maior
+                                                                   .ordenarDecrescente()
+                                                                   //Pega as TOP "quantidade" que MENOS aparecem
+                                                                   .ultimos( quantidade );
+
+                let elementosMenosAparecemOrdenado = [];
+
+                //Achar quem são os que tem essas TOP frequencias
+                for( let f = 0 ; f < frequenciasMenosAparecemOrdenada.length ; f++ ){
+
+                    const valorFreq = frequenciasMenosAparecemOrdenada.readIndex(f);
+
+                    //Pega todos os elementos que tenham a frequencia "valorFreq". Lembrando que pode ser mais de um, por isso eu filtro por TODOS
+                    const chavesFreq = elementosMenosAparecem.filter( ( nomeElemento, indiceElemento )=>{ return tabelaMenosAparecem[ nomeElemento ] == valorFreq } );
+
+                    elementosMenosAparecemOrdenado = elementosMenosAparecemOrdenado.concat(chavesFreq);
+                }
+
+                //Uso o "valoresUnicos" para poder remover os elementos repetidos
+                return Vectorization.Vector( elementosMenosAparecemOrdenado )
+                                    .valoresUnicos();
+            }
+
+            return Vectorization.Vector( elementosMenosAparecem );
+        }
+
         informacoesCopiadas.atualizarContagem = function(novosDadosProcurar=null){
             context_informacoesCopiadas.tabelaFrequencias = {};
 
@@ -3708,6 +3940,56 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
         });
 
         return frequenciaComputada;
+    }
+
+    /**
+    * Calcula a moda(valor que mais aparece neste Vector)
+    */
+    context.moda = function(){
+        return context.contabilizarFrequencias().maisAparece();
+    }
+
+    /**
+    * Calcula a moda(valor que mais aparece neste Vector)
+    */
+    context.maisAparece = context.moda;
+
+    /**
+    * Similar a moda, só que para vários elementos!
+    * Pega os elementos que mais aparecem neste Vectorization.Vector.
+    * 
+    * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que mais aparecem
+    * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+    * 
+    * @param {Number|String} limiar - (opcional) A frequencia especifica
+    * 
+    * @returns {Vectorization.Vector} - os elementos que mais aparecem
+    */
+    context.maisAparecem = function( quantidade='todos', limiar='media' ){
+        return context.contabilizarFrequencias().maisAparecem(quantidade, limiar);
+    }
+
+    /**
+    * Calcula valor que menos aparece neste Vector
+    */
+    context.menosAparece = function(){
+        return context.contabilizarFrequencias().menosAparece();
+    }
+
+    /**
+    * Similar ao menosAparece, só que para vários elementos!
+    * Pega os elementos que MENOS aparecem neste Vectorization.Vector.
+    * 
+    * @param {Number|String} quantidade - Os TOP N frequencias dos elementos que MENOS aparecem
+    * Isso não significa necessariamente que o resultado vai ter essa quantidade de elementos, mais apenas que, ele vai considerar apenas as TOP N frequencias para procurar pelos elementos.
+    * Para explicar melhor, as frequencias serão ordenadas do menor pro maior, e mais TOP N frequencias MAIS ALTAS serão selecionadas.
+    * 
+    * @param {Number|String} limiar - (opcional) A frequencia especifica
+    * 
+    * @returns {Vectorization.Vector} - os elementos que MENOS aparecem
+    */
+    context.menosAparecem = function( quantidade='todos', limiar='media' ){
+        return context.contabilizarFrequencias().menosAparecem(quantidade, limiar);
     }
 
     /**
@@ -4180,7 +4462,12 @@ window.Vectorization.Vector._translations = function(){
         "ordemCrescente": "ordenarCrescente",
         "ordemDecrescente": "ordenarDecrescente",
         "isOrdemCrescente": "isOrdenadoCrescente",
-        "isOrdemDecrescente": "isOrdenadoDecrescente"
+        "isOrdemDecrescente": "isOrdenadoDecrescente",
+
+        "subdividir": "dividirEmPartes",
+
+        "contarFrequencias": "contabilizarFrequencias",
+        "frequencias": "contabilizarFrequencias"
     };
 
     const translatedAttributes = {
@@ -7073,6 +7360,61 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Calcula a média de cada Vectorization.Vector desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.mediaLinhas = function(){
+        let vetorResultado = Vectorization.Vector([]);
+
+        context.paraCadaLinha(function(indiceLinha, vetorDaLinha){
+            const isVectorizationVector = Vectorization.Vector.isVectorizationVector(vetorDaLinha) == true ||
+                                          Vectorization.BendableVector.isVectorizationBendableVector(vetorDaLinha) == true;
+
+                                                                           //Se ja for um Vectorization.Vector 
+            vetorResultado.adicionarElemento( isVectorizationVector == true ? vetorDaLinha.media() 
+                                                                            //AGORA CASO SEJA UM ARRAY NORMAL, converte para Vectorization.Vector
+                                                                            : Vectorization.Vector(vetorDaLinha).media() );
+        });
+
+        return vetorResultado;
+    }
+
+    /**
+    * Calcula a média de cada Vectorization.Vector desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.lineMean = context.mediaLinhas;
+
+    /**
+    * Calcula a média de cada coluna desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.mediaColunas = function(){
+        let vetorResultado = Vectorization.Vector([]);
+
+        for( let numeroColuna = 0 ; numeroColuna < context.getColumns() ; numeroColuna++ )
+        {
+            const vetorValoresColuna    = context.extrairValoresColuna( numeroColuna );
+ 
+            const isVectorizationVector = Vectorization.Vector.isVectorizationVector(vetorValoresColuna) == true ||
+                                          Vectorization.BendableVector.isVectorizationBendableVector(vetorValoresColuna) == true;
+
+                                                            //Se ja for um Vectorization.Vector 
+            vetorResultado.adicionarElemento( isVectorizationVector == true ? vetorValoresColuna.media() 
+                                                                            //AGORA CASO SEJA UM ARRAY NORMAL, converte para Vectorization.Vector
+                                                                            : Vectorization.Vector(vetorValoresColuna).media() );
+        }
+
+        return vetorResultado;
+    }
+
+    /**
+    * Calcula a média de cada coluna desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.columnMean = context.mediaColunas;
+
+    /**
     * Pega todos os elementos que estão dentro desta Vectorization.Matrix,
     * e deixa todos eles num unico Vectorization.Vector, desprezando as dimensões, e deste modo: concentrando tudo em um unico Vectorization.Vector. 
     * @returns {Vectorization.Vector}
@@ -8263,6 +8605,57 @@ window.Vectorization.Envelope = function( arrayObjetos=[], classConfig={} ){
     context.adicionarObjeto = function( objeto ){
         context.arrayObjetos.push( objeto );
     }
+
+    /**
+    * Cria um contexto separado do contexto do Envelope, para permitir executar métodos dentro do Envelope em si, e não dentro dos objetos dele
+    * @returns {Envelope.SeparatedContext}
+    */
+    context.separatedContext = function(){
+        const objetos = context.arrayObjetos;
+
+        //um contexto manipulavel que não roda nos objetos do Envelope, mais sim no própio Envelope em si, podendo manipular seus atributos e objetos armazenados de forma independente do propio Envelope
+        return Vectorization.Base({
+
+            contextEnvelope: context,
+
+            path: 'Envelope.SeparatedContext',
+            objectName: 'EnvelopeSeparatedContext',
+            arrayObjetos: objetos,
+            
+            lerIndice: function( indice ){
+                return this.contextEnvelope.arrayObjetos[indice];
+            },
+
+            adicionarElemento: function( obj ){
+                this.contextEnvelope.adicionarObjeto(obj);
+            },
+
+            getArrayObjetos: function(){
+                return this.contextEnvelope.arrayObjetos;
+            },
+
+            getEnvelope: function(){
+                return this.contextEnvelope;
+            },
+
+            getObjetos: function(){
+                return Vectorization.Envelope( this.contextEnvelope.arrayObjetos );
+            },
+
+            setObjetos: function(novoArrayObjetos){
+                this.contextEnvelope.arrayObjetos = novoArrayObjetos;
+            }
+
+        });
+    }
+    context.getSeparatedContext = context.separatedContext;
+    context.internalContext = context.separatedContext;
+    context.getInternalContext = context.separatedContext;
+    context.separated = context.separatedContext;
+    context.it = context.separatedContext;
+    context.getIt = context.separatedContext;
+    context.edit = context.separatedContext;
+    context.editIt = context.separatedContext;
 
     context.raw = function(){
         return context.arrayObjetos;
