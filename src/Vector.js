@@ -520,6 +520,43 @@ window.Vectorization.Vector = function( config=[], classConfig={} ){
     }
 
     /**
+    * Calcula a mediana 
+    * Ou seja, o valor do meio deste Vectorization.Vector quando ordenado em ordem crescente
+    */
+    context.mediana = function(){
+        const valorDoMeio = Math.floor(context.length/2);
+        const quantidadeIsImpar = context.length % 2 != 0;
+        const quatidadeIsPar    = !quantidadeIsImpar;
+
+        //Se tiver apenas um valor central
+        if( quantidadeIsImpar == true ) {
+            return context.ordenarCrescente()
+                          .lerIndice( valorDoMeio );
+
+        //Se tiver mais DOIS VALORES central
+        }else if( quatidadeIsPar == true ){
+
+            // Calcula a media dos dois valores centrais
+            const valor1 = context.ordenarCrescente()
+                                  .lerIndice(valorDoMeio - 1);
+
+            const valor2 = context.ordenarCrescente()
+                                  .lerIndice(valorDoMeio);
+
+            const mediaDeles = (valor1 + valor2) / 2
+
+            return mediaDeles;
+        }
+        
+    }
+
+    /**
+    * Calcula a mediana 
+    * Ou seja, o valor do meio deste Vectorization.Vector quando ordenado em ordem crescente
+    */
+    context.median = context.mediana;
+
+    /**
     * Verifica se todos os elementos deste vetor são "true"
     * @returns {Boolean}
     */

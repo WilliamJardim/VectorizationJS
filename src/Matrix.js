@@ -2269,6 +2269,61 @@ window.Vectorization.Matrix = function( config, classConfig={} ){
     }
 
     /**
+    * Calcula a média de cada Vectorization.Vector desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.mediaLinhas = function(){
+        let vetorResultado = Vectorization.Vector([]);
+
+        context.paraCadaLinha(function(indiceLinha, vetorDaLinha){
+            const isVectorizationVector = Vectorization.Vector.isVectorizationVector(vetorDaLinha) == true ||
+                                          Vectorization.BendableVector.isVectorizationBendableVector(vetorDaLinha) == true;
+
+                                                                           //Se ja for um Vectorization.Vector 
+            vetorResultado.adicionarElemento( isVectorizationVector == true ? vetorDaLinha.media() 
+                                                                            //AGORA CASO SEJA UM ARRAY NORMAL, converte para Vectorization.Vector
+                                                                            : Vectorization.Vector(vetorDaLinha).media() );
+        });
+
+        return vetorResultado;
+    }
+
+    /**
+    * Calcula a média de cada Vectorization.Vector desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.lineMean = context.mediaLinhas;
+
+    /**
+    * Calcula a média de cada coluna desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.mediaColunas = function(){
+        let vetorResultado = Vectorization.Vector([]);
+
+        for( let numeroColuna = 0 ; numeroColuna < context.getColumns() ; numeroColuna++ )
+        {
+            const vetorValoresColuna    = context.extrairValoresColuna( numeroColuna );
+ 
+            const isVectorizationVector = Vectorization.Vector.isVectorizationVector(vetorValoresColuna) == true ||
+                                          Vectorization.BendableVector.isVectorizationBendableVector(vetorValoresColuna) == true;
+
+                                                            //Se ja for um Vectorization.Vector 
+            vetorResultado.adicionarElemento( isVectorizationVector == true ? vetorValoresColuna.media() 
+                                                                            //AGORA CASO SEJA UM ARRAY NORMAL, converte para Vectorization.Vector
+                                                                            : Vectorization.Vector(vetorValoresColuna).media() );
+        }
+
+        return vetorResultado;
+    }
+
+    /**
+    * Calcula a média de cada coluna desta Vectorization.Matrix
+    * @returns {Vectorization.Vector}
+    */
+    context.columnMean = context.mediaColunas;
+
+    /**
     * Pega todos os elementos que estão dentro desta Vectorization.Matrix,
     * e deixa todos eles num unico Vectorization.Vector, desprezando as dimensões, e deste modo: concentrando tudo em um unico Vectorization.Vector. 
     * @returns {Vectorization.Vector}
