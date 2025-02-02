@@ -153,6 +153,12 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
         return context.value;
     }
 
+    context.setValor = function(valorDefinir){
+        context.valor = valorDefinir;
+        context.value = valorDefinir;
+        context.conteudo = valorDefinir;
+    }
+
     //Troca o número aleatorio dentro desse Vectorization.Scalar
     context.trocarNumeroAleatorio = function(novoMinimo=context.ultimoMinimoUsado, novoMaximo=context.ultimoMaximoUsado, novaSemente=null){
         //Consulta se a gravação/modificação de dados está bloqueada neste Vectorization.Scalar
