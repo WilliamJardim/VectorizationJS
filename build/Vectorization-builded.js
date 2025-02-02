@@ -13,7 +13,7 @@ if(typeof window === 'undefined'){
     window.VECTORIZATION_BUILD_TYPE = 'navegador';
 }
 
-/* COMPILADO: 10/1/2025 - 13:59:00*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
+/* COMPILADO: 1/2/2025 - 21:20:30*//* ARQUIVO VECTORIZATION: ../src/Root.js*/
 /*
  * File Name: Root.js
  * Author Name: William Alves Jardim
@@ -659,6 +659,12 @@ window.Vectorization.Scalar = function( value=NaN, classConfig={} ){
 
     context.obterValor = function(){
         return context.value;
+    }
+
+    context.setValor = function(valorDefinir){
+        context.valor = valorDefinir;
+        context.value = valorDefinir;
+        context.conteudo = valorDefinir;
     }
 
     //Troca o número aleatorio dentro desse Vectorization.Scalar
